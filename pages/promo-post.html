@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>推文說明 — 順起來天堂</title>
+<link rel="icon" href="../assets/images/favicon-shun.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@400;500;700&family=Cinzel:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05080a; --bg2:#0a0f12; --bg3:#0f1619;
+  --acid:#39ff9e; --acid-hi:#8dffc4;
+  --violet:#a94dff; --violet-hi:#cf9bff;
+  --blood:#ff2d55;
+  --tx-hi:#eafff5; --tx:#aec6ba; --tx-mut:#6f8a7d;
+  --metal:linear-gradient(176deg,#d7fff0,#6dffc0,#1fd98a,#0b8f58);
+  --panel-edge:rgba(57,255,158,.28);
+  --sidebar-w:248px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:"Noto Sans TC",sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;position:relative;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(57,255,158,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(57,255,158,.035) 1px,transparent 1px);background-size:44px 44px}
+body::after{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0px,rgba(0,0,0,0) 3px,rgba(5,8,10,.25) 4px);mix-blend-mode:multiply;opacity:.5}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+h1,h2,h3{font-family:"Noto Serif TC",serif;font-weight:900;line-height:1.25;color:var(--tx-hi)}
+.num{font-variant-numeric:tabular-nums}
+.cz{font-family:"Cinzel",serif;letter-spacing:.08em}
+
+.panel{position:relative;background:var(--bg2);border:1px solid var(--panel-edge);border-radius:4px;box-shadow:0 0 0 1px rgba(5,8,10,.8) inset,0 8px 34px rgba(0,0,0,.55)}
+.panel::before,.panel::after{content:"";position:absolute;width:14px;height:14px;pointer-events:none;border-color:var(--acid);border-style:solid;opacity:.9}
+.panel::before{top:-1px;left:-1px;border-width:2px 0 0 2px}
+.panel::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0}
+.panel-hd{display:flex;align-items:center;gap:10px;padding:13px 18px;border-bottom:1px solid rgba(57,255,158,.18);background:linear-gradient(90deg,rgba(57,255,158,.08),transparent)}
+.panel-hd .dot{width:8px;height:8px;border-radius:50%;background:var(--acid);box-shadow:0 0 10px var(--acid);flex:none}
+.panel-hd h3{font-size:1.12rem;letter-spacing:.04em}
+.panel-hd .tag{margin-left:auto;font-family:"Cinzel",serif;font-size:.62rem;letter-spacing:.18em;color:var(--tx-mut)}
+.panel-bd{padding:22px}
+
+.app{position:relative;z-index:2;display:grid;grid-template-columns:var(--sidebar-w) 1fr;grid-template-rows:1fr auto;min-height:100vh}
+
+.sidebar{grid-row:1 / span 2;background:linear-gradient(180deg,var(--bg3),var(--bg));border-right:1px solid var(--panel-edge);padding:20px 16px;display:flex;flex-direction:column;gap:16px;position:sticky;top:0;height:100vh;overflow-y:auto}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .avatar{width:54px;height:54px;border-radius:50%;flex:none;border:2px solid var(--violet);background:radial-gradient(circle at 50% 35%,#2a123f,#0a0f12);box-shadow:0 0 16px rgba(169,77,255,.55);object-fit:cover;object-position:top}
+.brand .avatar.ph{display:flex;align-items:center;justify-content:center;font-family:"Cinzel";color:var(--violet-hi);font-size:1.4rem}
+.brand b{display:block;font-family:"Noto Serif TC";font-weight:900;color:var(--tx-hi);font-size:1.05rem;line-height:1.2}
+.brand span{font-family:"Cinzel";font-size:.58rem;letter-spacing:.2em;color:var(--acid)}
+.nav{display:flex;flex-direction:column;gap:5px;margin-top:4px}
+.nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:4px;color:var(--tx);font-weight:500;font-size:.9rem;border:1px solid transparent;transition:.18s}
+.nav a .ico{width:20px;text-align:center;filter:drop-shadow(0 0 4px rgba(57,255,158,.5))}
+.nav a:hover,.nav a.on{color:var(--tx-hi);background:linear-gradient(90deg,rgba(57,255,158,.14),transparent);border-color:var(--panel-edge)}
+.nav a.on{border-left:3px solid var(--acid)}
+.nav-dd{border-top:1px dashed rgba(57,255,158,.18);margin-top:6px;padding-top:6px}.nav-dd>summary{list-style:none;display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:4px;color:var(--violet-hi);font-weight:700;font-size:.9rem;cursor:pointer;border:1px solid transparent;transition:.18s}.nav-dd>summary::-webkit-details-marker{display:none}.nav-dd>summary .ico{width:20px;text-align:center;filter:drop-shadow(0 0 4px rgba(169,77,255,.5))}.nav-dd>summary .ar{margin-left:auto;transition:.2s;font-size:.72rem}.nav-dd[open]>summary .ar{transform:rotate(180deg)}.nav-dd>summary:hover{color:var(--acid-hi);background:rgba(57,255,158,.08)}.nav-dd-body{display:flex;flex-direction:column;gap:5px;margin-top:5px}.navico{width:36px;height:36px;border-radius:50%;object-fit:cover;object-position:center top;flex:none;border:1.5px solid rgba(169,77,255,.65);box-shadow:0 0 9px rgba(169,77,255,.4)}.nav-soon{color:var(--tx-mut);font-size:.8rem;font-style:italic;padding:7px 12px}.nav-sub{color:var(--tx-mut);font-size:.7rem;letter-spacing:.14em;padding:13px 10px 4px;opacity:.72;border-top:1px dashed rgba(57,255,158,.1)}.side-123{display:block;margin-top:4px}.side-123 img{width:100%;border-radius:6px;border:1px solid var(--panel-edge);display:block}
+.side-status{margin-top:auto;font-size:.68rem;color:var(--tx-mut);line-height:1.8;border-top:1px dashed rgba(57,255,158,.2);padding-top:12px}
+.live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--blood);box-shadow:0 0 8px var(--blood);animation:blink 1.3s infinite;margin-right:6px}
+@keyframes blink{50%{opacity:.25}}
+
+.main{padding:22px;display:flex;flex-direction:column;gap:18px;min-width:0}
+.crumb{font-size:.78rem;color:var(--tx-mut);letter-spacing:.04em}
+.crumb a{color:var(--acid)}
+.crumb a:hover{color:var(--acid-hi)}
+
+.doc{display:flex;flex-direction:column;gap:20px}
+.doc-sec{position:relative;padding:18px 20px;border-radius:4px;background:var(--bg3);border:1px solid rgba(57,255,158,.16)}
+.doc-sec.best{border-color:var(--acid);box-shadow:0 0 0 1px rgba(57,255,158,.3),0 0 26px -10px rgba(57,255,158,.4)}
+.doc-sec.warn{border-color:rgba(255,45,85,.3);background:linear-gradient(160deg,rgba(255,45,85,.08),var(--bg3))}
+.doc-sec h4{font-family:"Noto Serif TC";font-weight:900;color:var(--acid-hi);font-size:1.1rem;letter-spacing:.03em;margin-bottom:6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.doc-sec.warn h4{color:var(--blood)}
+.doc-sec .badge{font-family:"Cinzel";font-size:.68rem;letter-spacing:.1em;color:#042a1a;background:var(--metal);padding:3px 10px;border-radius:999px}
+.doc-sec .price{font-family:"Noto Serif TC";font-weight:900;color:var(--acid);font-size:1.5rem;margin-bottom:12px}
+.doc-sec .price small{font-family:"Noto Sans TC";font-weight:400;color:var(--tx-mut);font-size:.82rem;margin-left:8px}
+.doc-sec p{color:var(--tx-hi);font-size:.96rem;line-height:2;margin-bottom:10px}
+.doc-sec p:last-child{margin-bottom:0}
+.doc-sec p b{color:var(--acid)}
+.doc-sec.warn p b{color:var(--blood)}
+.doc-sec ul{margin:4px 0 0 2px;padding-left:20px}
+.doc-sec li{color:var(--tx-hi);font-size:.95rem;line-height:1.95;margin-bottom:9px}
+.doc-sec li:last-child{margin-bottom:0}
+.doc-sec li b{color:var(--acid)}
+.doc-sec li .eg{display:block;color:var(--tx-mut);font-size:.82rem;line-height:1.7;margin-top:3px}
+.backbtn{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;padding:11px 22px;border-radius:4px;border:1px solid var(--panel-edge);color:var(--acid-hi);background:rgba(57,255,158,.05);font-weight:700;font-size:.92rem;transition:.18s}
+.backbtn:hover{background:rgba(57,255,158,.14);color:var(--tx-hi);transform:translateX(-2px)}
+
+.footer{grid-column:2;padding:22px;border-top:1px solid rgba(57,255,158,.14);color:var(--tx-mut);font-size:.72rem;line-height:1.9;text-align:center}
+.footer b{color:var(--tx)}
+
+.tabbar{display:none}
+@media(max-width:860px){
+  :root{--sidebar-w:0}
+  .app{grid-template-columns:1fr}
+  .sidebar{position:fixed;left:0;top:0;bottom:0;width:230px;z-index:60;transform:translateX(-100%);transition:.25s;box-shadow:0 0 40px rgba(0,0,0,.7)}
+  .sidebar.open{transform:none}
+  .footer{grid-column:1}
+  .main{padding:16px 14px 80px}
+  .menu-btn{display:flex !important}
+  .tabbar{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:50;background:var(--bg3);border-top:1px solid var(--panel-edge);box-shadow:0 -6px 24px rgba(0,0,0,.6)}
+  .tabbar a{flex:1;padding:11px 4px;text-align:center;color:var(--acid);font-size:.72rem}
+}
+.menu-btn{display:none;position:fixed;top:14px;left:14px;z-index:70;width:44px;height:44px;border-radius:6px;background:var(--bg3);border:1px solid var(--panel-edge);color:var(--acid);font-size:1.3rem;align-items:center;justify-content:center;cursor:pointer}
+.table-wrap{overflow-x:auto;margin:8px 0 2px;border:1px solid rgba(57,255,158,.14);border-radius:4px}
+.doc-table{width:100%;border-collapse:collapse;font-size:.85rem;min-width:440px}
+.doc-table th,.doc-table td{border:1px solid rgba(57,255,158,.14);padding:8px 11px;text-align:center;line-height:1.65}
+.doc-table thead th{background:linear-gradient(180deg,rgba(57,255,158,.14),rgba(57,255,158,.03));color:var(--acid-hi);font-family:"Noto Serif TC";font-weight:700}
+.doc-table tbody tr:nth-child(even){background:rgba(57,255,158,.03)}
+.doc-table tbody td{color:var(--tx-hi)}.doc-table td.nm{text-align:left}.doc-table td.rate{color:var(--violet-hi);font-weight:700}
+.copybox{background:var(--bg3);border:1px dashed rgba(57,255,158,.4);border-radius:6px;padding:16px;margin-top:8px;font-size:.86rem;line-height:2;color:var(--tx-hi);white-space:pre-wrap}
+.copybox b{color:var(--acid)}
+.reportbox{background:var(--bg3);border:1px solid rgba(57,255,158,.2);border-radius:6px;padding:14px 16px;margin-top:8px;font-size:.88rem;line-height:2.1;color:var(--tx-hi)}
+</style>
+</head>
+<body>
+
+<button class="menu-btn" id="menuBtn" aria-label="選單">☰</button>
+
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html" class="brand">
+      <img class="avatar" src="../assets/images/ip/shun-main.png" alt="順爺" onerror="this.outerHTML='&lt;div class=&quot;avatar ph&quot;&gt;順&lt;/div&gt;'">
+      <div><b>順起來天堂</b><span>FUTURE SOON</span></div>
+    </a>
+    <nav class="nav">
+      <a href="../index.html"><img class="navico" src="../assets/images/ip/shun-e1.png" alt="">總覽</a>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e2.png" alt="">系統公告<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <a href="disclaimer.html">免責聲明</a>
+          <a href="faq.html">常見問題</a>
+          <a href="notice-verify.html">外掛偵測</a>
+          <a href="speed-myth.html">加速器迷思</a>
+          <a href="rules.html">遊戲管理規章</a>
+          <a href="anti-cheat.html">外掛懲處條例</a>
+          <a href="speed-detect.html">速度偵測說明</a>
+        </div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e3.png" alt="">活動公告<span class="ar">▾</span></summary>
+        <div class="nav-dd-body"><div class="nav-soon">🚧 內容籌備中</div></div>
+      </details>
+      <a href="download.html"><img class="navico" src="../assets/images/ip/shun-e4.png" alt="">檔案下載</a>
+      <a href="sponsor.html"><img class="navico" src="../assets/images/ip/shun-e5.png" alt="">贊助說明</a>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e6.png" alt="">遊戲特色<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <div class="nav-sub">系統特色</div>
+          <a href="feat-afkmap.html">內掛地圖</a>
+          <a href="feat-summon.html">法師召喚物</a>
+          <a href="feat-classskill.html">職業特色技能</a>
+          <a href="feat-jobpower.html">職業之力</a>
+          <a href="feat-prestige.html">威望系統</a>
+          <a href="feat-highpet.html">高寵介紹</a>
+          <a href="feat-onlinegift.html">在線福袋</a>
+          <div class="nav-sub">特色裝備系統</div>
+          <a href="feat-horse.html">戰馬雕像</a>
+          <a href="feat-hexagram.html">六芒星徽章</a>
+          <a href="feat-mainquest.html">主線任務勳章</a>
+          <a href="feat-hecate.html">赫卡特介紹</a>
+          <a href="feat-pride.html">傲慢的掛飾</a>
+        </div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e7.png" alt="">道具介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <a href="item-pvpbadge.html">戰場/PVP徽章</a>
+          <a href="item-vip.html">貴賓卡介紹</a>
+          <a href="item-dragoneye.html">四龍之魔眼</a>
+          <a href="item-gacha.html">神奇扭蛋</a>
+          <a href="item-candle.html">回憶蠟燭</a>
+          <a href="item-dragonstone.html">龍印魔石</a>
+        </div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e8.png" alt="">武器介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <a href="weapon-overview.html">武器總覽</a>
+          <a href="weapon-attr.html">屬性強化卷軸</a>
+          <a href="weapon-mythic.html">神話武器進階</a>
+          <a href="weapon-enchant.html">武器強化說明</a>
+          <a href="weapon-craft.html">武器製作介紹</a>
+        </div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e9.png" alt="">防具介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <a href="armor-overview.html">防具總覽</a>
+          <a href="armor-craft.html">防具飾品製作</a>
+          <a href="armor-enchant.html">防具飾品強化說明</a>
+          <a href="armor-hell-earring.html">煉獄耳環升階</a>
+          <a href="armor-light.html">光之肩甲/手環</a>
+          <a href="armor-lentis.html">倫提斯耳環</a>
+          <a href="armor-snap.html">史奈普戒指</a>
+        </div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e1.png" alt="">變身介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <a href="transform-guide.html">變身圖鑑大全</a>
+          <a href="transform-collection.html">變身圖鑑收藏</a>
+        </div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e2.png" alt="">娃娃介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <a href="doll-relic.html">聖物系統</a>
+          <a href="doll-overview.html">娃娃總覽</a>
+          <a href="doll-collection.html">娃娃圖鑑收藏</a>
+        </div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e3.png" alt="">寵物介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <a href="pet-system.html">寵物系統</a>
+          <a href="pet-equip.html">寵物商城裝備</a>
+        </div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e4.png" alt="">BOSS介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <a href="boss-drop.html">掉落分級</a>
+          <a href="boss-collection.html">收藏圖鑑</a>
+          <a href="boss-world.html">世界BOSS時刻</a>
+        </div>
+      </details>
+      <details class="nav-dd" open>
+        <summary><img class="navico" src="../assets/images/ip/shun-e5.png" alt="">推文與直播<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <a href="promo-post.html" class="on">推文說明</a>
+          <a href="promo-live.html">直播說明</a>
+        </div>
+      </details>
+      <a href="map.html"><img class="navico" src="../assets/images/ip/shun-e6.png" alt="">地圖介紹</a>
+      <a href="faq.html"><img class="navico" src="../assets/images/ip/shun-e7.png" alt="">常見問題</a>
+      <a href="contact.html"><img class="navico" src="../assets/images/ip/shun-e8.png" alt="">聯絡我們</a>
+      <a href="class-change.html"><img class="navico" src="../assets/images/ip/shun-e9.png" alt="">轉職服務</a>
+    </nav>
+    <div class="side-status">
+      <div><span class="live-dot"></span>伺服狀態：<b style="color:var(--acid)">預約熱烈進行中</b></div>
+      <div class="num">邪道手動服 3.81 · LV CAP 82</div>
+    </div>
+    <a class="side-123" href="https://www.gamex123.com" target="_blank" rel="noopener"><img src="../assets/images/private-server-123.gif" alt="私服123"></a>
+  </aside>
+
+  <main class="main">
+    <div class="crumb"><a href="../index.html">總覽</a> ／ 推文與直播 ／ 推文說明</div>
+    <section class="panel">
+      <div class="panel-hd"><span class="dot"></span><h3>📜 推文說明與獎勵辦法</h3><span class="tag">POST</span></div>
+      <div class="panel-bd">
+        <div class="doc">
+          <div class="doc-sec best">
+            <h4>📢 推文說明與獎勵辦法</h4>
+            <p><b>包月推文代工服務</b>・歡迎洽詢小編。每月只要 <b>$300 TWD</b>，無計算讚石與累計，獎勵直接入庫！（詳情請私訊客服）</p>
+          </div>
+          <div class="doc-sec">
+            <h4>📋 推文回報範例</h4>
+            <div class="reportbox">推文回報日期：<br>遊戲 ID：<br>遊戲帳號：<br>1.（網址/截圖）<br>2.（網址/截圖）<br>3.（網址/截圖）<br>4.（網址/截圖）<br>5.（網址/截圖）</div>
+            <p style="margin-top:8px">👉 前往推文回報區</p>
+          </div>
+          <div class="doc-sec">
+            <h4>📜 發文規定</h4>
+            <ul>
+              <li>粉絲團：至「<b>順起來天堂粉絲團</b>」置頂文按讚分享並貼上官方文案。</li>
+              <li>社團限制：分享至 <b>1 萬人以上</b> 臉書天堂社團。</li>
+              <li>內容要求：分享貼文必須留下下方官方美化文案。</li>
+              <li>重複規範：同則推文限領 1 隻角色，且必須分享至不同社團。</li>
+              <li>獎勵上限：單則 <b>6 顆印章</b> / 單日上限 <b>30 顆</b>（5 次）。</li>
+            </ul>
+          </div>
+          <div class="doc-sec">
+            <h4>📄 官方推廣文案（請完整複製下方內容）</h4>
+            <div class="copybox">━━━━━━━━━━━━━━━━━━━━━━━━━━
+✨【 順起來天堂 3.81 手動天M版 】等你來加入！✨
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+日期：
+遊戲名稱：
+
+🔥 真正的手動浪漫，找回最初的感動！
+💎 經典 3.81 版本，融入天M創新元素，打造最平衡的遊戲環境！
+
+⭐【 基礎倍率｜進度適中 】
+🔹 經驗倍率：10 倍
+🔹 金幣倍率：3 倍
+🔹 掉寶倍率：2 倍
+🔹 武防強化：2 倍
+🔹 正義倍率：3 倍
+🔹 負重倍率：4 倍
+🔹 寵物倍率：5 倍（上限 58）
+
+📊【 角色素質｜公平競爭 】
+🔸 手點能力上限：25 點
+🔸 萬能藥限制：10 瓶
+🔸 素質總上限：35 點（含萬能藥）
+
+⚔️【 平衡機制｜熱血戰術 】
+✨ 負面魔法動態調整，無絕對命中或絕對免疫！
+💡 戰術核心：善用「魔法消除」破除免疫取得優勢！
+
+🌍 官方網站：https://xin-jun-team.github.io/shun-paradise/
+📢 快來開啟你的全新傳奇！
+
+#順起來天堂 #手動天堂 #天堂M變身 #私服經典 #手動浪漫
+━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+          </div>
+          <div class="doc-sec">
+            <h4>👥 社團推薦列表</h4>
+            <ul>
+              <li>TW天堂私服列表網</li>
+              <li>天堂私服分享區</li>
+              <li>天堂私服好朋友~</li>
+              <li>天堂123最新私服宣傳區</li>
+              <li>天堂私服宣傳</li>
+            </ul>
+          </div>
+          <div class="doc-sec">
+            <h4>🎁 推廣商人「艾莉莉」兌換清單</h4>
+            <div class="table-wrap">
+              <table class="doc-table">
+                <thead><tr><th>兌換項目</th><th>所需印章</th><th>兌換項目</th><th>所需印章</th></tr></thead>
+                <tbody>
+                  <tr><td class="nm">推廣勳章 LV.1 (限時7日)</td><td class="rate">30</td><td class="nm">回憶蠟燭</td><td class="rate">300</td></tr>
+                  <tr><td class="nm">推廣勳章強化卷軸 (100%成功)</td><td class="rate">10</td><td class="nm">進化 / 勝利果實</td><td class="rate">120 / 180</td></tr>
+                  <tr><td class="nm">BUFF 推廣勳章 (1/3/6HR)</td><td class="rate">30 / 60 / 90</td><td class="nm">對武器祝福卷軸</td><td class="rate">90</td></tr>
+                  <tr><td class="nm">四大屬性武器強化卷軸</td><td class="rate">6</td><td class="nm">對防具 / 飾品祝福卷軸</td><td class="rate">30 / 45</td></tr>
+                  <tr><td class="nm">不朽體力恢復劑系列</td><td class="rate">360 ~ 900</td><td class="nm">魔法屏障卷軸 ×50</td><td class="rate">6</td></tr>
+                  <tr><td class="nm">密碼修改卷軸</td><td class="rate">240</td><td class="nm">魔法卷軸 (聖潔之光) ×30</td><td class="rate">6</td></tr>
+                  <tr><td class="nm">🎟️ 推廣兌獎券</td><td class="rate">15</td><td class="nm">-</td><td class="rate">-</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="doc-sec">
+            <h4>🎖️ 推廣獎勵物品能力介紹</h4>
+            <p><b>🏅 推廣勳章 LV.1 ~ LV.5</b></p>
+            <ul>
+              <li>LV.1：近遠傷+1, 魔防+1, 魔攻+1, 負重+10, 經驗+10%</li>
+              <li>LV.2：近遠傷+1, 魔防+2, 魔攻+1, 負重+20, 經驗+12%</li>
+              <li>LV.3：近遠傷+2, 魔防+3, 魔攻+1, 負重+30, 經驗+14%</li>
+              <li>LV.4：近遠傷+2, 魔防+4, 魔攻+1, 負重+40, 經驗+16%</li>
+              <li>LV.5：近遠傷+3, 魔防+5, 魔攻+2, 負重+50, 經驗+20%</li>
+            </ul>
+            <p style="margin-top:12px"><b>✨ BUFF 類推廣勳章 (1/3/6 HR 共通)</b>：HP+80, 魔力回復+2, 魔防+5, 傷害減免+2, 爆擊+3%(1倍), 負重+50（兌換後即刻計時，不使用時請勿領取）</p>
+          </div>
+          <div class="doc-sec">
+            <h4>🎟️ 推廣兌獎券詳情</h4>
+            <p>開啟後可獲得以下道具：</p>
+            <p>🔵 <b>必定開啟</b>：🏹 穿雲箭(組隊) 1個、🏹 穿雲箭(血盟) 1個</p>
+            <p>🟠 <b>機率開啟</b>：💰 金幣 5000~10000、🧪 經驗藥水(200%/300%) 1~5個、🌪️ 四大屬性武器卷軸 1~2個、⭐ 六芒星/戰馬/聖物升級石 1~2個、🛡️ 祝/咒/一般對武防卷軸 1~3個</p>
+            <p style="color:var(--tx-mut);margin-top:8px">順起來天堂營運團隊 敬上</p>
+          </div>
+        </div>
+        <a href="../index.html" class="backbtn" style="margin-top:20px">← 返回總覽</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div><b>順起來天堂 · FUTURE SOON</b>　見寶就順 · 見怪就順 · 順我者強</div>
+    <div>本站為玩家自製私人伺服器之示範頁面，與 NCSOFT Corporation 及《天堂 Lineage》官方無任何關聯，所有商標歸原權利人所有。</div>
+  </footer>
+</div>
+
+<nav class="tabbar">
+  <a href="../index.html">◈ 總覽</a>
+  <a href="#" onclick="document.getElementById('sidebar').classList.toggle('open');return false">☰ 選單</a>
+</nav>
+
+<script>
+var mb=document.getElementById('menuBtn'),sb=document.getElementById('sidebar');
+if(mb)mb.addEventListener('click',function(){sb.classList.toggle('open')});
+</script>
+</body>
+</html>
