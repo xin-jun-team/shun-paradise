@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>變身圖鑑收藏清單 — 順起來天堂</title>
+<link rel="icon" href="../assets/images/favicon-shun.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@400;500;700&family=Cinzel:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05080a; --bg2:#0a0f12; --bg3:#0f1619;
+  --acid:#39ff9e; --acid-hi:#8dffc4;
+  --violet:#a94dff; --violet-hi:#cf9bff;
+  --blood:#ff2d55;
+  --tx-hi:#eafff5; --tx:#aec6ba; --tx-mut:#6f8a7d;
+  --metal:linear-gradient(176deg,#d7fff0,#6dffc0,#1fd98a,#0b8f58);
+  --panel-edge:rgba(57,255,158,.28);
+  --sidebar-w:248px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:"Noto Sans TC",sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;position:relative;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(57,255,158,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(57,255,158,.035) 1px,transparent 1px);background-size:44px 44px}
+body::after{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0px,rgba(0,0,0,0) 3px,rgba(5,8,10,.25) 4px);mix-blend-mode:multiply;opacity:.5}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+h1,h2,h3{font-family:"Noto Serif TC",serif;font-weight:900;line-height:1.25;color:var(--tx-hi)}
+.num{font-variant-numeric:tabular-nums}
+.cz{font-family:"Cinzel",serif;letter-spacing:.08em}
+
+.panel{position:relative;background:var(--bg2);border:1px solid var(--panel-edge);border-radius:4px;box-shadow:0 0 0 1px rgba(5,8,10,.8) inset,0 8px 34px rgba(0,0,0,.55)}
+.panel::before,.panel::after{content:"";position:absolute;width:14px;height:14px;pointer-events:none;border-color:var(--acid);border-style:solid;opacity:.9}
+.panel::before{top:-1px;left:-1px;border-width:2px 0 0 2px}
+.panel::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0}
+.panel-hd{display:flex;align-items:center;gap:10px;padding:13px 18px;border-bottom:1px solid rgba(57,255,158,.18);background:linear-gradient(90deg,rgba(57,255,158,.08),transparent)}
+.panel-hd .dot{width:8px;height:8px;border-radius:50%;background:var(--acid);box-shadow:0 0 10px var(--acid);flex:none}
+.panel-hd h3{font-size:1.12rem;letter-spacing:.04em}
+.panel-hd .tag{margin-left:auto;font-family:"Cinzel",serif;font-size:.62rem;letter-spacing:.18em;color:var(--tx-mut)}
+.panel-bd{padding:22px}
+
+.app{position:relative;z-index:2;display:grid;grid-template-columns:var(--sidebar-w) 1fr;grid-template-rows:1fr auto;min-height:100vh}
+
+.sidebar{grid-row:1 / span 2;background:linear-gradient(180deg,var(--bg3),var(--bg));border-right:1px solid var(--panel-edge);padding:20px 16px;display:flex;flex-direction:column;gap:16px;position:sticky;top:0;height:100vh;overflow-y:auto}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .avatar{width:54px;height:54px;border-radius:50%;flex:none;border:2px solid var(--violet);background:radial-gradient(circle at 50% 35%,#2a123f,#0a0f12);box-shadow:0 0 16px rgba(169,77,255,.55);object-fit:cover;object-position:top}
+.brand .avatar.ph{display:flex;align-items:center;justify-content:center;font-family:"Cinzel";color:var(--violet-hi);font-size:1.4rem}
+.brand b{display:block;font-family:"Noto Serif TC";font-weight:900;color:var(--tx-hi);font-size:1.05rem;line-height:1.2}
+.brand span{font-family:"Cinzel";font-size:.58rem;letter-spacing:.2em;color:var(--acid)}
+.nav{display:flex;flex-direction:column;gap:5px;margin-top:4px}
+.nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:4px;color:var(--tx);font-weight:500;font-size:.9rem;border:1px solid transparent;transition:.18s}
+.nav a .ico{width:20px;text-align:center;filter:drop-shadow(0 0 4px rgba(57,255,158,.5))}
+.nav a:hover,.nav a.on{color:var(--tx-hi);background:linear-gradient(90deg,rgba(57,255,158,.14),transparent);border-color:var(--panel-edge)}
+.nav a.on{border-left:3px solid var(--acid)}
+.nav-dd{border-top:1px dashed rgba(57,255,158,.18);margin-top:6px;padding-top:6px}.nav-dd>summary{list-style:none;display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:4px;color:var(--violet-hi);font-weight:700;font-size:.9rem;cursor:pointer;border:1px solid transparent;transition:.18s}.nav-dd>summary::-webkit-details-marker{display:none}.nav-dd>summary .ico{width:20px;text-align:center;filter:drop-shadow(0 0 4px rgba(169,77,255,.5))}.nav-dd>summary .ar{margin-left:auto;transition:.2s;font-size:.72rem}.nav-dd[open]>summary .ar{transform:rotate(180deg)}.nav-dd>summary:hover{color:var(--acid-hi);background:rgba(57,255,158,.08)}.nav-dd-body{display:flex;flex-direction:column;gap:5px;margin-top:5px}.navico{width:36px;height:36px;border-radius:50%;object-fit:cover;object-position:center top;flex:none;border:1.5px solid rgba(169,77,255,.65);box-shadow:0 0 9px rgba(169,77,255,.4)}.nav-soon{color:var(--tx-mut);font-size:.8rem;font-style:italic;padding:7px 12px}.nav-sub{color:var(--tx-mut);font-size:.7rem;letter-spacing:.14em;padding:13px 10px 4px;opacity:.72;border-top:1px dashed rgba(57,255,158,.1)}.side-123{display:block;margin-top:4px}.side-123 img{width:100%;border-radius:6px;border:1px solid var(--panel-edge);display:block}
+.side-status{margin-top:auto;font-size:.68rem;color:var(--tx-mut);line-height:1.8;border-top:1px dashed rgba(57,255,158,.2);padding-top:12px}
+.live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--blood);box-shadow:0 0 8px var(--blood);animation:blink 1.3s infinite;margin-right:6px}
+@keyframes blink{50%{opacity:.25}}
+
+.main{padding:22px;display:flex;flex-direction:column;gap:18px;min-width:0}
+.crumb{font-size:.78rem;color:var(--tx-mut);letter-spacing:.04em}
+.crumb a{color:var(--acid)}
+.crumb a:hover{color:var(--acid-hi)}
+
+.doc{display:flex;flex-direction:column;gap:20px}
+.doc-sec{position:relative;padding:18px 20px;border-radius:4px;background:var(--bg3);border:1px solid rgba(57,255,158,.16)}
+.doc-sec.best{border-color:var(--acid);box-shadow:0 0 0 1px rgba(57,255,158,.3),0 0 26px -10px rgba(57,255,158,.4)}
+.doc-sec.warn{border-color:rgba(255,45,85,.3);background:linear-gradient(160deg,rgba(255,45,85,.08),var(--bg3))}
+.doc-sec h4{font-family:"Noto Serif TC";font-weight:900;color:var(--acid-hi);font-size:1.1rem;letter-spacing:.03em;margin-bottom:6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.doc-sec.warn h4{color:var(--blood)}
+.doc-sec .badge{font-family:"Cinzel";font-size:.68rem;letter-spacing:.1em;color:#042a1a;background:var(--metal);padding:3px 10px;border-radius:999px}
+.doc-sec .price{font-family:"Noto Serif TC";font-weight:900;color:var(--acid);font-size:1.5rem;margin-bottom:12px}
+.doc-sec .price small{font-family:"Noto Sans TC";font-weight:400;color:var(--tx-mut);font-size:.82rem;margin-left:8px}
+.doc-sec p{color:var(--tx-hi);font-size:.96rem;line-height:2;margin-bottom:10px}
+.doc-sec p:last-child{margin-bottom:0}
+.doc-sec p b{color:var(--acid)}
+.doc-sec.warn p b{color:var(--blood)}
+.doc-sec ul{margin:4px 0 0 2px;padding-left:20px}
+.doc-sec li{color:var(--tx-hi);font-size:.95rem;line-height:1.95;margin-bottom:9px}
+.doc-sec li:last-child{margin-bottom:0}
+.doc-sec li b{color:var(--acid)}
+.doc-sec li .eg{display:block;color:var(--tx-mut);font-size:.82rem;line-height:1.7;margin-top:3px}
+.backbtn{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;padding:11px 22px;border-radius:4px;border:1px solid var(--panel-edge);color:var(--acid-hi);background:rgba(57,255,158,.05);font-weight:700;font-size:.92rem;transition:.18s}
+.backbtn:hover{background:rgba(57,255,158,.14);color:var(--tx-hi);transform:translateX(-2px)}
+
+.footer{grid-column:2;padding:22px;border-top:1px solid rgba(57,255,158,.14);color:var(--tx-mut);font-size:.72rem;line-height:1.9;text-align:center}
+.footer b{color:var(--tx)}
+
+.tabbar{display:none}
+@media(max-width:860px){
+  :root{--sidebar-w:0}
+  .app{grid-template-columns:1fr}
+  .sidebar{position:fixed;left:0;top:0;bottom:0;width:230px;z-index:60;transform:translateX(-100%);transition:.25s;box-shadow:0 0 40px rgba(0,0,0,.7)}
+  .sidebar.open{transform:none}
+  .footer{grid-column:1}
+  .main{padding:16px 14px 80px}
+  .menu-btn{display:flex !important}
+  .tabbar{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:50;background:var(--bg3);border-top:1px solid var(--panel-edge);box-shadow:0 -6px 24px rgba(0,0,0,.6)}
+  .tabbar a{flex:1;padding:11px 4px;text-align:center;color:var(--acid);font-size:.72rem}
+}
+.menu-btn{display:none;position:fixed;top:14px;left:14px;z-index:70;width:44px;height:44px;border-radius:6px;background:var(--bg3);border:1px solid var(--panel-edge);color:var(--acid);font-size:1.3rem;align-items:center;justify-content:center;cursor:pointer}
+.table-wrap{overflow-x:auto;margin:4px 0;border:1px solid rgba(57,255,158,.14);border-radius:4px}
+.tf-col{width:100%;border-collapse:collapse;font-size:.82rem;min-width:620px}
+.tf-col th,.tf-col td{border:1px solid rgba(57,255,158,.14);padding:8px 10px;vertical-align:top;line-height:1.7}
+.tf-col thead th{background:linear-gradient(180deg,rgba(57,255,158,.14),rgba(57,255,158,.03));color:var(--acid-hi);font-family:"Noto Serif TC";font-weight:700;text-align:center;position:sticky;top:0}
+.tf-col tbody tr:nth-child(even){background:rgba(57,255,158,.03)}
+.tf-col td.cards{color:var(--tx);font-size:.78rem;line-height:1.85}
+.tf-col td.gname{color:var(--acid-hi);font-weight:700;text-align:center;white-space:nowrap}
+.tf-col td.ability{color:var(--violet-hi);font-weight:500;text-align:center;white-space:nowrap}
+</style>
+</head>
+<body>
+
+<button class="menu-btn" id="menuBtn" aria-label="選單">☰</button>
+
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html" class="brand">
+      <img class="avatar" src="../assets/images/ip/shun-main.png" alt="順爺" onerror="this.outerHTML='&lt;div class=&quot;avatar ph&quot;&gt;順&lt;/div&gt;'">
+      <div><b>順起來天堂</b><span>FUTURE SOON</span></div>
+    </a>
+    <nav class="nav">
+      <a href="../index.html"><img class="navico" src="../assets/images/ip/shun-e1.png" alt="">總覽</a>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e2.png" alt="">系統公告<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <a href="disclaimer.html">免責聲明</a>
+          <a href="faq.html">常見問題</a>
+          <a href="notice-verify.html">外掛偵測</a>
+          <a href="speed-myth.html">加速器迷思</a>
+          <a href="rules.html">遊戲管理規章</a>
+          <a href="anti-cheat.html">外掛懲處條例</a>
+          <a href="speed-detect.html">速度偵測說明</a>
+        </div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e3.png" alt="">活動公告<span class="ar">▾</span></summary>
+        <div class="nav-dd-body"><div class="nav-soon">🚧 內容籌備中</div></div>
+      </details>
+      <a href="download.html"><img class="navico" src="../assets/images/ip/shun-e4.png" alt="">檔案下載</a>
+      <a href="sponsor.html"><img class="navico" src="../assets/images/ip/shun-e5.png" alt="">贊助說明</a>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e6.png" alt="">遊戲特色<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <div class="nav-sub">系統特色</div>
+          <a href="feat-afkmap.html">內掛地圖</a>
+          <a href="feat-summon.html">法師召喚物</a>
+          <a href="feat-classskill.html">職業特色技能</a>
+          <a href="feat-jobpower.html">職業之力</a>
+          <a href="feat-prestige.html">威望系統</a>
+          <a href="feat-highpet.html">高寵介紹</a>
+          <a href="feat-onlinegift.html">在線福袋</a>
+          <div class="nav-sub">特色裝備系統</div>
+          <a href="feat-horse.html">戰馬雕像</a>
+          <a href="feat-hexagram.html">六芒星徽章</a>
+          <a href="feat-mainquest.html">主線任務勳章</a>
+          <a href="feat-hecate.html">赫卡特介紹</a>
+          <a href="feat-pride.html">傲慢的掛飾</a>
+        </div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e7.png" alt="">道具介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <a href="item-pvpbadge.html">戰場/PVP徽章</a>
+          <a href="item-vip.html">貴賓卡介紹</a>
+          <a href="item-dragoneye.html">四龍之魔眼</a>
+          <a href="item-gacha.html">神奇扭蛋</a>
+          <a href="item-candle.html">回憶蠟燭</a>
+          <a href="item-dragonstone.html">龍印魔石</a>
+        </div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e8.png" alt="">武器介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <a href="weapon-overview.html">武器總覽</a>
+          <a href="weapon-attr.html">屬性強化卷軸</a>
+          <a href="weapon-mythic.html">神話武器進階</a>
+          <a href="weapon-enchant.html">武器強化說明</a>
+          <a href="weapon-craft.html">武器製作介紹</a>
+        </div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e9.png" alt="">防具介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <a href="armor-overview.html">防具總覽</a>
+          <a href="armor-craft.html">防具飾品製作</a>
+          <a href="armor-enchant.html">防具飾品強化說明</a>
+          <a href="armor-hell-earring.html">煉獄耳環升階</a>
+          <a href="armor-light.html">光之肩甲/手環</a>
+          <a href="armor-lentis.html">倫提斯耳環</a>
+          <a href="armor-snap.html">史奈普戒指</a>
+        </div>
+      </details>
+      <details class="nav-dd" open>
+        <summary><img class="navico" src="../assets/images/ip/shun-e1.png" alt="">變身介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <a href="transform-guide.html">變身圖鑑大全</a>
+          <a href="transform-collection.html" class="on">變身圖鑑收藏</a>
+        </div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e2.png" alt="">娃娃介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <a href="doll-relic.html">聖物系統</a>
+          <a href="doll-overview.html">娃娃總覽</a>
+          <a href="doll-collection.html">娃娃圖鑑收藏</a>
+        </div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e3.png" alt="">寵物介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <a href="pet-system.html">寵物系統</a>
+          <a href="pet-equip.html">寵物商城裝備</a>
+        </div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e4.png" alt="">BOSS介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body"><div class="nav-soon">🚧 內容籌備中</div></div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e5.png" alt="">推文與直播<span class="ar">▾</span></summary>
+        <div class="nav-dd-body"><div class="nav-soon">🚧 內容籌備中</div></div>
+      </details>
+      <a href="map.html"><img class="navico" src="../assets/images/ip/shun-e6.png" alt="">地圖介紹</a>
+      <a href="faq.html"><img class="navico" src="../assets/images/ip/shun-e7.png" alt="">常見問題</a>
+      <a href="contact.html"><img class="navico" src="../assets/images/ip/shun-e8.png" alt="">聯絡我們</a>
+      <a href="class-change.html"><img class="navico" src="../assets/images/ip/shun-e9.png" alt="">轉職服務</a>
+    </nav>
+    <div class="side-status">
+      <div><span class="live-dot"></span>伺服狀態：<b style="color:var(--acid)">預約熱烈進行中</b></div>
+      <div class="num">邪道手動服 3.81 · LV CAP 82</div>
+    </div>
+    <a class="side-123" href="https://www.gamex123.com" target="_blank" rel="noopener"><img src="../assets/images/private-server-123.gif" alt="私服123"></a>
+  </aside>
+
+  <main class="main">
+    <div class="crumb"><a href="../index.html">總覽</a> ／ 變身介紹 ／ 變身圖鑑收藏</div>
+    <section class="panel">
+      <div class="panel-hd"><span class="dot"></span><h3>📖 變身圖鑑收藏清單</h3><span class="tag">COLLECTION</span></div>
+      <div class="panel-bd">
+        <p style="color:var(--tx-mut);font-size:.85rem;margin-bottom:10px">集齊指定變身卡即可解鎖圖鑑，獲得永久能力加成。</p>
+        <div class="table-wrap">
+          <table class="tf-col">
+            <thead><tr><th>所需變身卡</th><th>圖鑑名稱</th><th>獲得能力</th></tr></thead>
+            <tbody>
+              <tr><td class="cards">食人妖精、食人妖精王、南瓜、地獄的傑克吳燈籠、惡夢的傑克吳燈籠</td><td class="gname">圓圓兄弟</td><td class="ability">魔力上限+5</td></tr>
+              <tr><td class="cards">紙人、雪人、黑貓、溫迪、貓咪法師、貓咪戰士、貓咪騎士</td><td class="gname">曾想當人類</td><td class="ability">防禦+1</td></tr>
+              <tr><td class="cards">浣熊、曼波兔、黑兔少女</td><td class="gname">兔子和狸貓</td><td class="ability">近遠距離攻擊力+1</td></tr>
+              <tr><td class="cards">果凍怪、橘子</td><td class="gname">四角型和圓型</td><td class="ability">魔法攻擊力+1</td></tr>
+              <tr><td class="cards">骷髏槍兵、骷髏弓箭手、骷髏</td><td class="gname">結果是骨頭組合</td><td class="ability">體力上限+10</td></tr>
+              <tr><td class="cards">骷髏弓箭手、妖魔巡守、妖魔弓箭手、強盜頭目</td><td class="gname">拙劣的弓箭手團</td><td class="ability">魔法防禦+1</td></tr>
+              <tr><td class="cards">哥布林、歐姆民兵、安普長老、強盜矮人</td><td class="gname">矮小的小鬼</td><td class="ability">閃避率+1</td></tr>
+              <tr><td class="cards">思克巴、長者、黑暗妖精法師</td><td class="gname">學會了光箭</td><td class="ability">體力上限+15</td></tr>
+              <tr><td class="cards">妖魔巡守、妖魔弓箭手、都達瑪拉妖魔、妖魔鬥士</td><td class="gname">將來的希望是辛巴</td><td class="ability">魔力上限+10</td></tr>
+              <tr><td class="cards">達伊諾思打者、達伊諾思投手</td><td class="gname">NC達伊諾思</td><td class="ability">傷害減免+1</td></tr>
+              <tr><td class="cards">德雷克、刺客首領、布雷哲</td><td class="gname">雙手各拿一把劍</td><td class="ability">魔法防禦+2</td></tr>
+              <tr><td class="cards">骷髏槍兵、都達瑪拉妖魔、狂暴槍騎、狂暴將軍、黑騎士</td><td class="gname">第一次拿的槍</td><td class="ability">防禦+1</td></tr>
+              <tr><td class="cards">黑暗妖精法師、墮落的賽尼斯、魔法師、奧爾汀</td><td class="gname">魔力的重要性</td><td class="ability">體力上限+10</td></tr>
+              <tr><td class="cards">奇異鸚鵡、桓夢、海洋哈維、優卡、海馬守衛、深海獵人、袋鼠拳擊手、變色龍大師、佩利克、拉班、青蛙孟克、惡霸鯊魚、菲爾菲爾、瑪依奴、Doguri、古代企鵝、挪威海怪、齊天大聖</td><td class="gname">未知的動物</td><td class="ability">魔力恢復量+1</td></tr>
+              <tr><td class="cards">德雷克、魔法師、奧爾汀、布雷哲</td><td class="gname">我曾經也是首領</td><td class="ability">遠距離命中+1</td></tr>
+              <tr><td class="cards">死亡騎士、黑暗妖精</td><td class="gname">變身界的兩大支柱</td><td class="ability">魔力恢復量+1</td></tr>
+              <tr><td class="cards">哥布林、侏儒</td><td class="gname">最好的蠟燭</td><td class="ability">傷害減免+1</td></tr>
+              <tr><td class="cards">長者、魔法師</td><td class="gname">鴛鴦戒指的傳說</td><td class="ability">體力上限+30</td></tr>
+              <tr><td class="cards">強盜弓箭手、骷髏弓箭手、妖魔弓箭手、火焰弓箭手</td><td class="gname">弓箭手們的聚會</td><td class="ability">魔力上限+20</td></tr>
+              <tr><td class="cards">黑暗法師、黑法師</td><td class="gname">黑魔法師們</td><td class="ability">體力上限+30</td></tr>
+              <tr><td class="cards">妖魔、紅色妖魔</td><td class="gname">我們是同一個種族</td><td class="ability">PVP減傷+1</td></tr>
+              <tr><td class="cards">惡魔、炎魔</td><td class="gname">魔族領袖們</td><td class="ability">體力恢復量+1</td></tr>
+              <tr><td class="cards">賞金獵人、海音警衛、亞丁騎士、亞丁狂暴槍騎、亞丁菁英騎士、海音騎士、海音狂暴槍騎、海音弓手</td><td class="gname">亞丁守護者</td><td class="ability">防禦+1</td></tr>
+              <tr><td class="cards">歐吉王、巨大牛人</td><td class="gname">遺忘之島在哪裡</td><td class="ability">近距離攻擊力+1</td></tr>
+              <tr><td class="cards">狼人、萊肯、力卡溫</td><td class="gname">鬃毛飛揚</td><td class="ability">近距離命中+1</td></tr>
+              <tr><td class="cards">奇異鸚鵡、海洋哈維、哈維</td><td class="gname">種類</td><td class="ability">遠距離命中+1</td></tr>
+              <tr><td class="cards">紙人、奧爾汀、惡魔、巴爾塔扎爾、梅奎爾、卡斯帕、塞瑪、方、火焰通、秩序的煉金術師、混沌的煉金術師</td><td class="gname">象牙塔居民</td><td class="ability">魔法命中+1</td></tr>
+              <tr><td class="cards">黑暗騎士、銀光騎士、黃金騎士、白金騎士</td><td class="gname">劍的達人們</td><td class="ability">體力上限+20</td></tr>
+              <tr><td class="cards">黑暗刺客、銀光刺客、黃金刺客、白金刺客</td><td class="gname">雙手的達人們</td><td class="ability">體力上限+20</td></tr>
+              <tr><td class="cards">黑暗巡守、銀光巡守、黃金巡守、白金巡守</td><td class="gname">弓箭手的達人們</td><td class="ability">體力上限+20</td></tr>
+              <tr><td class="cards">黑暗法師、銀光法師、黃金法師、白金法師、紅魔法師、背叛的祭司、神聖魔法師、墮落的修道士、犧牲的聖職者、魔女、懺悔的修女、查曼卡</td><td class="gname">魔法的達人們</td><td class="ability">體力上限+20</td></tr>
+              <tr><td class="cards">黑暗騎士、黑暗法師、黑暗巡守、黑暗刺客、黑暗狂暴槍兵、黑暗死神</td><td class="gname">黑暗聚會</td><td class="ability">負重獎勵+1000</td></tr>
+              <tr><td class="cards">銀光騎士、銀光法師、銀光巡守、銀光刺客、銀光狂暴槍騎、銀光死神</td><td class="gname">銀光聚會</td><td class="ability">魔法防禦+1</td></tr>
+              <tr><td class="cards">黃金騎士、黃金法師、黃金刺客、黃金巡守、黃金狂暴槍騎、黃金死神</td><td class="gname">黃金聚會</td><td class="ability">魔力恢復量+2</td></tr>
+              <tr><td class="cards">白金騎士、白金法師、白金巡守、白金刺客、白金狂暴槍騎、白金死神</td><td class="gname">白金聚會</td><td class="ability">力量+1</td></tr>
+              <tr><td class="cards">炎魔、歐吉王、巨大牛人、力卡溫</td><td class="gname">巨人族</td><td class="ability">防禦+2</td></tr>
+              <tr><td class="cards">奇異鸚鵡、侏儒、海洋哈維、黑法師、哈維</td><td class="gname">賽跑的運動員們</td><td class="ability">敏捷+1</td></tr>
+              <tr><td class="cards">賽尼斯、塞巴斯蒂安</td><td class="gname">賽尼斯的過去與現在</td><td class="ability">近遠距離攻擊力+1</td></tr>
+              <tr><td class="cards">警衛(矛)、塞巴斯蒂安</td><td class="gname">槍的達人</td><td class="ability">魔力上限+50</td></tr>
+              <tr><td class="cards">覺醒炎魔、死亡騎士(焚焰)、雷神</td><td class="gname">擁有燃燒之得人</td><td class="ability">PVP減傷+1</td></tr>
+              <tr><td class="cards">海露拜、警衛(弓)</td><td class="gname">遠距離的達人</td><td class="ability">魔攻+1</td></tr>
+              <tr><td class="cards">甘特、宙斯</td><td class="gname">說話之島的英雄們</td><td class="ability">精神+1</td></tr>
+              <tr><td class="cards">反王肯恩、賽尼斯</td><td class="gname">最佳情侶</td><td class="ability">魅力+1</td></tr>
+              <tr><td class="cards">白金騎士、死亡騎士(黃金)</td><td class="gname">擁有金光之劍的人</td><td class="ability">近距離爆擊率+1%</td></tr>
+              <tr><td class="cards">賽尼斯、宙斯</td><td class="gname">魔法界的對手</td><td class="ability">近距離攻擊力+1</td></tr>
+              <tr><td class="cards">薩提爾士兵、薩提爾戰士、薩蒂羅斯_魔術師、巴列斯、巴風特</td><td class="gname">有堅硬的角的人</td><td class="ability">力量+1</td></tr>
+              <tr><td class="cards">炎魔、覺醒炎魔</td><td class="gname">魔族的名子</td><td class="ability">敏捷+1</td></tr>
+              <tr><td class="cards">黑騎士、克特</td><td class="gname">天生的追蹤者</td><td class="ability">PVP傷害+2</td></tr>
+              <tr><td class="cards">力卡溫、克特、巴風特</td><td class="gname">話島的主人們</td><td class="ability">體力上限+70</td></tr>
+              <tr><td class="cards">死亡騎士、死亡騎士(黃金)、死亡騎士(焚焰)、暗黑死亡騎士、烈焰死亡騎士</td><td class="gname">死亡騎士的收集者</td><td class="ability">防禦+3</td></tr>
+              <tr><td class="cards">海音警衛、警衛(弓)、警衛(矛)</td><td class="gname">警衛的威力</td><td class="ability">體質+1</td></tr>
+              <tr><td class="cards">狂暴槍騎、狂暴將軍、警衛(矛)</td><td class="gname">等待龍騎士的人們</td><td class="ability">魔法防禦+3</td></tr>
+              <tr><td class="cards">甘特、宙斯、塞巴斯蒂安</td><td class="gname">為了特羅斯大人</td><td class="ability">遠距離攻擊力+1</td></tr>
+              <tr><td class="cards">桓夢、優卡、天上騎士、天上的守護騎士</td><td class="gname">天上騎士與孩子們</td><td class="ability">傷害減免+1</td></tr>
+              <tr><td class="cards">反王肯恩、賽尼斯、甘特、宙斯</td><td class="gname">紅騎士團和黑騎士團</td><td class="ability">傷害減免+1</td></tr>
+              <tr><td class="cards">海洋哈維、哈維、覺醒炎魔、天上騎士</td><td class="gname">華麗的翅膀與持有者們</td><td class="ability">近遠距離攻擊力+1</td></tr>
+              <tr><td class="cards">刺客首領、布雷哲、黑法師、海露拜</td><td class="gname">首先登場的黑暗妖精</td><td class="ability">防禦+3</td></tr>
+              <tr><td class="cards">惡魔、反王肯恩、克特</td><td class="gname">套裝的主人們</td><td class="ability">藥水恢復+1</td></tr>
+              <tr><td class="cards">甘特、屠龍者</td><td class="gname">以傳說之名</td><td class="ability">藥水恢復+1</td></tr>
+              <tr><td class="cards">死亡騎士(黃金)、死亡騎士(焚焰)、屠龍者</td><td class="gname">擊倒龍的主人</td><td class="ability">藥水恢復+3</td></tr>
+              <tr><td class="cards">白金騎士、克特、屠龍者</td><td class="gname">金光的盔甲</td><td class="ability">藥水恢復+10</td></tr>
+              <tr><td class="cards">（烏合之眾）強盜弓箭手、狼人、萊肯、小小鬼(粉紅)、奇異鸚鵡、食人妖精、思克巴、紙人、骷髏槍兵、妖魔、浣熊、骷髏弓箭手、哥布林、長者、歐姆民兵、妖魔巡守、食人妖精王、妖魔弓箭手、黑暗妖精法師、骷髏、曼波兔、雪人、果凍怪、橘子、安普長老、巨蟻、都達瑪拉妖魔、妖魔鬥士</td><td class="gname">烏合之眾</td><td class="ability">防禦+2</td></tr>
+              <tr><td class="cards">侏儒、火焰弓箭手、黑騎士、刺客首領、賞金獵人、達伊諾思投手、海洋哈維、死亡騎士、優卡、黑暗妖精、布雷哲</td><td class="gname">有備無患</td><td class="ability">智力+1</td></tr>
+              <tr><td class="cards">（瑩雪之功）惡魔、炎魔、歐吉王、黑暗騎士、黑暗法師、黑暗巡守、黑暗刺客、銀光騎士、銀光法師、銀光巡守、銀光刺客、黃金騎士、黃金法師、黃金刺客、黃金巡守、白金騎士、白金法師、白金巡守、巨大牛人、力卡溫、黑法師、紅色妖魔、哈維、海音警衛</td><td class="gname">瑩雪之功</td><td class="ability">力量+1</td></tr>
+              <tr><td class="cards">（大器晚成）巴列斯、反王肯恩、賽尼斯、海露拜、甘特、死亡騎士(黃金)、覺醒炎魔、死亡騎士(焚焰)、天上騎士、克特、巴風特、宙斯、警衛(弓)、警衛(矛)、塞巴斯蒂安</td><td class="gname">大器晚成</td><td class="ability">敏捷+1</td></tr>
+              <tr><td class="cards">真死亡騎士、真黑暗妖精、少女賽尼斯</td><td class="gname">變得更強回歸得她們</td><td class="ability">體質+1</td></tr>
+              <tr><td class="cards">黑暗法師、銀光法師、黃金法師、白金法師、少女賽尼斯</td><td class="gname">少女賽尼斯的詭計</td><td class="ability">閃避率+1</td></tr>
+              <tr><td class="cards">黑暗騎士、銀光騎士、黃金騎士、白金騎士、真死亡騎士</td><td class="gname">真死亡騎士的威嚴</td><td class="ability">迴避率+1</td></tr>
+              <tr><td class="cards">黑暗巡守、銀光巡守、黃金巡守、白金巡守、真黑暗妖精</td><td class="gname">真黑暗妖精的判斷力</td><td class="ability">魔攻+1</td></tr>
+              <tr><td class="cards">夜巡、黑暗刺客、銀光刺客、黃金刺客、白金刺客、暗夜聖殿騎士(金/紅/紫/藍)</td><td class="gname">夜巡的勇猛</td><td class="ability">魔法防禦+1</td></tr>
+              <tr><td class="cards">死亡騎士、真死亡騎士</td><td class="gname">小死神的畢業</td><td class="ability">近距離命中+1</td></tr>
+              <tr><td class="cards">黑暗妖精、真黑暗妖精</td><td class="gname">更華麗的魔法團</td><td class="ability">遠距離命中+1</td></tr>
+              <tr><td class="cards">墮落的賽尼斯、少女賽尼斯</td><td class="gname">接收我的魔法吧</td><td class="ability">遠距離命中+1</td></tr>
+              <tr><td class="cards">狂暴槍騎、夜巡</td><td class="gname">矛的隱藏魅力</td><td class="ability">近距離命中+1</td></tr>
+              <tr><td class="cards">妖魔鬥士、布雷哲、真死亡騎士</td><td class="gname">快刀斬亂麻</td><td class="ability">近距離攻擊力+1</td></tr>
+              <tr><td class="cards">妖魔弓箭手、優卡、真黑暗妖精</td><td class="gname">速弓之才</td><td class="ability">遠距離攻擊力+1</td></tr>
+              <tr><td class="cards">黑暗妖精法師、魔法師、少女賽尼斯</td><td class="gname">夢幻之斧</td><td class="ability">魔法攻擊力+1</td></tr>
+              <tr><td class="cards">都達瑪拉妖魔、黑騎士、夜巡</td><td class="gname">槍林彈雨</td><td class="ability">PVP減傷+1</td></tr>
+              <tr><td class="cards">達伊諾思打者、達伊諾思投手、真死亡騎士</td><td class="gname">達伊諾思的劍應援團</td><td class="ability">防禦+3</td></tr>
+              <tr><td class="cards">達伊諾思打者、達伊諾思投手、真黑暗妖精</td><td class="gname">達伊諾思的弓應援團</td><td class="ability">近距離攻擊力+1</td></tr>
+              <tr><td class="cards">達伊諾思打者、達伊諾思投手、少女賽尼斯</td><td class="gname">達伊諾思的魔法應援團</td><td class="ability">遠距離攻擊力+1</td></tr>
+              <tr><td class="cards">達伊諾思打者、達伊諾思投手、夜巡</td><td class="gname">達伊諾思的矛應援團</td><td class="ability">藥水恢復+5</td></tr>
+              <tr><td class="cards">依詩蒂、絲莉安、特羅斯、歐瑞(綠)</td><td class="gname">英雄在此處降臨</td><td class="ability">魔法防禦+5</td></tr>
+              <tr><td class="cards">甘特、特羅斯、宙斯、塞巴斯蒂安、暗黑龍宙斯、暗黑龍阿頓、暗黑龍絲莉安</td><td class="gname">傳說的開始</td><td class="ability">魔法防禦+3</td></tr>
+              <tr><td class="cards">海露拜、絲莉安、天上騎士、警衛(弓)</td><td class="gname">極強的弓弦</td><td class="ability">藥水恢復+3</td></tr>
+              <tr><td class="cards">巴列斯、依詩蒂、克特、巴風特、國王艾歐丁</td><td class="gname">君主之名的勇氣</td><td class="ability">防禦+2</td></tr>
+              <tr><td class="cards">賽尼斯、覺醒炎魔、宙斯、歐瑞(綠)</td><td class="gname">魔法是對妖精行不通的</td><td class="ability">PVP傷害+2</td></tr>
+              <tr><td class="cards">橘子、紅色妖魔、格鬥家男</td><td class="gname">武術達人</td><td class="ability">PVP減傷+2</td></tr>
+              <tr><td class="cards">橘子、紅色妖魔、格鬥家女</td><td class="gname">意外的面貌</td><td class="ability">魔法防禦+5</td></tr>
+              <tr><td class="cards">格鬥家男、格鬥家女、格鬥家(紅/黃/藍)、格鬥家(女)(藍)、禪</td><td class="gname">格鬥之霸</td><td class="ability">近距離攻擊力+2 遠距離攻擊力+2</td></tr>
+              <tr><td class="cards">反王肯恩、海露拜、丹特斯</td><td class="gname">為了解放魔族的力量</td><td class="ability">近距離攻擊力+1 遠距離攻擊力+1</td></tr>
+              <tr><td class="cards">依詩蒂、特羅斯、布魯迪卡</td><td class="gname">死守狄亞得要塞吧</td><td class="ability">迴避率+1</td></tr>
+              <tr><td class="cards">布魯迪卡、丹特斯</td><td class="gname">欲醉之人欲擋之人</td><td class="ability">迴避率+1</td></tr>
+              <tr><td class="cards">黃金安迪斯、黃金史雷佛、布魯迪卡、丹特斯</td><td class="gname">悲劇的對立</td><td class="ability">魔力上限+50</td></tr>
+              <tr><td class="cards">黃金安迪斯、黃金史雷佛</td><td class="gname">威脅亞丁的破壞者</td><td class="ability">體力上限+50</td></tr>
+              <tr><td class="cards">黑暗刺客、銀光刺客、黃金刺客、白金刺客、黃金史雷佛</td><td class="gname">迴避是最好的防禦</td><td class="ability">近距離命中+1 遠距離命中+1</td></tr>
+              <tr><td class="cards">黑暗巡守、銀光巡守、黃金巡守、白金巡守、黃金安迪斯</td><td class="gname">那只是個殘像</td><td class="ability">體力上限+150</td></tr>
+              <tr><td class="cards">長者、墮落的賽尼斯、少女賽尼斯、黑法師、老虎</td><td class="gname">給我食物就給你魔力</td><td class="ability">魔法爆擊率+1%</td></tr>
+              <tr><td class="cards">奇異鸚鵡、浣熊、曼波兔、紅狼蛛、飛蛾人、飛蛾女王、大黃蜂殺手、超級螳螂、鼴鼠坦克、鼴鼠戰士、鬣狗獵人、老虎、豹人、雪之蜥蜴人</td><td class="gname">野生的致命生存力</td><td class="ability">體力上限+150</td></tr>
+              <tr><td class="cards">桓夢、老虎、潘</td><td class="gname">才不是小龐跟詹姆士咧</td><td class="ability">昏迷耐性+7%</td></tr>
+              <tr><td class="cards">鐵門騎士、石頭高崙、鐵門騎士團長、甘特、特羅斯、塞巴斯蒂安、鋼鐵阿頓</td><td class="gname">鐵甕城</td><td class="ability">PVP傷害+3</td></tr>
+              <tr><td class="cards">墮落的賽尼斯、黑法師、賽尼斯、黑暗之星宙斯</td><td class="gname">漆黑的魔力</td><td class="ability">PVP傷害+3</td></tr>
+              <tr><td class="cards">依詩蒂、絲莉安、歐瑞(綠)、月之絲莉安</td><td class="gname">月光</td><td class="ability">力量+1</td></tr>
+              <tr><td class="cards">墓穴守護者騎士、墓穴守護者法師、墓穴守護者、依詩蒂、絲莉安、宙斯、巨大的墓穴守護者、鋼鐵阿頓、屠龍者</td><td class="gname">守護城遇到屠龍者</td><td class="ability">敏捷+1</td></tr>
+              <tr><td class="cards">特羅斯、鋼鐵阿頓</td><td class="gname">巴生的后羿</td><td class="ability">體質+1</td></tr>
+              <tr><td class="cards">地獄之花、安特、樹精鹿、樹精戰士、錘鈴、歐瑞(綠)、月之絲莉安</td><td class="gname">精靈的記憶</td><td class="ability">智力+1</td></tr>
+              <tr><td class="cards">夜巡、警衛(紅)(矛)</td><td class="gname">買+9貝卡合金</td><td class="ability">昏迷命中+1%</td></tr>
+              <tr><td class="cards">黃金安迪斯、警衛(紅)(弓)</td><td class="gname">還剩一步</td><td class="ability">防禦+2</td></tr>
+              <tr><td class="cards">骷髏槍兵、骷髏弓箭手、骷髏、真死亡騎士、真死亡騎士(紅)</td><td class="gname">不死族的生存力</td><td class="ability">近距離攻擊力+1</td></tr>
+              <tr><td class="cards">少女賽尼斯、黑法師、真死亡騎士(紅)</td><td class="gname">使用治癒術狩獵死神的法師</td><td class="ability">近距離命中+1</td></tr>
+              <tr><td class="cards">死亡騎士(焚焰)、真死亡騎士(紅)</td><td class="gname">紅騎士</td><td class="ability">精神+1</td></tr>
+              <tr><td class="cards">海音警衛、暗殺軍王史雷佛、冥法軍王海露拜、警衛(紅)(弓)、警衛(紅)(矛)</td><td class="gname">尋找未守規矩的人</td><td class="ability">魔攻+1</td></tr>
+              <tr><td class="cards">暗殺軍王史雷佛、黃金安迪斯、黃金史雷佛</td><td class="gname">拉斯塔巴德的暗殺者</td><td class="ability">魔法防禦+5</td></tr>
+              <tr><td class="cards">黃金刺客、白金刺客、魔獸軍王巴蘭卡</td><td class="gname">血痕的鋼爪</td><td class="ability">力量+1</td></tr>
+              <tr><td class="cards">黑暗妖精法師、黑法師、冥法軍王海露拜</td><td class="gname">職務室內架魔法結界</td><td class="ability">敏捷+1</td></tr>
+              <tr><td class="cards">白金法師、少女賽尼斯、法令軍王蕾雅</td><td class="gname">乎出的魔法力量</td><td class="ability">智力+1</td></tr>
+              <tr><td class="cards">暗殺軍王史雷佛、冥法軍王海露拜、魔獸軍王巴蘭卡、法令軍王蕾雅</td><td class="gname">君王集結</td><td class="ability">魔攻+1</td></tr>
+              <tr><td class="cards">魔獸軍王巴蘭卡、長老拉米阿斯、長老提亞麥斯、長老巴洛麥斯、長老比亞塔斯</td><td class="gname">強悍的象徵</td><td class="ability">遠距離攻擊力+1</td></tr>
+              <tr><td class="cards">白金巡守、冥法軍王海露拜、長老安迪斯、黃金安迪斯</td><td class="gname">敏捷的象徵</td><td class="ability">遠距離爆擊+1%</td></tr>
+              <tr><td class="cards">少女賽尼斯、長老凱伊納、長老伊戴亞</td><td class="gname">明智的象徵</td><td class="ability">藥水恢復+3</td></tr>
+              <tr><td class="cards">法令軍王蕾雅、長老凱伊納、長老伊戴亞、宙斯</td><td class="gname">什麼是賢者</td><td class="ability">體力上限+50</td></tr>
+              <tr><td class="cards">長老安迪斯、黃金安迪斯</td><td class="gname">安迪斯的雙擊</td><td class="ability">精神+1</td></tr>
+              <tr><td class="cards">冥法軍王海露拜、長老安迪斯、警衛(紅)(弓)</td><td class="gname">弱點攻擊</td><td class="ability">近距離攻擊力+1</td></tr>
+              <tr><td class="cards">長老凱伊納、長老拉米阿斯、長老伊戴亞、長老提亞麥斯、長老巴洛麥斯、長老安迪斯、長老比亞塔斯</td><td class="gname">此刻開始募集長老</td><td class="ability">近距離命中+1</td></tr>
+              <tr><td class="cards">長老提亞麥斯、長老巴洛麥斯、長老安迪斯</td><td class="gname">我們是兄弟嗎</td><td class="ability">魔力回復量+2</td></tr>
+              <tr><td class="cards">奧爾汀、長老伊戴亞、賽尼斯</td><td class="gname">智慧的象徵</td><td class="ability">遠距離命中+1</td></tr>
+              <tr><td class="cards">魔獸軍王巴蘭卡、長老提亞麥斯</td><td class="gname">魔獸軍王的指導</td><td class="ability">迴避率+1</td></tr>
+              <tr><td class="cards">布雷哲、暗殺軍王史雷佛</td><td class="gname">暗殺者相見</td><td class="ability">PVP減傷+1</td></tr>
+              <tr><td class="cards">墮落的賽尼斯、法令軍王蕾雅</td><td class="gname">法令軍王的指導</td><td class="ability">魔法防禦+2</td></tr>
+              <tr><td class="cards">火焰弓箭手、黑暗妖精、冥法軍王海露拜</td><td class="gname">神弓的相見</td><td class="ability">負重獎勵+50</td></tr>
+              <tr><td class="cards">白金巡守、冥法軍王海露拜、警衛(紅)(弓)</td><td class="gname">迴避投射體的爽感</td><td class="ability">遠距離命中+1</td></tr>
+              <tr><td class="cards">歐姆民兵、魔獸軍王巴蘭卡</td><td class="gname">魔獸軍王的職務室緣分</td><td class="ability">體力上限+30</td></tr>
+              <tr><td class="cards">黑暗妖精法師、法令軍王蕾雅</td><td class="gname">法令軍王的職務室緣分</td><td class="ability">遠距離攻擊力+1</td></tr>
+              <tr><td class="cards">海盜獵人雷歐、火焰弓箭手、刺客首領</td><td class="gname">同業者</td><td class="ability">魔法命中+1</td></tr>
+              <tr><td class="cards">桓夢、老虎、海盜獵人珍、狼騎士</td><td class="gname">獵人與朋友們</td><td class="ability">魔法防禦+2</td></tr>
+              <tr><td class="cards">海盜獵人雷歐、長老安迪斯、黃金安迪斯、海盜獵人珍</td><td class="gname">不會錯過</td><td class="ability">迴避率+1</td></tr>
+              <tr><td class="cards">依詩蒂、依詩蒂(槍)</td><td class="gname">武器大師</td><td class="ability">遠距離爆擊+1%</td></tr>
+              <tr><td class="cards">絲莉安、宙斯、依詩蒂(槍)</td><td class="gname">魔力彈</td><td class="ability">近距離爆擊率+1%</td></tr>
+              <tr><td class="cards">覺醒炎魔、歐瑞(綠)、塞巴斯蒂安、依詩蒂(槍)</td><td class="gname">降魔儀式</td><td class="ability">近距離攻擊力+1</td></tr>
+              <tr><td class="cards">黃金安迪斯、海盜獵人珍、依詩蒂(槍)</td><td class="gname">敏捷的象徵II</td><td class="ability">負重獎勵+20</td></tr>
+              <tr><td class="cards">布魯迪卡、月之絲莉安、黑暗殺手</td><td class="gname">既遠又近</td><td class="ability">魔力上限+10</td></tr>
+              <tr><td class="cards">冥法軍王海露拜、魔獸軍王巴蘭卡、覺醒炎魔</td><td class="gname">重量級聚會</td><td class="ability">迴避率+1</td></tr>
+              <tr><td class="cards">屠龍者、黑暗殺手</td><td class="gname">雙胞屠龍者</td><td class="ability">遠距離攻擊力+1</td></tr>
+              <tr><td class="cards">海盜獵人雷歐、銀光火槍手</td><td class="gname">彈藥手</td><td class="ability">遠距離攻擊力+2</td></tr>
+              <tr><td class="cards">黑暗妖精、黑暗火槍手、海盜獵人珍</td><td class="gname">暗黑沙手</td><td class="ability">遠距離命中+2</td></tr>
+              <tr><td class="cards">黑暗火槍手、銀光火槍手、黃金火槍手</td><td class="gname">雙重子彈</td><td class="ability">體力上限+30</td></tr>
+              <tr><td class="cards">黑暗火槍手、銀光火槍手、黃金火槍手、白金火槍手、槍手(男)、槍手(女)</td><td class="gname">槍手部隊</td><td class="ability">近距離命中+1</td></tr>
+              <tr><td class="cards">黑暗火槍手、銀光火槍手、黃金火槍手、白金火槍手、依詩蒂(槍)</td><td class="gname">射擊隊</td><td class="ability">體力回復量+3</td></tr>
+              <tr><td class="cards">黃金巡守、黃金火槍手、白金巡守、白金火槍手、歐瑞(綠)</td><td class="gname">新舊聯合</td><td class="ability">遠距離命中+1</td></tr>
+              <tr><td class="cards">曼波兔、曼玻兔(紅蘿菠)</td><td class="gname">紅蘿蔔紅蘿蔔</td><td class="ability">敏捷+1</td></tr>
+              <tr><td class="cards">真死亡騎士(紅)、真死亡騎士(藍)</td><td class="gname">支配死亡騎士</td><td class="ability">PVP減傷+1</td></tr>
+              <tr><td class="cards">浣熊、果凍怪、橘子、曼玻兔(紅蘿菠)、巴風特</td><td class="gname">有毅力的草食動物</td><td class="ability">近距離攻擊力+1</td></tr>
+              <tr><td class="cards">警衛(紅)(弓)、警衛(紅)(矛)、歐瑞(綠)、真死亡騎士(藍)</td><td class="gname">colorful</td><td class="ability">近距離命中+1</td></tr>
+              <tr><td class="cards">絲莉安、警衛(弓)、警衛(紅)(弓)、歐瑞(綠)、格立特(弓)</td><td class="gname">有自信就進來</td><td class="ability">PVP傷害+3</td></tr>
+              <tr><td class="cards">依詩蒂、絲莉安、特羅斯、格立特(弓)</td><td class="gname">沒看到阿頓耶</td><td class="ability">PVP傷害+3</td></tr>
+              <tr><td class="cards">反王肯恩、阿斯態爾、覺醒肯勞厄爾</td><td class="gname">反王的資格</td><td class="ability">魔法爆擊率+3%</td></tr>
+              <tr><td class="cards">賽尼斯、阿斯態爾</td><td class="gname">無法到手的男人</td><td class="ability">PVP減傷+3</td></tr>
+              <tr><td class="cards">鋼鐵阿頓、職業變身(神話)</td><td class="gname">神話阿頓</td><td class="ability">近距離命中+3</td></tr>
+              <tr><td class="cards">月之絲莉安、職業變身(神話)</td><td class="gname">神話絲莉安</td><td class="ability">傷害減免+3</td></tr>
+              <tr><td class="cards">黑暗之星宙斯、職業變身(神話)</td><td class="gname">神話宙斯</td><td class="ability">體力上限+150</td></tr>
+              <tr><td class="cards">屠龍者、職業變身(神話)</td><td class="gname">神話屠龍者</td><td class="ability">PVP傷害+1</td></tr>
+              <tr><td class="cards">鋼鐵阿頓、屠龍者、職業變身(神話)</td><td class="gname">神話戰場之劍</td><td class="ability">近距離命中+2</td></tr>
+              <tr><td class="cards">黑暗之星宙斯、月之絲莉安、鋼鐵阿頓、屠龍者、黑暗殺手、席琳的守衛、格蘭肯的逆麟、殷海薩的影子、職業變身(神話)</td><td class="gname">神話歷史的開始</td><td class="ability">體力回復量+2</td></tr>
+              <tr><td class="cards">克特、真死亡騎士(紅)、荊棘公主艾薇、暗夜殺戮者</td><td class="gname">我是騎士</td><td class="ability">負重獎勵+500</td></tr>
+              <tr><td class="cards">追蹤者凱伊、屠龍者</td><td class="gname">與龍有關的人們</td><td class="ability">近距離攻擊力+1</td></tr>
+              <tr><td class="cards">狂暴槍騎、夜巡、追蹤者凱伊</td><td class="gname">2格攻擊的達人</td><td class="ability">體力上限+10</td></tr>
+              <tr><td class="cards">銀光龍騎士、黃金龍騎士、白金龍騎士</td><td class="gname">鎖鏈劍的達人們</td><td class="ability">PVP減傷+1</td></tr>
+              <tr><td class="cards">達伊諾思打者、達伊諾思投手、追蹤者凱伊</td><td class="gname">達伊諾思的鎖鏈劍應援團</td><td class="ability">魔力上限+35</td></tr>
+              <tr><td class="cards">黑暗龍騎士、銀光龍騎士、白金龍騎士、龍鬥士、龍騎士(男)、龍騎士(女)</td><td class="gname">龍鬥士集結</td><td class="ability">近距離命中+1</td></tr>
+              <tr><td class="cards">骷髏槍兵、都達瑪拉妖魔、追蹤者卡爾</td><td class="gname">我們是2格攻擊</td><td class="ability">遠距離命中+1</td></tr>
+              <tr><td class="cards">賽尼斯、依詩蒂、荊棘公主艾薇、依詩蒂(槍)、姬武者、家門守護者菲莉亞</td><td class="gname">女英雄聚會</td><td class="ability">遠距離命中+1</td></tr>
+              <tr><td class="cards">真黑暗妖精、法令軍王蕾雅、長老凱伊納</td><td class="gname">Girl Crush</td><td class="ability">遠距離攻擊力+1</td></tr>
+              <tr><td class="cards">老虎、武獅、格鬥家男、死神</td><td class="gname">為了充滿活力的新年</td><td class="ability">體力上限+80</td></tr>
+              <tr><td class="cards">老虎、武獅、死神、屠龍者</td><td class="gname">新年的主角就是我</td><td class="ability">魔力上限+15</td></tr>
+              <tr><td class="cards">歐瑞靈魂、歐瑞十字弓、冰原狼人、歐瑞(藍)、歐瑞(綠)</td><td class="gname">高貴的誕生歐瑞</td><td class="ability">負重獎勵+100</td></tr>
+              <tr><td class="cards">海露拜、絲莉安、警衛(紅)(弓)、歐瑞(藍)、歐瑞(綠)</td><td class="gname">精誠所至</td><td class="ability">近距離攻擊力+1</td></tr>
+              <tr><td class="cards">賽尼斯、依詩蒂、荊棘公主艾薇、依詩蒂(槍)、潘朵拉、世拉、蘿絲瑪莉</td><td class="gname">亞丁大陸的絕世美女</td><td class="ability">近距離命中+1</td></tr>
+              <tr><td class="cards">長者、惡魔、潘朵拉</td><td class="gname">不賣藥水給卡歐</td><td class="ability">遠距離命中+1</td></tr>
+              <tr><td class="cards">食人妖精、侏儒、惡夢的稻草人、稻草人(藍)、潘朵拉</td><td class="gname">食人妖精去解開稻草人</td><td class="ability">近距離攻擊力+2 近距離命中+2</td></tr>
+              <tr><td class="cards">黑暗騎士、銀光騎士、黃金騎士、白金騎士、潘朵拉</td><td class="gname">又擋住碼頭的路了</td><td class="ability">PVP傷害+2</td></tr>
+              <tr><td class="cards">墮落的賽尼斯、黑騎士、黑暗妖精警衛、伊娃守護者、沙哈守護者、帕格里奧守護者、馬普勒守護者</td><td class="gname">守護賽尼斯</td><td class="ability">藥水恢復+1</td></tr>
+              <tr><td class="cards">骷髏弓箭手、妖魔巡守、妖魔弓箭手、黑暗妖精盜賊</td><td class="gname">要我教你單手射箭的方法</td><td class="ability">傷害減免+2</td></tr>
+              <tr><td class="cards">真死亡騎士(紅)、真死亡騎士(藍)、地獄死亡騎士</td><td class="gname">死亡騎士地獄降臨</td><td class="ability">藥水恢復+5</td></tr>
+              <tr><td class="cards">鋼鐵阿頓、屠龍者、地獄死亡騎士</td><td class="gname">你說現在誰最強</td><td class="ability">藥水恢復+3</td></tr>
+              <tr><td class="cards">浣熊、曼波兔、黑暗妖精警衛、黑暗妖精盜賊</td><td class="gname">黑暗妖精的興趣是狩獵</td><td class="ability">PVP傷害+2</td></tr>
+              <tr><td class="cards">幻影騎士、職業變身(神話)</td><td class="gname">神話戰場的先鋒大將</td><td class="ability">近距離命中+2</td></tr>
+              <tr><td class="cards">反王肯恩、特羅斯、暗夜殺戮者、幻影騎士</td><td class="gname">不畏懼死亡的英雄</td><td class="ability">近距離命中+1</td></tr>
+              <tr><td class="cards">獵人里德、甘特、暗黑騎士莉爾利、幻影騎士</td><td class="gname">不退縮的英雄</td><td class="ability">近距離命中+2</td></tr>
+              <tr><td class="cards">真死亡騎士、獵人里德、海露拜、暗黑騎士莉爾利、死神(神話)</td><td class="gname">召喚死亡之人</td><td class="ability">遠距離命中+2</td></tr>
+              <tr><td class="cards">黑暗刺客、暗殺軍王史雷佛、黃金史雷佛</td><td class="gname">暗黑之影</td><td class="ability">魔法防禦+2</td></tr>
+              <tr><td class="cards">海盜獵人雷歐、獵人戴伊、獵人里德</td><td class="gname">傑出的獵人</td><td class="ability">PVP傷害+1</td></tr>
+              <tr><td class="cards">黑暗騎士、銀光騎士、甘特、黑暗哈汀</td><td class="gname">黑暗哈汀的英雄們I</td><td class="ability">PVP傷害+1</td></tr>
+              <tr><td class="cards">黑暗巡守、銀光巡守、海露拜、黑暗哈汀</td><td class="gname">黑暗哈汀的英雄們II</td><td class="ability">近距離攻擊力+1</td></tr>
+              <tr><td class="cards">黑暗刺客、克特、黑暗哈汀</td><td class="gname">黑魔法的奇蹟</td><td class="ability">遠距離攻擊力+1</td></tr>
+              <tr><td class="cards">銀光刺客、警衛(弓)、黑暗哈汀、黑暗騎士(男)、黑暗騎士(女)</td><td class="gname">以暗黑騎士之名I</td><td class="ability">防禦+1</td></tr>
+              <tr><td class="cards">黃金巡守、警衛(弓)、黑暗哈汀</td><td class="gname">以暗黑騎士之名II</td><td class="ability">體力上限+80</td></tr>
+              <tr><td class="cards">黃金騎士、特羅斯、黑暗哈汀</td><td class="gname">哈汀的呼喚</td><td class="ability">魔法防禦+1</td></tr>
+              <tr><td class="cards">白金巡守、巴風特、黑暗哈汀</td><td class="gname">哈汀的記憶</td><td class="ability">遠距離命中+1</td></tr>
+              <tr><td class="cards">警衛(弓)、警衛(綠)(弓)、警衛(紅)(弓)</td><td class="gname">警衛I</td><td class="ability">近距離命中+1</td></tr>
+              <tr><td class="cards">警衛(弓)、警衛(綠)(矛)、警衛(紅)(矛)</td><td class="gname">警衛II</td><td class="ability">近距離命中+1</td></tr>
+              <tr><td class="cards">黃金法師、海音警衛、警衛(綠)(矛)</td><td class="gname">英雄篇章</td><td class="ability">智力+1</td></tr>
+              <tr><td class="cards">警衛(綠)(弓)、警衛(紅)(弓)</td><td class="gname">弓警備</td><td class="ability">遠距離命中+1</td></tr>
+              <tr><td class="cards">警衛(綠)(矛)、警衛(紅)(矛)</td><td class="gname">矛警備</td><td class="ability">傷害減免+1</td></tr>
+              <tr><td class="cards">真死亡騎士、追蹤者凱伊、波若斯妖魔鬥士</td><td class="gname">波若斯妖魔鬥士和朋友們</td><td class="ability">防禦+1</td></tr>
+              <tr><td class="cards">夜巡、少女賽尼斯、波若斯妖魔法師</td><td class="gname">波若斯妖魔法師和朋友們</td><td class="ability">昏迷命中+2%</td></tr>
+              <tr><td class="cards">真黑暗妖精、黑暗妖精盜賊、波若斯妖魔弓箭手</td><td class="gname">波若斯妖魔弓箭手和朋友們</td><td class="ability">PVP傷害+2</td></tr>
+              <tr><td class="cards">波若斯妖魔鬥士、波若斯妖魔法師、波若斯妖魔弓箭手、妖魔士兵、妖魔弓手、妖魔斧兵、妖魔騎兵</td><td class="gname">波若斯妖魔朋友們</td><td class="ability">體力上限+30</td></tr>
+              <tr><td class="cards">狂暴將軍、桓夢、武獅、韓服少年、韓服少女、舞獅(金)</td><td class="gname">迎接新春</td><td class="ability">閃避率+2</td></tr>
+              <tr><td class="cards">死亡騎士、死亡騎士(黃金)、死亡騎士(焚焰)、地獄死亡騎士、憎恨的死亡騎士</td><td class="gname">死亡騎士愛好家</td><td class="ability">迴避率+1</td></tr>
+              <tr><td class="cards">狂暴將軍(紅)、狂暴將軍(藍)、幻影騎士、憎恨的死亡騎士、昔日的騎士范德、勞待碼依</td><td class="gname">傳說的對手</td><td class="ability">近距離命中+1 近距離攻擊力+1</td></tr>
+              <tr><td class="cards">真死亡騎士、丹特斯、憎恨的死亡騎士</td><td class="gname">危險的英雄們</td><td class="ability">遠距離命中+1 遠距離攻擊力+1</td></tr>
+              <tr><td class="cards">警衛(綠)(矛)、警衛(紅)(矛)、警衛(矛)隊長</td><td class="gname">隊長對你們很失望</td><td class="ability">近距離攻擊力+1</td></tr>
+              <tr><td class="cards">警衛(弓)、警衛(綠)(弓)、警衛(紅)(弓)、警衛(弓)隊長</td><td class="gname">隊長對你們也很失望</td><td class="ability">PVP減傷+1</td></tr>
+              <tr><td class="cards">黑暗妖精警衛、狂暴將軍(紅)、狂暴將軍(藍)、警衛(矛)隊長</td><td class="gname">這樣使用矛就行了</td><td class="ability">魔力上限+50</td></tr>
+              <tr><td class="cards">火焰弓箭手、白金巡守、歐瑞(藍)、警衛(弓)隊長</td><td class="gname">這樣射箭就行了</td><td class="ability">近距離爆擊率+1%</td></tr>
+              <tr><td class="cards">憎恨的死亡騎士、帕拉丁</td><td class="gname">這是龍的問題</td><td class="ability">近距離命中+1</td></tr>
+              <tr><td class="cards">歐瑞(藍)、暗黑騎士莉爾利、帕拉丁</td><td class="gname">十字軍和英雄們</td><td class="ability">藥水恢復+3</td></tr>
+              <tr><td class="cards">魔幻士兵、菁英魔幻士兵、艾依爾、帕拉丁、神聖劍士(男)、神聖劍士(女)</td><td class="gname">以神聖劍士團的名義</td><td class="ability">無視傷害減免+2</td></tr>
+              <tr><td class="cards">真死亡騎士(紅)、狂暴將軍(紅)、刺客首領(紅)、狂戰士(神話)</td><td class="gname">紅色饗宴</td><td class="ability">魔攻+1</td></tr>
+              <tr><td class="cards">刺客首領、白金刺客、鬼靈、刺客首領(紅)、Mr斯摩格、暗殺的雅莉亞精靈</td><td class="gname">黑暗中的影子</td><td class="ability">魔力上限+35</td></tr>
+              <tr><td class="cards">黃金火槍手、黃金龍騎士、狂暴將軍(紅)</td><td class="gname">跟隨大師</td><td class="ability">體力回復量+1</td></tr>
+              <tr><td class="cards">暗殺軍王史雷佛、布魯迪卡、黃金布雷哲</td><td class="gname">暗殺軍團3隊長</td><td class="ability">魔力回復量+1</td></tr>
+              <tr><td class="cards">死亡騎士(焚焰)、警衛(綠)(弓)、黃金布雷哲</td><td class="gname">4人4色</td><td class="ability">負重獎勵+200</td></tr>
+              <tr><td class="cards">妖魔巡守、艾依爾</td><td class="gname">在其他世界見過的感覺</td><td class="ability">防禦+1</td></tr>
+              <tr><td class="cards">黑騎士、黑暗妖精警衛、狂暴將軍(紅)</td><td class="gname">需要盾牌嗎</td><td class="ability">閃避率+1</td></tr>
+              <tr><td class="cards">獵人戴伊、黑暗妖精、銀光法師、刺客首領(紅)</td><td class="gname">組合不錯</td><td class="ability">體力上限+15</td></tr>
+              <tr><td class="cards">墮落的賽尼斯、惡魔、天上騎士、荊棘公主艾薇、艾依爾</td><td class="gname">只有我沒翅膀</td><td class="ability">體力上限+30</td></tr>
+              <tr><td class="cards">魔獸軍王巴蘭卡、艾依爾</td><td class="gname">金髮太過分</td><td class="ability">體力上限+20</td></tr>
+              <tr><td class="cards">白金騎士、白金龍騎士、菁英魔幻士兵</td><td class="gname">別人的劍看起來很好</td><td class="ability">PVP減傷+1</td></tr>
+              <tr><td class="cards">魔幻士兵、菁英魔幻士兵</td><td class="gname">射手與副射手</td><td class="ability">遠/近距離迴避率+1</td></tr>
+              <tr><td class="cards">惡魔、素還真</td><td class="gname">征服邪惡的青香白蓮</td><td class="ability">魔法爆擊率+1%</td></tr>
+              <tr><td class="cards">狂暴槍騎、狂暴將軍、素還真</td><td class="gname">半神半聖亦半仙</td><td class="ability">防禦+1</td></tr>
+              <tr><td class="cards">傑克吳燈籠(紅)、棄天帝</td><td class="gname">傑克吳的組合</td><td class="ability">魔法防禦+1</td></tr>
+              <tr><td class="cards">生日慶祝妖精、邪惡蛋糕怪、邪惡麋鹿、素還真、傑克吳燈籠(紅)、葉小釵</td><td class="gname">佛心活動</td><td class="ability">魔攻+1 魔力上限+15</td></tr>
+              <tr><td class="cards">傑克吳燈籠(紅)、黑暗之星宙斯</td><td class="gname">我們長的有一點像</td><td class="ability">近距離攻擊+2 遠距離攻擊+2</td></tr>
+              <tr><td class="cards">艾爾摩將軍、艾爾摩士兵、艾爾魔法師</td><td class="gname">戰場中的士兵們</td><td class="ability">近距離攻擊力+1 遠距離攻擊力+1</td></tr>
+              <tr><td class="cards">巨大牛人、黑暗妖精警衛、艾爾摩士兵</td><td class="gname">消滅怪獸的士兵們</td><td class="ability">PVP傷害+1</td></tr>
+              <tr><td class="cards">炎魔、少女賽尼斯、艾爾魔法師</td><td class="gname">使用黑暗力量的人</td><td class="ability">魔力回復量+5</td></tr>
+              <tr><td class="cards">追蹤者凱伊、獵人里德、艾爾摩將軍</td><td class="gname">把逃兵一個不漏的抓起來</td><td class="ability">遠距離命中+1</td></tr>
+              <tr><td class="cards">天鵝的勞安格林、哈汀之魂、漆黑的死亡騎士</td><td class="gname">有紫色的感覺</td><td class="ability">魔攻+2</td></tr>
+              <tr><td class="cards">依詩蒂、天鵝的勞安格林</td><td class="gname">我給人的感覺煥然一新</td><td class="ability">近距離攻擊力+1</td></tr>
+              <tr><td class="cards">宙斯、歐瑞(藍)、格立特(弓)、鋼鐵阿頓、天鵝的勞安格林</td><td class="gname">之前好像不是這名成員</td><td class="ability">無視傷害減免+1</td></tr>
+              <tr><td class="cards">黑暗哈汀、哈汀之魂</td><td class="gname">我內在的另一個我</td><td class="ability">近距離命中+1</td></tr>
+              <tr><td class="cards">魔法師、黃金法師、賽尼斯、黑暗之星宙斯、黑暗哈汀</td><td class="gname">你在找魔法師麼</td><td class="ability">PVP傷害+2</td></tr>
+              <tr><td class="cards">地獄死亡騎士、憎恨的死亡騎士、漆黑的死亡騎士</td><td class="gname">傳說的3兄弟</td><td class="ability">遠距離迴避率+1</td></tr>
+              <tr><td class="cards">兔子少女、地獄死亡騎士、憎恨的死亡騎士、漆黑的死亡騎士</td><td class="gname">死亡騎士相鬥兔子遭殃</td><td class="ability">支撐耐性+1</td></tr>
+              <tr><td class="cards">黑法師、黑暗妖精盜賊、巴列斯、漆黑的死亡騎士</td><td class="gname">你們是黑暗的爪牙嗎</td><td class="ability">體質+1</td></tr>
+              <tr><td class="cards">死亡騎士、真死亡騎士(紅)、真死亡騎士(藍)、漆黑的死亡騎士</td><td class="gname">死亡騎士收集家</td><td class="ability">閃避率+1</td></tr>
+              <tr><td class="cards">伯爵安托里歐、師團長哈波、公爵馬庫斯、軍團長艾克斯特</td><td class="gname">星星10個</td><td class="ability">遠距離命中+2</td></tr>
+              <tr><td class="cards">巨蟻女皇士兵、巨蟻女皇隊長、伯爵安托里歐、公爵馬庫斯</td><td class="gname">你往上我往下集合I</td><td class="ability">遠距離攻擊力+1</td></tr>
+              <tr><td class="cards">沙蟲士兵、沙蟲隊長、師團長哈波、軍團長艾克斯特</td><td class="gname">你往上我往下集合II</td><td class="ability">近距離命中+1</td></tr>
+              <tr><td class="cards">巨蟻、巨大兵蟻、公爵馬庫斯</td><td class="gname">螞蟻的時代來臨了</td><td class="ability">體力上限+30</td></tr>
+              <tr><td class="cards">黑騎士、波若斯妖魔鬥士、巴風特、軍團長艾克斯特</td><td class="gname">哈爾巴斯的蹤跡</td><td class="ability">無視傷害減免+1</td></tr>
+              <tr><td class="cards">巨蟻女皇隊長、沙蟲隊長、警衛(矛)隊長、警衛(弓)隊長</td><td class="gname">我也是隊長</td><td class="ability">遠距離命中+1</td></tr>
+              <tr><td class="cards">莉茲、伯爵安托里歐、師團長哈波、巴士瑟、卡士伯、西瑪、馬庫爾</td><td class="gname">共同販售區</td><td class="ability">PVP傷害+1</td></tr>
+              <tr><td class="cards">紅色妖魔、兔子少女</td><td class="gname">謎樣的存在</td><td class="ability">近距離命中+1</td></tr>
+              <tr><td class="cards">小小鬼(粉紅)、墮落的賽尼斯、兔子少女</td><td class="gname">少女的進化</td><td class="ability">遠距離攻擊力+1</td></tr>
+              <tr><td class="cards">潘朵拉、莉茲</td><td class="gname">不是天天可見的商店</td><td class="ability">近距離攻擊力+1 遠距離攻擊力+1</td></tr>
+              <tr><td class="cards">死亡騎士、惡魔、甘特、莉茲</td><td class="gname">你我的全盛時期</td><td class="ability">近距離命中+1</td></tr>
+              <tr><td class="cards">黃金史雷佛、布魯迪卡、伯爵安托里歐、女僕安娜</td><td class="gname">在沙漠的風沙中I</td><td class="ability">遠距離命中+1</td></tr>
+              <tr><td class="cards">布雷哲、冥法軍王海露拜、師團長哈波、凱普莉夏</td><td class="gname">在沙漠的風沙中II</td><td class="ability">魔法防禦+1</td></tr>
+              <tr><td class="cards">聖地的侏儒斧頭兵、弓手、槍兵、劍士</td><td class="gname">朝聖時刻到來</td><td class="ability">遠距離命中+1</td></tr>
+              <tr><td class="cards">妖魔、狂暴槍騎、聖地的侏儒斧頭兵、槍兵</td><td class="gname">合併至亦部隊</td><td class="ability">體力上限+20</td></tr>
+              <tr><td class="cards">妖魔弓箭手、德雷克、聖地的侏儒槍兵、劍士</td><td class="gname">忠於基本的組合</td><td class="ability">體力上限+10</td></tr>
+              <tr><td class="cards">狂暴將軍、聖地的侏儒槍兵</td><td class="gname">在槍面前我們互毆一下</td><td class="ability">魔力上限+10</td></tr>
+              <tr><td class="cards">黑暗妖精盜賊、聖地的侏儒弓手</td><td class="gname">你絕對躲不了</td><td class="ability">近距離攻擊力+1 遠距離攻擊力+1</td></tr>
+              <tr><td class="cards">巨蟻女皇隊長、沙蟲隊長</td><td class="gname">中階管理職的痛苦</td><td class="ability">體力上限+30</td></tr>
+              <tr><td class="cards">強盜弓箭手、強盜頭目、通緝犯庫傑</td><td class="gname">威頓村莊的威脅者</td><td class="ability">無視傷害減免+3</td></tr>
+              <tr><td class="cards">沙蟲士兵、巨蟻女皇士兵</td><td class="gname">沒有惡意</td><td class="ability">無視傷害減免+2</td></tr>
+              <tr><td class="cards">釣魚少年保羅、天上騎士</td><td class="gname">奇異國度的保羅</td><td class="ability">無視傷害減免+2</td></tr>
+              <tr><td class="cards">少女賽尼斯、白色幼犬、釣魚少年保羅</td><td class="gname">陣雨</td><td class="ability">無視傷害減免+2</td></tr>
+              <tr><td class="cards">變形怪(神話)、職業變身(神話)</td><td class="gname">變形怪-光與影子</td><td class="ability">PVP減傷+2</td></tr>
+              <tr><td class="cards">憎恨的死亡騎士、帕拉丁、變形怪(神話)</td><td class="gname">變形怪-祝福與詛咒</td><td class="ability">近距離命中+1</td></tr>
+              <tr><td class="cards">月之絲莉安、警衛(弓)隊長、變形怪(神話)</td><td class="gname">變形怪-神弓</td><td class="ability">遠距離命中+1</td></tr>
+              <tr><td class="cards">黑暗之星宙斯、帕拉丁、變形怪(神話)</td><td class="gname">變形怪-神聖與黑暗</td><td class="ability">體力上限+100</td></tr>
+              <tr><td class="cards">屠龍者、警衛(矛)隊長、變形怪(神話)</td><td class="gname">變形怪-開始與結束</td><td class="ability">PVP傷害+1</td></tr>
+              <tr><td class="cards">地獄死亡騎士、幻影騎士、變形怪(神話)</td><td class="gname">變形怪-血與深淵</td><td class="ability">體質+1</td></tr>
+              <tr><td class="cards">黑暗殺手、變形怪(神話)</td><td class="gname">變形怪-黑暗中的目標</td><td class="ability">支撐耐性+1</td></tr>
+              <tr><td class="cards">暗夜殺戮者、黑暗哈汀、變形怪(神話)</td><td class="gname">變形怪-黑暗中的英雄</td><td class="ability">無視傷害減免+1</td></tr>
+              <tr><td class="cards">警衛(綠)(弓)、警衛(綠)(矛)、鋼鐵阿頓</td><td class="gname">集合啦奇岩村莊</td><td class="ability">魔法防禦+1</td></tr>
+              <tr><td class="cards">艾依爾、伯爵安托里歐、葉小釵</td><td class="gname">盔甲不過是個累贅</td><td class="ability">魔力回復量+1</td></tr>
+              <tr><td class="cards">炎魔、覺醒炎魔、棄天帝、覺醒愛爾芬、貝里斯</td><td class="gname">覺醒本身</td><td class="ability">負重獎勵+100</td></tr>
+              <tr><td class="cards">愛爾芬(乞丐)、莉茲、棄天帝、貝里斯</td><td class="gname">乞丐與瘋子</td><td class="ability">防禦+1</td></tr>
+              <tr><td class="cards">瘋狗、白色幼犬、貝里斯</td><td class="gname">犬競技場的回憶</td><td class="ability">魔法防禦+1</td></tr>
+              <tr><td class="cards">紙人、果凍怪、橘子、曼玻兔(紅蘿菠)、莉茲</td><td class="gname">有發瘋的原因</td><td class="ability">近距離命中+1</td></tr>
+              <tr><td class="cards">老虎、暗殺軍王史雷佛、黑暗妖精盜賊、賽尼斯</td><td class="gname">感謝勇士的金幣支援</td><td class="ability">體力上限+80</td></tr>
+              <tr><td class="cards">絲莉安、月之絲莉安、赫發斯特斯</td><td class="gname">我的小妖精</td><td class="ability">PVP傷害+1</td></tr>
+              <tr><td class="cards">歐吉王、哈維、老虎、白色幼犬</td><td class="gname">一二三四啊</td><td class="ability">無視傷害減免+2</td></tr>
+              <tr><td class="cards">菁英魔幻士兵、艾爾摩將軍、聖地的侏儒劍士、巨蟻女皇隊長、沙蟲隊長</td><td class="gname">進退兩難</td><td class="ability">遠距離傷害+1 近距離傷害+1</td></tr>
+              <tr><td class="cards">黑暗龍騎士、銀光龍騎士、白金龍騎士、貝里斯</td><td class="gname">尷尬的關係</td><td class="ability">近距離爆擊率+1%</td></tr>
+              <tr><td class="cards">荊棘公主艾薇、艾依爾、貝里斯</td><td class="gname">我們是拿著劍的少女們</td><td class="ability">藥水恢復+1</td></tr>
+              <tr><td class="cards">憎恨的死亡騎士、漆黑的死亡騎士、第1代多魯嘉</td><td class="gname">家門的詛咒</td><td class="ability">PVP傷害+1</td></tr>
+              <tr><td class="cards">屠龍者、第1代多魯嘉</td><td class="gname">原祖中的原祖</td><td class="ability">PVP傷害+1</td></tr>
+              <tr><td class="cards">第1代多魯嘉、職業變身(神話)</td><td class="gname">神話:戰場的勇猛</td><td class="ability">PVP傷害+1</td></tr>
+              <tr><td class="cards">優秀騎士、優秀巡守、優秀法師、優秀狂暴槍騎</td><td class="gname">獨特的軍團</td><td class="ability">近距離命中+1</td></tr>
+              <tr><td class="cards">白金騎士、優秀騎士、幻影騎士、貝里斯</td><td class="gname">刀的匠人們</td><td class="ability">近距離傷害+1</td></tr>
+              <tr><td class="cards">白金巡守、格立特(弓)、師團長哈波、優秀巡守</td><td class="gname">弓的匠人們</td><td class="ability">遠距離傷害+1</td></tr>
+              <tr><td class="cards">白金法師、賽尼斯、宙斯、優秀法師</td><td class="gname">魔法的匠人們</td><td class="ability">無視傷害減免+1</td></tr>
+              <tr><td class="cards">狂暴將軍(藍)、優秀狂暴槍騎、貝里斯</td><td class="gname">矛的匠人們</td><td class="ability">昏迷命中+1%</td></tr>
+              <tr><td class="cards">警衛(綠)(矛)、警衛(紅)(矛)、優秀狂暴槍騎</td><td class="gname">警衛募集作戰I</td><td class="ability">近距離命中+1</td></tr>
+              <tr><td class="cards">警衛(綠)(弓)、警衛(紅)(弓)、優秀巡守</td><td class="gname">警衛募集作戰II</td><td class="ability">昏迷耐性+1%</td></tr>
+              <tr><td class="cards">哈汀之魂、不敗的甘特、吉倫</td><td class="gname">跟隨老師</td><td class="ability">迴避率+1</td></tr>
+              <tr><td class="cards">不敗的甘特、赫發斯特斯、吉倫</td><td class="gname">孩子就托您照顧了</td><td class="ability">敏捷+1</td></tr>
+              <tr><td class="cards">甘特、不敗的甘特</td><td class="gname">甘特的進化</td><td class="ability">體質+1</td></tr>
+              <tr><td class="cards">特羅斯、不敗的甘特、吉倫</td><td class="gname">新的希望</td><td class="ability">智力+1</td></tr>
+              <tr><td class="cards">月之絲莉安、黑暗殺手、警衛(弓)隊長、軍團長艾克斯特、赫發斯特斯</td><td class="gname">挑著用的樂趣</td><td class="ability">魔力上限+30</td></tr>
+              <tr><td class="cards">反王肯恩、特羅斯、赫發斯特斯</td><td class="gname">摩登家族</td><td class="ability">減免傷害+3</td></tr>
+              <tr><td class="cards">阿斯態爾、赫發斯特斯</td><td class="gname">老公的過去被我發現了</td><td class="ability">昏迷命中+5%</td></tr>
+              <tr><td class="cards">黑暗之星宙斯、哈汀之魂、吉倫</td><td class="gname">魔法師3隊長</td><td class="ability">PVP傷害+2</td></tr>
+              <tr><td class="cards">宙斯、吉倫</td><td class="gname">青出於藍</td><td class="ability">PVP傷害+2</td></tr>
+              <tr><td class="cards">變形怪(神話)、職業變身(神話)、白金死亡騎士(神話)</td><td class="gname">白金死亡騎士:神話般的存在</td><td class="ability">PVP傷害+2</td></tr>
+              <tr><td class="cards">地獄死亡騎士、憎恨的死亡騎士、漆黑的死亡騎士、白金死亡騎士(神話)</td><td class="gname">白金死亡騎士:詛咒的枷鎖</td><td class="ability">無視傷害減免+2</td></tr>
+              <tr><td class="cards">屠龍者、第1代多魯嘉、白金死亡騎士(神話)</td><td class="gname">白金死亡騎士:從過去中解脫</td><td class="ability">支撐耐性+2</td></tr>
+              <tr><td class="cards">警衛(弓)隊長、赫發斯特斯、白金死亡騎士(神話)</td><td class="gname">白金死亡騎士:亞丁國王之劍</td><td class="ability">PVP減傷+2</td></tr>
+              <tr><td class="cards">哈汀之魂、吉倫、白金死亡騎士(神話)</td><td class="gname">白金死亡騎士:知識與智慧</td><td class="ability">傷害減免+2</td></tr>
+              <tr><td class="cards">公爵馬庫斯、軍團長艾克斯特、白金死亡騎士(神話)</td><td class="gname">白金死亡騎士:哈爾巴斯的力量</td><td class="ability">PVP傷害.PVP減免+2</td></tr>
+              <tr><td class="cards">不敗的甘特、白金死亡騎士(神話)</td><td class="gname">白金死亡騎士:不敗神話</td><td class="ability">昏迷命中+3%</td></tr>
+              <tr><td class="cards">暗夜殺戮者、白金死亡騎士(神話)</td><td class="gname">白金死亡騎士:龍之騎士</td><td class="ability">體力上限+100</td></tr>
+              <tr><td class="cards">天鵝的勞安格林、貝里斯、白金死亡騎士(神話)</td><td class="gname">白金死亡騎士:騎士團的解放</td><td class="ability">近距離傷害.命中+2</td></tr>
+              <tr><td class="cards">警衛(矛)隊長、警衛(弓)隊長、白金死亡騎士(神話)</td><td class="gname">白金死亡騎士:釋放的詛咒</td><td class="ability">遠距離傷害.命中+2</td></tr>
+              <tr><td class="cards">變形怪(神話)、職業變身(神話)、白金死亡騎士(神話)、白金巴風特(神話)</td><td class="gname">白金巴風特:集結</td><td class="ability">魔法傷害.命中+2</td></tr>
+              <tr><td class="cards">白金死亡騎士(神話)、白金巴風特(神話)</td><td class="gname">白金巴風特:白金</td><td class="ability">昏迷命中+10%</td></tr>
+              <tr><td class="cards">貝里斯、白金巴風特(神話)</td><td class="gname">白金巴風特:暗黑騎士團</td><td class="ability">體力上限+200</td></tr>
+              <tr><td class="cards">月之絲莉安、軍團長艾克斯特、白金巴風特(神話)</td><td class="gname">白金巴風特:瞄準</td><td class="ability">PVP傷害+5</td></tr>
+              <tr><td class="cards">黑暗哈汀、哈汀之魂、白金巴風特(神話)</td><td class="gname">白金巴風特:魔物的解放</td><td class="ability">PVP傷害減免+5</td></tr>
+              <tr><td class="cards">職業變身(神話)、支配者吉爾塔斯(唯一)</td><td class="gname">支配者吉爾塔斯:壓倒</td><td class="ability">近.遠.魔法傷害+5</td></tr>
+              <tr><td class="cards">變形怪(神話)、支配者吉爾塔斯(唯一)</td><td class="gname">支配者吉爾塔斯:支配</td><td class="ability">體力上限+5</td></tr>
+              <tr><td class="cards">白金死亡騎士(神話)、支配者吉爾塔斯(唯一)</td><td class="gname">支配者吉爾塔斯:殲滅</td><td class="ability">體力上限+5</td></tr>
+              <tr><td class="cards">白金巴風特(神話)、支配者吉爾塔斯(唯一)</td><td class="gname">支配者吉爾塔斯:破壞</td><td class="ability">體力恢復量+1</td></tr>
+              <tr><td class="cards">變形怪(神話)、職業變身(神話)、白金死亡騎士(神話)、白金巴風特(神話)、支配者吉爾塔斯(唯一)</td><td class="gname">支配者吉爾塔斯:集中</td><td class="ability">魔力上限+5</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <a href="../index.html" class="backbtn" style="margin-top:20px">← 返回總覽</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div><b>順起來天堂 · FUTURE SOON</b>　見寶就順 · 見怪就順 · 順我者強</div>
+    <div>本站為玩家自製私人伺服器之示範頁面，與 NCSOFT Corporation 及《天堂 Lineage》官方無任何關聯，所有商標歸原權利人所有。</div>
+  </footer>
+</div>
+
+<nav class="tabbar">
+  <a href="../index.html">◈ 總覽</a>
+  <a href="#" onclick="document.getElementById('sidebar').classList.toggle('open');return false">☰ 選單</a>
+</nav>
+
+<script>
+var mb=document.getElementById('menuBtn'),sb=document.getElementById('sidebar');
+if(mb)mb.addEventListener('click',function(){sb.classList.toggle('open')});
+</script>
+</body>
+</html>

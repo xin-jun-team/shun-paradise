@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>變身圖鑑大全 — 順起來天堂</title>
+<link rel="icon" href="../assets/images/favicon-shun.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@400;500;700&family=Cinzel:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05080a; --bg2:#0a0f12; --bg3:#0f1619;
+  --acid:#39ff9e; --acid-hi:#8dffc4;
+  --violet:#a94dff; --violet-hi:#cf9bff;
+  --blood:#ff2d55;
+  --tx-hi:#eafff5; --tx:#aec6ba; --tx-mut:#6f8a7d;
+  --metal:linear-gradient(176deg,#d7fff0,#6dffc0,#1fd98a,#0b8f58);
+  --panel-edge:rgba(57,255,158,.28);
+  --sidebar-w:248px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:"Noto Sans TC",sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;position:relative;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(57,255,158,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(57,255,158,.035) 1px,transparent 1px);background-size:44px 44px}
+body::after{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0px,rgba(0,0,0,0) 3px,rgba(5,8,10,.25) 4px);mix-blend-mode:multiply;opacity:.5}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+h1,h2,h3{font-family:"Noto Serif TC",serif;font-weight:900;line-height:1.25;color:var(--tx-hi)}
+.num{font-variant-numeric:tabular-nums}
+.cz{font-family:"Cinzel",serif;letter-spacing:.08em}
+
+.panel{position:relative;background:var(--bg2);border:1px solid var(--panel-edge);border-radius:4px;box-shadow:0 0 0 1px rgba(5,8,10,.8) inset,0 8px 34px rgba(0,0,0,.55)}
+.panel::before,.panel::after{content:"";position:absolute;width:14px;height:14px;pointer-events:none;border-color:var(--acid);border-style:solid;opacity:.9}
+.panel::before{top:-1px;left:-1px;border-width:2px 0 0 2px}
+.panel::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0}
+.panel-hd{display:flex;align-items:center;gap:10px;padding:13px 18px;border-bottom:1px solid rgba(57,255,158,.18);background:linear-gradient(90deg,rgba(57,255,158,.08),transparent)}
+.panel-hd .dot{width:8px;height:8px;border-radius:50%;background:var(--acid);box-shadow:0 0 10px var(--acid);flex:none}
+.panel-hd h3{font-size:1.12rem;letter-spacing:.04em}
+.panel-hd .tag{margin-left:auto;font-family:"Cinzel",serif;font-size:.62rem;letter-spacing:.18em;color:var(--tx-mut)}
+.panel-bd{padding:22px}
+
+.app{position:relative;z-index:2;display:grid;grid-template-columns:var(--sidebar-w) 1fr;grid-template-rows:1fr auto;min-height:100vh}
+
+.sidebar{grid-row:1 / span 2;background:linear-gradient(180deg,var(--bg3),var(--bg));border-right:1px solid var(--panel-edge);padding:20px 16px;display:flex;flex-direction:column;gap:16px;position:sticky;top:0;height:100vh;overflow-y:auto}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .avatar{width:54px;height:54px;border-radius:50%;flex:none;border:2px solid var(--violet);background:radial-gradient(circle at 50% 35%,#2a123f,#0a0f12);box-shadow:0 0 16px rgba(169,77,255,.55);object-fit:cover;object-position:top}
+.brand .avatar.ph{display:flex;align-items:center;justify-content:center;font-family:"Cinzel";color:var(--violet-hi);font-size:1.4rem}
+.brand b{display:block;font-family:"Noto Serif TC";font-weight:900;color:var(--tx-hi);font-size:1.05rem;line-height:1.2}
+.brand span{font-family:"Cinzel";font-size:.58rem;letter-spacing:.2em;color:var(--acid)}
+.nav{display:flex;flex-direction:column;gap:5px;margin-top:4px}
+.nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:4px;color:var(--tx);font-weight:500;font-size:.9rem;border:1px solid transparent;transition:.18s}
+.nav a .ico{width:20px;text-align:center;filter:drop-shadow(0 0 4px rgba(57,255,158,.5))}
+.nav a:hover,.nav a.on{color:var(--tx-hi);background:linear-gradient(90deg,rgba(57,255,158,.14),transparent);border-color:var(--panel-edge)}
+.nav a.on{border-left:3px solid var(--acid)}
+.nav-dd{border-top:1px dashed rgba(57,255,158,.18);margin-top:6px;padding-top:6px}.nav-dd>summary{list-style:none;display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:4px;color:var(--violet-hi);font-weight:700;font-size:.9rem;cursor:pointer;border:1px solid transparent;transition:.18s}.nav-dd>summary::-webkit-details-marker{display:none}.nav-dd>summary .ico{width:20px;text-align:center;filter:drop-shadow(0 0 4px rgba(169,77,255,.5))}.nav-dd>summary .ar{margin-left:auto;transition:.2s;font-size:.72rem}.nav-dd[open]>summary .ar{transform:rotate(180deg)}.nav-dd>summary:hover{color:var(--acid-hi);background:rgba(57,255,158,.08)}.nav-dd-body{display:flex;flex-direction:column;gap:5px;margin-top:5px}.navico{width:36px;height:36px;border-radius:50%;object-fit:cover;object-position:center top;flex:none;border:1.5px solid rgba(169,77,255,.65);box-shadow:0 0 9px rgba(169,77,255,.4)}.nav-soon{color:var(--tx-mut);font-size:.8rem;font-style:italic;padding:7px 12px}.nav-sub{color:var(--tx-mut);font-size:.7rem;letter-spacing:.14em;padding:13px 10px 4px;opacity:.72;border-top:1px dashed rgba(57,255,158,.1)}.side-123{display:block;margin-top:4px}.side-123 img{width:100%;border-radius:6px;border:1px solid var(--panel-edge);display:block}
+.side-status{margin-top:auto;font-size:.68rem;color:var(--tx-mut);line-height:1.8;border-top:1px dashed rgba(57,255,158,.2);padding-top:12px}
+.live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--blood);box-shadow:0 0 8px var(--blood);animation:blink 1.3s infinite;margin-right:6px}
+@keyframes blink{50%{opacity:.25}}
+
+.main{padding:22px;display:flex;flex-direction:column;gap:18px;min-width:0}
+.crumb{font-size:.78rem;color:var(--tx-mut);letter-spacing:.04em}
+.crumb a{color:var(--acid)}
+.crumb a:hover{color:var(--acid-hi)}
+
+.doc{display:flex;flex-direction:column;gap:20px}
+.doc-sec{position:relative;padding:18px 20px;border-radius:4px;background:var(--bg3);border:1px solid rgba(57,255,158,.16)}
+.doc-sec.best{border-color:var(--acid);box-shadow:0 0 0 1px rgba(57,255,158,.3),0 0 26px -10px rgba(57,255,158,.4)}
+.doc-sec.warn{border-color:rgba(255,45,85,.3);background:linear-gradient(160deg,rgba(255,45,85,.08),var(--bg3))}
+.doc-sec h4{font-family:"Noto Serif TC";font-weight:900;color:var(--acid-hi);font-size:1.1rem;letter-spacing:.03em;margin-bottom:6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.doc-sec.warn h4{color:var(--blood)}
+.doc-sec .badge{font-family:"Cinzel";font-size:.68rem;letter-spacing:.1em;color:#042a1a;background:var(--metal);padding:3px 10px;border-radius:999px}
+.doc-sec .price{font-family:"Noto Serif TC";font-weight:900;color:var(--acid);font-size:1.5rem;margin-bottom:12px}
+.doc-sec .price small{font-family:"Noto Sans TC";font-weight:400;color:var(--tx-mut);font-size:.82rem;margin-left:8px}
+.doc-sec p{color:var(--tx-hi);font-size:.96rem;line-height:2;margin-bottom:10px}
+.doc-sec p:last-child{margin-bottom:0}
+.doc-sec p b{color:var(--acid)}
+.doc-sec.warn p b{color:var(--blood)}
+.doc-sec ul{margin:4px 0 0 2px;padding-left:20px}
+.doc-sec li{color:var(--tx-hi);font-size:.95rem;line-height:1.95;margin-bottom:9px}
+.doc-sec li:last-child{margin-bottom:0}
+.doc-sec li b{color:var(--acid)}
+.doc-sec li .eg{display:block;color:var(--tx-mut);font-size:.82rem;line-height:1.7;margin-top:3px}
+.backbtn{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;padding:11px 22px;border-radius:4px;border:1px solid var(--panel-edge);color:var(--acid-hi);background:rgba(57,255,158,.05);font-weight:700;font-size:.92rem;transition:.18s}
+.backbtn:hover{background:rgba(57,255,158,.14);color:var(--tx-hi);transform:translateX(-2px)}
+
+.footer{grid-column:2;padding:22px;border-top:1px solid rgba(57,255,158,.14);color:var(--tx-mut);font-size:.72rem;line-height:1.9;text-align:center}
+.footer b{color:var(--tx)}
+
+.tabbar{display:none}
+@media(max-width:860px){
+  :root{--sidebar-w:0}
+  .app{grid-template-columns:1fr}
+  .sidebar{position:fixed;left:0;top:0;bottom:0;width:230px;z-index:60;transform:translateX(-100%);transition:.25s;box-shadow:0 0 40px rgba(0,0,0,.7)}
+  .sidebar.open{transform:none}
+  .footer{grid-column:1}
+  .main{padding:16px 14px 80px}
+  .menu-btn{display:flex !important}
+  .tabbar{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:50;background:var(--bg3);border-top:1px solid var(--panel-edge);box-shadow:0 -6px 24px rgba(0,0,0,.6)}
+  .tabbar a{flex:1;padding:11px 4px;text-align:center;color:var(--acid);font-size:.72rem}
+}
+.menu-btn{display:none;position:fixed;top:14px;left:14px;z-index:70;width:44px;height:44px;border-radius:6px;background:var(--bg3);border:1px solid var(--panel-edge);color:var(--acid);font-size:1.3rem;align-items:center;justify-content:center;cursor:pointer}
+.table-wrap{overflow-x:auto;margin:8px 0 2px;border:1px solid rgba(57,255,158,.14);border-radius:4px}
+.doc-table{width:100%;border-collapse:collapse;font-size:.85rem;min-width:460px}
+.doc-table th,.doc-table td{border:1px solid rgba(57,255,158,.14);padding:8px 11px;text-align:left;line-height:1.7}
+.doc-table thead th{background:linear-gradient(180deg,rgba(57,255,158,.14),rgba(57,255,158,.03));color:var(--acid-hi);font-family:"Noto Serif TC";font-weight:700;text-align:center}
+.doc-table tbody tr:nth-child(even){background:rgba(57,255,158,.03)}
+.doc-table td.nm{color:var(--acid-hi);font-weight:500;white-space:nowrap}
+.tf-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tf-chips .c{background:rgba(57,255,158,.06);border:1px solid rgba(57,255,158,.2);color:var(--tx-hi);padding:4px 10px;border-radius:5px;font-size:.82rem}
+.tf-chips .c.bow{border-color:rgba(255,184,77,.5);color:#ffb84d}
+.rar{display:inline-block;padding:2px 10px;border-radius:5px;font-size:.78rem;margin-right:6px;font-weight:700}
+</style>
+</head>
+<body>
+
+<button class="menu-btn" id="menuBtn" aria-label="選單">☰</button>
+
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html" class="brand">
+      <img class="avatar" src="../assets/images/ip/shun-main.png" alt="順爺" onerror="this.outerHTML='&lt;div class=&quot;avatar ph&quot;&gt;順&lt;/div&gt;'">
+      <div><b>順起來天堂</b><span>FUTURE SOON</span></div>
+    </a>
+    <nav class="nav">
+      <a href="../index.html"><img class="navico" src="../assets/images/ip/shun-e1.png" alt="">總覽</a>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e2.png" alt="">系統公告<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <a href="disclaimer.html">免責聲明</a>
+          <a href="faq.html">常見問題</a>
+          <a href="notice-verify.html">外掛偵測</a>
+          <a href="speed-myth.html">加速器迷思</a>
+          <a href="rules.html">遊戲管理規章</a>
+          <a href="anti-cheat.html">外掛懲處條例</a>
+          <a href="speed-detect.html">速度偵測說明</a>
+        </div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e3.png" alt="">活動公告<span class="ar">▾</span></summary>
+        <div class="nav-dd-body"><div class="nav-soon">🚧 內容籌備中</div></div>
+      </details>
+      <a href="download.html"><img class="navico" src="../assets/images/ip/shun-e4.png" alt="">檔案下載</a>
+      <a href="sponsor.html"><img class="navico" src="../assets/images/ip/shun-e5.png" alt="">贊助說明</a>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e6.png" alt="">遊戲特色<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <div class="nav-sub">系統特色</div>
+          <a href="feat-afkmap.html">內掛地圖</a>
+          <a href="feat-summon.html">法師召喚物</a>
+          <a href="feat-classskill.html">職業特色技能</a>
+          <a href="feat-jobpower.html">職業之力</a>
+          <a href="feat-prestige.html">威望系統</a>
+          <a href="feat-highpet.html">高寵介紹</a>
+          <a href="feat-onlinegift.html">在線福袋</a>
+          <div class="nav-sub">特色裝備系統</div>
+          <a href="feat-horse.html">戰馬雕像</a>
+          <a href="feat-hexagram.html">六芒星徽章</a>
+          <a href="feat-mainquest.html">主線任務勳章</a>
+          <a href="feat-hecate.html">赫卡特介紹</a>
+          <a href="feat-pride.html">傲慢的掛飾</a>
+        </div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e7.png" alt="">道具介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <a href="item-pvpbadge.html">戰場/PVP徽章</a>
+          <a href="item-vip.html">貴賓卡介紹</a>
+          <a href="item-dragoneye.html">四龍之魔眼</a>
+          <a href="item-gacha.html">神奇扭蛋</a>
+          <a href="item-candle.html">回憶蠟燭</a>
+          <a href="item-dragonstone.html">龍印魔石</a>
+        </div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e8.png" alt="">武器介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <a href="weapon-overview.html">武器總覽</a>
+          <a href="weapon-attr.html">屬性強化卷軸</a>
+          <a href="weapon-mythic.html">神話武器進階</a>
+          <a href="weapon-enchant.html">武器強化說明</a>
+          <a href="weapon-craft.html">武器製作介紹</a>
+        </div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e9.png" alt="">防具介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <a href="armor-overview.html">防具總覽</a>
+          <a href="armor-craft.html">防具飾品製作</a>
+          <a href="armor-enchant.html">防具飾品強化說明</a>
+          <a href="armor-hell-earring.html">煉獄耳環升階</a>
+          <a href="armor-light.html">光之肩甲/手環</a>
+          <a href="armor-lentis.html">倫提斯耳環</a>
+          <a href="armor-snap.html">史奈普戒指</a>
+        </div>
+      </details>
+      <details class="nav-dd" open>
+        <summary><img class="navico" src="../assets/images/ip/shun-e1.png" alt="">變身介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <a href="transform-guide.html" class="on">變身圖鑑大全</a>
+          <a href="transform-collection.html">變身圖鑑收藏</a>
+        </div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e2.png" alt="">娃娃介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <a href="doll-relic.html">聖物系統</a>
+          <a href="doll-overview.html">娃娃總覽</a>
+          <a href="doll-collection.html">娃娃圖鑑收藏</a>
+        </div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e3.png" alt="">寵物介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <a href="pet-system.html">寵物系統</a>
+          <a href="pet-equip.html">寵物商城裝備</a>
+        </div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e4.png" alt="">BOSS介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body"><div class="nav-soon">🚧 內容籌備中</div></div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e5.png" alt="">推文與直播<span class="ar">▾</span></summary>
+        <div class="nav-dd-body"><div class="nav-soon">🚧 內容籌備中</div></div>
+      </details>
+      <a href="map.html"><img class="navico" src="../assets/images/ip/shun-e6.png" alt="">地圖介紹</a>
+      <a href="faq.html"><img class="navico" src="../assets/images/ip/shun-e7.png" alt="">常見問題</a>
+      <a href="contact.html"><img class="navico" src="../assets/images/ip/shun-e8.png" alt="">聯絡我們</a>
+      <a href="class-change.html"><img class="navico" src="../assets/images/ip/shun-e9.png" alt="">轉職服務</a>
+    </nav>
+    <div class="side-status">
+      <div><span class="live-dot"></span>伺服狀態：<b style="color:var(--acid)">預約熱烈進行中</b></div>
+      <div class="num">邪道手動服 3.81 · LV CAP 82</div>
+    </div>
+    <a class="side-123" href="https://www.gamex123.com" target="_blank" rel="noopener"><img src="../assets/images/private-server-123.gif" alt="私服123"></a>
+  </aside>
+
+  <main class="main">
+    <div class="crumb"><a href="../index.html">總覽</a> ／ 變身介紹 ／ 變身圖鑑大全</div>
+    <section class="panel">
+      <div class="panel-hd"><span class="dot"></span><h3>🎭 天堂M 變身圖鑑大全</h3><span class="tag">TRANSFORM</span></div>
+      <div class="panel-bd">
+        <div class="doc">
+
+          <div class="doc-sec">
+            <h4>💡 系統提示</h4>
+            <ul>
+              <li>變身消耗：所有變身皆須使用「<b>變形石</b>」（主城 NPC 購買）。</li>
+              <li>自動功能：自動變身請使用「LH 輔助區」設定（輔助『變身V &gt; 其他變身道具V &gt; 輸入"自動變形卷軸"』）。</li>
+              <li>屬性加成：僅有 <b>傳說以上</b> 變身擁有額外屬性加成能力。</li>
+              <li>武器限制：名稱後方標有 🏹 符號的變身，代表可裝備/使用弓箭武器。</li>
+            </ul>
+            <p>稀有度：⚪一般 🟢高級 🔵稀有 🔴英雄 🟣傳說 👑神話 💎唯一</p>
+          </div>
+
+          <div class="doc-sec">
+            <h4>⚪ 一般變身（攻速/施法 24%）</h4>
+            <div class="tf-chips">
+              <span class="c">強盜弓箭手</span><span class="c">狼人</span><span class="c">萊肯</span><span class="c">小小鬼(粉紅)</span><span class="c">奇異鸚鵡</span><span class="c">食人妖精</span><span class="c">思克巴</span><span class="c">紙人</span><span class="c">骷髏槍兵</span><span class="c">妖魔</span><span class="c">浣熊</span><span class="c">骷髏弓箭手</span><span class="c">哥布林</span><span class="c">長者</span><span class="c">歐姆民兵</span><span class="c">妖魔巡守</span><span class="c">食人妖精王</span><span class="c">妖魔弓箭手</span><span class="c">黑暗妖精法師</span><span class="c">骷髏</span><span class="c">曼波兔</span><span class="c">雪人</span><span class="c">果凍怪</span><span class="c">橘子</span><span class="c">安普長老</span><span class="c">巨蟻</span><span class="c">都達瑪拉妖魔</span><span class="c">妖魔鬥士</span><span class="c">追蹤者卡爾</span><span class="c">海盜獵人雷歐</span><span class="c">獵人戴伊</span><span class="c">魔幻士兵</span><span class="c">巨大兵蟻</span><span class="c">地獄之花</span><span class="c">安特</span><span class="c">紅狼蛛</span><span class="c">飛蛾人</span><span class="c">飛蛾女王</span><span class="c">瘋狗</span><span class="c">樹精鹿</span><span class="c">樹精戰士</span><span class="c">錘鈴</span><span class="c">鐵門騎士</span>
+            </div>
+          </div>
+
+          <div class="doc-sec">
+            <h4>🟢 高級變身（攻速/施法 27%）</h4>
+            <div class="tf-chips">
+              <span class="c">狂暴槍騎</span><span class="c">狂暴將軍</span><span class="c">桓夢</span><span class="c">墮落的賽尼斯</span><span class="c">德雷克</span><span class="c">達伊諾思打者</span><span class="c">侏儒</span><span class="c">火焰弓箭手</span><span class="c">黑騎士</span><span class="c">刺客首領</span><span class="c">賞金獵人</span><span class="c">魔法師</span><span class="c">達伊諾思投手</span><span class="c">海洋哈維</span><span class="c">死亡騎士</span><span class="c">奧爾汀</span><span class="c">優卡</span><span class="c">黑暗妖精</span><span class="c">布雷哲</span><span class="c">強盜頭目</span><span class="c bow">沙蟲士兵🏹</span><span class="c bow">巨蟻女皇士兵🏹</span><span class="c">大黃蜂殺手</span><span class="c">石頭高崙</span><span class="c">海馬守衛</span><span class="c">強盜矮人</span><span class="c">深海獵人</span><span class="c">袋鼠拳擊手</span><span class="c">超級螳螂</span><span class="c">黑貓</span><span class="c">溫迪</span><span class="c">貓咪法師</span><span class="c">貓咪戰士</span><span class="c">貓咪騎士</span><span class="c">薩提爾士兵</span><span class="c">薩提爾戰士</span><span class="c">薩蒂羅斯_魔術師</span><span class="c">鼴鼠坦克</span><span class="c">鼴鼠戰士</span><span class="c">變色龍大師</span><span class="c">鬣狗獵人</span>
+            </div>
+          </div>
+
+          <div class="doc-sec">
+            <h4>🔵 稀有變身（攻速/施法 30%）</h4>
+            <div class="tf-chips">
+              <span class="c">惡魔</span><span class="c">炎魔</span><span class="c">歐吉王</span><span class="c">夜巡</span><span class="c">黑暗騎士</span><span class="c">黑暗法師</span><span class="c">黑暗巡守</span><span class="c">黑暗刺客</span><span class="c">黑暗火槍手</span><span class="c">黑暗龍騎士</span><span class="c">銀光騎士</span><span class="c">銀光法師</span><span class="c">銀光巡守</span><span class="c">銀光刺客</span><span class="c">銀光火槍手</span><span class="c">銀光龍騎士</span><span class="c">黃金騎士</span><span class="c">黃金法師</span><span class="c">黃金刺客</span><span class="c">黃金巡守</span><span class="c">黃金火槍手</span><span class="c">黃金龍騎士</span><span class="c">白金騎士</span><span class="c">白金法師</span><span class="c">白金巡守</span><span class="c">白金刺客</span><span class="c">白金火槍手</span><span class="c">白金龍騎士</span><span class="c">真死亡騎士</span><span class="c">真黑暗妖精</span><span class="c">巨大牛人</span><span class="c">力卡溫</span><span class="c">少女賽尼斯</span><span class="c">黑法師</span><span class="c">紅色妖魔</span><span class="c">哈維</span><span class="c">海音警衛</span><span class="c">老虎</span><span class="c">白色幼犬</span><span class="c">暗殺軍王史雷佛</span><span class="c">冥法軍王海露拜</span><span class="c">魔獸軍王巴蘭卡</span><span class="c">法令軍王蕾雅</span><span class="c">長老凱伊納</span><span class="c">長老拉米阿斯</span><span class="c">長老伊戴亞</span><span class="c">長老提亞麥斯</span><span class="c">長老巴洛麥斯</span><span class="c">長老安迪斯</span><span class="c">長老比亞塔斯</span><span class="c">黃金安迪斯</span><span class="c">黃金史雷佛</span><span class="c">黑暗妖精警衛</span><span class="c">黑暗妖精盜賊</span><span class="c">武獅</span><span class="c">追蹤者凱伊</span><span class="c">曼玻兔(紅蘿菠)</span><span class="c">海盜獵人珍</span><span class="c">獵人里德</span><span class="c">菁英魔幻士兵</span><span class="c">波若斯妖魔鬥士</span><span class="c">波若斯妖魔法師</span><span class="c">波若斯妖魔弓箭手</span><span class="c">艾爾摩將軍</span><span class="c">艾爾摩士兵</span><span class="c">艾爾魔法師</span><span class="c">聖地侏儒斧頭兵</span><span class="c">聖地侏儒弓手</span><span class="c">聖地侏儒槍兵</span><span class="c">聖地侏儒劍士</span><span class="c bow">巨蟻女皇隊長🏹</span><span class="c bow">沙蟲隊長🏹</span><span class="c">釣魚少年保羅</span><span class="c">黑暗狂暴槍兵</span><span class="c">銀光狂暴槍騎</span><span class="c">黃金狂暴槍騎</span><span class="c">白金狂暴槍騎</span><span class="c">黑暗死神</span><span class="c">銀光死神</span><span class="c">黃金死神</span><span class="c">白金死神</span><span class="c">巴爾塔扎爾</span><span class="c">梅奎爾</span><span class="c">卡斯帕</span><span class="c">塞瑪</span><span class="c">亞丁騎士</span><span class="c">亞丁狂暴槍騎</span><span class="c">亞丁菁英騎士</span><span class="c">海音騎士</span><span class="c">海音狂暴槍騎</span><span class="c">海音弓手</span><span class="c">妖魔士兵</span><span class="c">妖魔弓手</span><span class="c">妖魔斧兵</span><span class="c">妖魔騎兵</span><span class="c">墓穴守護者騎士</span><span class="c">墓穴守護者法師</span><span class="c">墓穴守護者</span><span class="c">韓服少年</span><span class="c">韓服少女</span><span class="c">歐瑞靈魂</span><span class="c">歐瑞十字弓</span><span class="c">方</span><span class="c">火焰通</span><span class="c">生日慶祝妖精</span><span class="c">冰原狼人</span><span class="c">邪惡蛋糕怪</span><span class="c">邪惡麋鹿</span><span class="c">佩利克</span><span class="c">拉班</span><span class="c">青蛙孟克</span><span class="c bow">南瓜🏹</span><span class="c bow">紅魔法師🏹</span><span class="c">背叛的聖物</span><span class="c">狼騎士</span><span class="c bow">鬼靈🏹</span><span class="c bow">惡夢的稻草人🏹</span><span class="c">惡霸鯊魚</span><span class="c">菲爾菲爾</span><span class="c">愛爾芬(乞丐)</span><span class="c bow">神聖魔法師🏹</span><span class="c">瑪依奴</span><span class="c">舞獅(金)</span><span class="c">墮落的修道士</span><span class="c bow">稻草人(藍)🏹</span><span class="c">犧牲的聖職者</span><span class="c">鐵門騎士團長</span><span class="c bow">魔女🏹</span><span class="c">懺悔的修女</span>
+            </div>
+          </div>
+
+          <div class="doc-sec">
+            <h4>🔴 英雄變身（攻速/施法 33%）</h4>
+            <div class="tf-chips">
+              <span class="c">巴列斯</span><span class="c">反王肯恩</span><span class="c">賽尼斯</span><span class="c">依詩蒂</span><span class="c">海露拜</span><span class="c">絲莉安</span><span class="c">甘特</span><span class="c">特羅斯</span><span class="c">死亡騎士(黃金)</span><span class="c">覺醒炎魔</span><span class="c">死亡騎士(焚焰)</span><span class="c bow">天上騎士🏹</span><span class="c">克特</span><span class="c">巴風特</span><span class="c">宙斯</span><span class="c">警衛(弓)</span><span class="c">警衛(矛)</span><span class="c">警衛(綠)(弓)</span><span class="c">警衛(綠)(矛)</span><span class="c">警衛(紅)(弓)</span><span class="c">警衛(紅)(矛)</span><span class="c">歐瑞(藍)</span><span class="c">歐瑞(綠)</span><span class="c">塞巴斯蒂安</span><span class="c bow">格鬥家男🏹</span><span class="c bow">格鬥家女🏹</span><span class="c">布魯迪卡</span><span class="c">丹特斯</span><span class="c">真死亡騎士(紅)</span><span class="c">真死亡騎士(藍)</span><span class="c">荊棘公主艾薇</span><span class="c">阿斯態爾</span><span class="c">格立特(弓)</span><span class="c">死神</span><span class="c">依詩蒂(槍)</span><span class="c bow">潘朵拉🏹</span><span class="c">暗黑騎士莉爾利</span><span class="c">艾依爾</span><span class="c">狂暴將軍(紅)</span><span class="c">狂暴將軍(藍)</span><span class="c">刺客首領(紅)</span><span class="c">黃金布雷哲</span><span class="c bow">素還真🏹</span><span class="c bow">莉茲🏹</span><span class="c bow">伯爵安托里歐🏹</span><span class="c bow">師團長哈波🏹</span><span class="c bow">兔子少女🏹</span><span class="c">傑克吳燈籠(紅)</span><span class="c bow">葉小釵🏹</span><span class="c bow">棄天帝🏹</span><span class="c">優秀騎士</span><span class="c">優秀巡守</span><span class="c">優秀法師</span><span class="c">優秀狂暴槍騎</span><span class="c">暗夜聖殿(金)</span><span class="c">暗夜聖殿(紅)</span><span class="c">暗夜聖殿(紫)</span><span class="c">暗夜聖殿(藍)</span><span class="c">巴士瑟</span><span class="c">卡士伯</span><span class="c">西瑪</span><span class="c">馬庫爾</span><span class="c">格鬥家(紅)</span><span class="c">格鬥家(黃)</span><span class="c">格鬥家(藍)</span><span class="c">格鬥家(女)(藍)</span><span class="c">秩序煉金術師</span><span class="c">混沌煉金術師</span><span class="c bow">伊娃守護者🏹</span><span class="c">沙哈守護者</span><span class="c">帕格里奧守護者</span><span class="c">馬普勒守護者</span><span class="c bow">Doguri🏹</span><span class="c bow">女僕安娜🏹</span><span class="c bow">天上守護騎士🏹</span><span class="c">世拉</span><span class="c">古代企鵝</span><span class="c">巨大墓穴守護者</span><span class="c bow">地獄傑克吳燈籠🏹</span><span class="c">查曼卡</span><span class="c">姬武者</span><span class="c">家門守護者菲莉亞</span><span class="c bow">挪威海怪🏹</span><span class="c">豹人</span><span class="c">雪之蜥蜴人</span><span class="c">凱普莉夏</span><span class="c">惡夢傑克吳燈籠</span><span class="c">暗黑死亡騎士</span><span class="c">潘</span><span class="c">覺醒肯勞厄爾</span><span class="c">覺醒愛爾芬</span><span class="c">黑兔少女</span><span class="c">蘿絲瑪莉</span><span class="c">通緝犯庫傑</span>
+            </div>
+          </div>
+
+          <div class="doc-sec">
+            <h4>🟣 傳說變身（額外能力加成）</h4>
+            <div class="table-wrap">
+              <table class="doc-table">
+                <thead><tr><th>變身名稱</th><th>額外能力</th></tr></thead>
+                <tbody>
+                  <tr><td class="nm">黑暗之星宙斯</td><td>魔攻+1, 回魔+3, 昏迷耐性+4%</td></tr>
+                  <tr><td class="nm">月之絲莉安</td><td>遠攻+3, 遠爆+3%, 昏迷耐性+4</td></tr>
+                  <tr><td class="nm">鋼鐵阿頓</td><td>近攻+3, 昏迷耐性+4, 藥水+3%</td></tr>
+                  <tr><td class="nm">屠龍者 🏹</td><td>近/遠攻+2, 減傷+1</td></tr>
+                  <tr><td class="nm">暗夜殺戮者</td><td>近攻+3, 昏迷耐性+4</td></tr>
+                  <tr><td class="nm">黑暗殺手</td><td>遠攻+3, 遠命+1, 昏迷耐性+4</td></tr>
+                  <tr><td class="nm">地獄死亡騎士</td><td>減傷+2, PVP減傷+2</td></tr>
+                  <tr><td class="nm">幻影騎士</td><td>藥水+3%, 減傷+1, 暈命+3, 暈抗+4</td></tr>
+                  <tr><td class="nm">黑暗哈汀</td><td>防禦+2, 近攻+3</td></tr>
+                  <tr><td class="nm">憎恨的死亡騎士</td><td>近攻+3, 近命+2, 暈命+3</td></tr>
+                  <tr><td class="nm">警衛(矛)隊長</td><td>近攻+2, 減傷+1, 暈抗+4</td></tr>
+                  <tr><td class="nm">警衛(弓)隊長</td><td>藥水+2%, 遠攻+2, 暈抗+4</td></tr>
+                  <tr><td class="nm">帕拉丁</td><td>近攻+2, PVP傷+1, 減傷+1</td></tr>
+                  <tr><td class="nm">天鵝的勞安格林 🏹</td><td>近攻+3, 防禦+1, 暈命+3</td></tr>
+                  <tr><td class="nm">哈汀之魂</td><td>魔攻+2, MP+125, 暈抗+4</td></tr>
+                  <tr><td class="nm">漆黑的死亡騎士</td><td>近攻+3, 暈命+3%, 藥水+3</td></tr>
+                  <tr><td class="nm">公爵馬庫斯 🏹</td><td>近攻+3, 暈命+3%, 暈抗+3</td></tr>
+                  <tr><td class="nm">軍團長艾克斯特 🏹</td><td>遠攻+3, 暈抗+4, 無視減傷+2</td></tr>
+                  <tr><td class="nm">不敗的甘特</td><td>暈抗+3, 暈命+3%, 減傷+1</td></tr>
+                  <tr><td class="nm">赫發斯特斯</td><td>暈抗+3, 暈命+3%, 無視減傷+1</td></tr>
+                  <tr><td class="nm">第1代多魯嘉</td><td>近傷+3, 暈命+3%, 近爆+1%</td></tr>
+                  <tr><td class="nm">吉倫</td><td>暈抗+4, 魔攻+2, 魔命+1</td></tr>
+                  <tr><td class="nm">貝里斯</td><td>近傷+3, 暈抗+4%, PVP減傷+1</td></tr>
+                  <tr><td class="nm">暗黑龍宙斯</td><td>魔攻+3, 魔命+3</td></tr>
+                  <tr><td class="nm">暗黑龍阿頓</td><td>近攻+3, 暈命+6%, 無視減傷+3</td></tr>
+                  <tr><td class="nm">暗黑龍絲莉安</td><td>遠攻+3, 暈命+6%, 無視減傷+3</td></tr>
+                  <tr><td class="nm">Mr斯摩格 🏹</td><td>遠攻+3, 暈抗+4%, 支撐+3%, PVP傷+3</td></tr>
+                  <tr><td class="nm">昔日的騎士范德 🏹</td><td>暈抗+3%, 恐怖抗+3%, 暈命+4%</td></tr>
+                  <tr><td class="nm">席琳的守衛 🏹</td><td>遠攻+3, 暈命+3%, 暈抗+4%</td></tr>
+                  <tr><td class="nm">格蘭肯的逆麟 🏹</td><td>近攻+3, 暈命+3%, 暈抗+4%</td></tr>
+                  <tr><td class="nm">殷海薩的影子 🏹</td><td>魔攻+3, 暈抗+4%, 支撐+2%</td></tr>
+                  <tr><td class="nm">烈焰死亡騎士</td><td>近傷+3, 暈命+3%, PVP傷+2</td></tr>
+                  <tr><td class="nm">國王 艾歐丁</td><td>暈命+3%, 暈抗+4%, 無視減傷+1</td></tr>
+                  <tr><td class="nm">勞待碼依</td><td>暈命+3%, 暈抗+4%, 無視減傷+1</td></tr>
+                  <tr><td class="nm">暗殺的雅莉亞精靈</td><td>暈抗+4%, 恐怖抗+3%, 無視減傷+3</td></tr>
+                  <tr><td class="nm">齊天大聖 🏹</td><td>減傷+2, 近/遠傷+2, 魔攻+1</td></tr>
+                  <tr><td class="nm">龍鬥士</td><td>近攻+3, 暈命+3%, 暈抗+4%, 恐抗+3%, 無視閃避+1</td></tr>
+                  <tr><td class="nm">禪</td><td>近傷+3, 暈命+3%, 暈抗+4%, 恐抗+3%, 無視近閃+1</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="doc-sec warn">
+            <h4>👑 神話變身</h4>
+            <p>⚠️ 提醒：遊戲內因字數過多會造成閃退，詳細能力請至官網查詢。</p>
+            <div class="table-wrap">
+              <table class="doc-table">
+                <thead><tr><th>變身名稱</th><th>完整能力屬性內容</th></tr></thead>
+                <tbody>
+                  <tr><td class="nm">白金死亡騎士(神話)</td><td>昏迷耐性+5、PVP傷害減免+2、近距離攻擊力+6、近戰爆擊發動率+3、魔攻+3、攻擊時一定機率發動地獄火傷害</td></tr>
+                  <tr><td class="nm">白金巴風特(神話)</td><td>昏迷耐性+8%、SP+10、PVP傷害減免+5、近距離攻擊力+3、近距離命中+10、魔法爆擊發動率+5</td></tr>
+                  <tr><td class="nm">神聖劍士(神話)</td><td>近距離攻擊力+8、昏迷命中+8%、昏迷耐性+5、近遠命中+3、PVP傷害減免+2</td></tr>
+                  <tr><td class="nm">龍騎士(神話)</td><td>近距離攻擊力+5、近距離命中+3、魔攻+5、魔法命中+3、昏迷命中+8%、昏迷耐性+5、支撐耐性+4、PVP減免+3、藥水恢復量+50</td></tr>
+                  <tr><td class="nm">黑暗騎士(神話)</td><td>近距離攻擊力+8、昏迷命中+8%、昏迷耐性+5、近遠命中+3、PVP傷害減免+2</td></tr>
+                  <tr><td class="nm">死神(神話)</td><td>近距離攻擊力+5、近距離命中+10、昏迷命中+8%、昏迷耐性+8、恐懼耐性+4、PVP傷害減免+2、吸取MP固定值+10、魔攻+12、魔法爆擊發動率+5</td></tr>
+                  <tr><td class="nm">變形怪(神話) 🏹</td><td>昏迷耐性+5、恐懼耐性+4%、PVP傷害減免+2、PVP傷害+3、三重矢攻擊力+6、近距離攻擊力+5、遠距離攻擊力+5、魔攻+3</td></tr>
+                  <tr><td class="nm">王族(神話)</td><td>近距離攻擊力+5、遠距離攻擊力+5、近距離命中+3、遠距離命中+3、魔攻+5、魔法命中+3、三重矢傷害+5、昏迷命中+8%、昏迷耐性+5、支撐耐性+4、PVP傷害+2、PVP減免+2</td></tr>
+                  <tr><td class="nm">騎士(神話)</td><td>（同王族）近距離攻擊力+5、遠距離攻擊力+5、近距離命中+3、遠距離命中+3、魔攻+5、魔法命中+3、三重矢傷害+5、昏迷命中+8%、昏迷耐性+5、支撐耐性+4、PVP傷害+2、PVP減免+2</td></tr>
+                  <tr><td class="nm">妖精(神話) 🏹</td><td>（同王族屬性）</td></tr>
+                  <tr><td class="nm">法師(神話)</td><td>（同王族屬性）</td></tr>
+                  <tr><td class="nm">黑妖(神話)</td><td>（同王族屬性）</td></tr>
+                  <tr><td class="nm">槍手(神話) 🏹</td><td>遠距離攻擊力+7、遠距離命中+5、昏迷耐性+5、支撐耐性+4、三重矢傷害+7</td></tr>
+                  <tr><td class="nm">狂戰士(神話) 🏹</td><td>近距離攻擊力+4、遠距離攻擊力+4、近距離命中+3、遠距離命中+3、魔攻+8、魔法命中+3、三重矢傷害+5、昏迷命中+8%、昏迷耐性+5、支撐耐性+4、PVP傷害+2、PVP減免+10</td></tr>
+                  <tr><td class="nm">雷神(神話) 🏹</td><td>近距離攻擊力+5、遠距離攻擊力+5、近距離命中+3、遠距離命中+3、魔攻+8、魔法命中+3、三重矢傷害+5、昏迷命中+8%、昏迷耐性+5、支撐耐性+4、PVP傷害+2、PVP減免+2</td></tr>
+                  <tr><td class="nm">海王波賽頓(神話) 🏹</td><td>近距離攻擊力+3、遠距離攻擊力+8、遠距離命中+5、昏迷命中+8%、昏迷耐性+5、恐懼耐性+4、PVP傷害減免+2、魔攻+8</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="doc-sec best">
+            <h4>💎 唯一變身（最強能力）</h4>
+            <div class="table-wrap">
+              <table class="doc-table">
+                <thead><tr><th>變身名稱</th><th>完整能力屬性內容</th></tr></thead>
+                <tbody>
+                  <tr><td class="nm">唯一變身</td><td>HP+10000、昏迷耐性+30%、恐怖耐性+10、無視傷害減免+20%、昏迷命中+30%</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+        <a href="../index.html" class="backbtn" style="margin-top:20px">← 返回總覽</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div><b>順起來天堂 · FUTURE SOON</b>　見寶就順 · 見怪就順 · 順我者強</div>
+    <div>本站為玩家自製私人伺服器之示範頁面，與 NCSOFT Corporation 及《天堂 Lineage》官方無任何關聯，所有商標歸原權利人所有。</div>
+  </footer>
+</div>
+
+<nav class="tabbar">
+  <a href="../index.html">◈ 總覽</a>
+  <a href="#" onclick="document.getElementById('sidebar').classList.toggle('open');return false">☰ 選單</a>
+</nav>
+
+<script>
+var mb=document.getElementById('menuBtn'),sb=document.getElementById('sidebar');
+if(mb)mb.addEventListener('click',function(){sb.classList.toggle('open')});
+</script>
+</body>
+</html>
