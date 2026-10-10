@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>遊戲管理規章 — 順起來天堂</title>
+<link rel="icon" href="../assets/images/favicon-shun.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@400;500;700&family=Cinzel:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05080a; --bg2:#0a0f12; --bg3:#0f1619;
+  --acid:#39ff9e; --acid-hi:#8dffc4;
+  --violet:#a94dff; --violet-hi:#cf9bff;
+  --blood:#ff2d55;
+  --tx-hi:#eafff5; --tx:#aec6ba; --tx-mut:#6f8a7d;
+  --metal:linear-gradient(176deg,#d7fff0,#6dffc0,#1fd98a,#0b8f58);
+  --panel-edge:rgba(57,255,158,.28);
+  --sidebar-w:248px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:"Noto Sans TC",sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;position:relative;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(57,255,158,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(57,255,158,.035) 1px,transparent 1px);background-size:44px 44px}
+body::after{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0px,rgba(0,0,0,0) 3px,rgba(5,8,10,.25) 4px);mix-blend-mode:multiply;opacity:.5}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+h1,h2,h3{font-family:"Noto Serif TC",serif;font-weight:900;line-height:1.25;color:var(--tx-hi)}
+.num{font-variant-numeric:tabular-nums}
+.cz{font-family:"Cinzel",serif;letter-spacing:.08em}
+
+.panel{position:relative;background:var(--bg2);border:1px solid var(--panel-edge);border-radius:4px;box-shadow:0 0 0 1px rgba(5,8,10,.8) inset,0 8px 34px rgba(0,0,0,.55)}
+.panel::before,.panel::after{content:"";position:absolute;width:14px;height:14px;pointer-events:none;border-color:var(--acid);border-style:solid;opacity:.9}
+.panel::before{top:-1px;left:-1px;border-width:2px 0 0 2px}
+.panel::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0}
+.panel-hd{display:flex;align-items:center;gap:10px;padding:13px 18px;border-bottom:1px solid rgba(57,255,158,.18);background:linear-gradient(90deg,rgba(57,255,158,.08),transparent)}
+.panel-hd .dot{width:8px;height:8px;border-radius:50%;background:var(--acid);box-shadow:0 0 10px var(--acid);flex:none}
+.panel-hd h3{font-size:1.12rem;letter-spacing:.04em}
+.panel-hd .tag{margin-left:auto;font-family:"Cinzel",serif;font-size:.62rem;letter-spacing:.18em;color:var(--tx-mut)}
+.panel-bd{padding:22px}
+
+.app{position:relative;z-index:2;display:grid;grid-template-columns:var(--sidebar-w) 1fr;grid-template-rows:1fr auto;min-height:100vh}
+
+.sidebar{grid-row:1 / span 2;background:linear-gradient(180deg,var(--bg3),var(--bg));border-right:1px solid var(--panel-edge);padding:20px 16px;display:flex;flex-direction:column;gap:16px;position:sticky;top:0;height:100vh;overflow-y:auto}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .avatar{width:54px;height:54px;border-radius:50%;flex:none;border:2px solid var(--violet);background:radial-gradient(circle at 50% 35%,#2a123f,#0a0f12);box-shadow:0 0 16px rgba(169,77,255,.55);object-fit:cover;object-position:top}
+.brand .avatar.ph{display:flex;align-items:center;justify-content:center;font-family:"Cinzel";color:var(--violet-hi);font-size:1.4rem}
+.brand b{display:block;font-family:"Noto Serif TC";font-weight:900;color:var(--tx-hi);font-size:1.05rem;line-height:1.2}
+.brand span{font-family:"Cinzel";font-size:.58rem;letter-spacing:.2em;color:var(--acid)}
+.nav{display:flex;flex-direction:column;gap:5px;margin-top:4px}
+.nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:4px;color:var(--tx);font-weight:500;font-size:.9rem;border:1px solid transparent;transition:.18s}
+.nav a .ico{width:20px;text-align:center;filter:drop-shadow(0 0 4px rgba(57,255,158,.5))}
+.nav a:hover,.nav a.on{color:var(--tx-hi);background:linear-gradient(90deg,rgba(57,255,158,.14),transparent);border-color:var(--panel-edge)}
+.nav a.on{border-left:3px solid var(--acid)}
+.nav-grp{font-family:"Cinzel";font-size:.62rem;letter-spacing:.2em;color:var(--violet-hi);padding:12px 6px 2px;border-top:1px dashed rgba(57,255,158,.18);margin-top:6px}
+.side-status{margin-top:auto;font-size:.68rem;color:var(--tx-mut);line-height:1.8;border-top:1px dashed rgba(57,255,158,.2);padding-top:12px}
+.live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--blood);box-shadow:0 0 8px var(--blood);animation:blink 1.3s infinite;margin-right:6px}
+@keyframes blink{50%{opacity:.25}}
+
+.main{padding:22px;display:flex;flex-direction:column;gap:18px;min-width:0}
+.crumb{font-size:.78rem;color:var(--tx-mut);letter-spacing:.04em}
+.crumb a{color:var(--acid)}
+.crumb a:hover{color:var(--acid-hi)}
+
+/* 文件內文 */
+.doc{display:flex;flex-direction:column;gap:20px}
+.doc-sec{position:relative;padding:18px 20px;border-radius:4px;background:var(--bg3);border:1px solid rgba(57,255,158,.16)}
+.doc-sec.warn{border-color:rgba(255,45,85,.3);background:linear-gradient(160deg,rgba(255,45,85,.08),var(--bg3))}
+.doc-sec h4{font-family:"Noto Serif TC";font-weight:900;color:var(--acid-hi);font-size:1.08rem;letter-spacing:.03em;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.doc-sec.warn h4{color:var(--blood)}
+.doc-sec p{color:var(--tx-hi);font-size:.96rem;line-height:2;margin-bottom:10px}
+.doc-sec p:last-child{margin-bottom:0}
+.doc-sec p b{color:var(--acid)}
+.doc-sec.warn p b{color:var(--blood)}
+.doc-sec ul,.doc-sec ol{margin:6px 0 10px 4px;padding-left:20px}
+.doc-sec li{color:var(--tx-hi);font-size:.95rem;line-height:1.95;margin-bottom:8px}
+.doc-sec li b{color:var(--acid)}
+.doc-qa{border-bottom:1px dashed rgba(57,255,158,.16);padding-bottom:14px;margin-bottom:14px}
+.doc-qa:last-child{border-bottom:0;padding-bottom:0;margin-bottom:0}
+.doc-qa .q{color:var(--acid-hi);font-weight:700;font-size:1rem;margin-bottom:8px;display:flex;gap:8px}
+.doc-qa .a{color:var(--tx-hi);font-size:.95rem;line-height:1.95}
+.backbtn{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;padding:11px 22px;border-radius:4px;border:1px solid var(--panel-edge);color:var(--acid-hi);background:rgba(57,255,158,.05);font-weight:700;font-size:.92rem;transition:.18s}
+.backbtn:hover{background:rgba(57,255,158,.14);color:var(--tx-hi);transform:translateX(-2px)}
+
+.footer{grid-column:2;padding:22px;border-top:1px solid rgba(57,255,158,.14);color:var(--tx-mut);font-size:.72rem;line-height:1.9;text-align:center}
+.footer b{color:var(--tx)}
+
+.tabbar{display:none}
+@media(max-width:860px){
+  :root{--sidebar-w:0}
+  .app{grid-template-columns:1fr}
+  .sidebar{position:fixed;left:0;top:0;bottom:0;width:230px;z-index:60;transform:translateX(-100%);transition:.25s;box-shadow:0 0 40px rgba(0,0,0,.7)}
+  .sidebar.open{transform:none}
+  .footer{grid-column:1}
+  .main{padding:16px 14px 80px}
+  .menu-btn{display:flex !important}
+  .tabbar{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:50;background:var(--bg3);border-top:1px solid var(--panel-edge);box-shadow:0 -6px 24px rgba(0,0,0,.6)}
+  .tabbar a{flex:1;padding:11px 4px;text-align:center;color:var(--acid);font-size:.72rem}
+}
+.menu-btn{display:none;position:fixed;top:14px;left:14px;z-index:70;width:44px;height:44px;border-radius:6px;background:var(--bg3);border:1px solid var(--panel-edge);color:var(--acid);font-size:1.3rem;align-items:center;justify-content:center;cursor:pointer}
+</style>
+</head>
+<body>
+
+<button class="menu-btn" id="menuBtn" aria-label="選單">☰</button>
+
+<div class="app">
+  <!-- ===== 左側欄 ===== -->
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html" class="brand">
+      <img class="avatar" src="../assets/images/ip/shun-main.png" alt="順爺" onerror="this.outerHTML='&lt;div class=&quot;avatar ph&quot;&gt;順&lt;/div&gt;'">
+      <div><b>順起來天堂</b><span>FUTURE SOON</span></div>
+    </a>
+    <nav class="nav">
+      <a href="../index.html"><span class="ico">◈</span>總覽</a>
+      <div class="nav-grp">系統公告</div>
+      <a href="disclaimer.html"><span class="ico">⚖</span>免責聲明</a>
+      <a href="faq.html"><span class="ico">❓</span>常見問題</a>
+      <a href="notice-verify.html"><span class="ico">🔍</span>外掛偵測</a>
+      <a href="speed-myth.html"><span class="ico">⚡</span>加速器迷思</a>
+      <a href="rules.html" class="on"><span class="ico">📜</span>遊戲管理規章</a>
+      <a href="anti-cheat.html"><span class="ico">🚫</span>外掛懲處條例</a>
+      <a href="speed-detect.html"><span class="ico">🛰</span>速度偵測說明</a>
+    </nav>
+    <div class="side-status">
+      <div><span class="live-dot"></span>伺服狀態：<b style="color:var(--acid)">預約熱烈進行中</b></div>
+      <div class="num">邪道手動服 3.81 · LV CAP 82</div>
+    </div>
+  </aside>
+
+  <!-- ===== 主區 ===== -->
+  <main class="main">
+    <div class="crumb"><a href="../index.html">總覽</a> ／ 系統公告 ／ 遊戲管理規章</div>
+    <section class="panel">
+      <div class="panel-hd"><span class="dot"></span><h3>📜 遊戲管理規章</h3><span class="tag">RULES</span></div>
+      <div class="panel-bd">
+        <div class="doc">
+
+          <!-- 第一章 · 管理團隊與言論規範 -->
+          <div class="doc-sec">
+            <h4>👥 玩家紛爭牽扯 GM 團隊或毀損伺服器名譽者</h4>
+            <ul>
+              <li>遊戲管理團隊 <b>絕不干預</b> 玩家任何合乎規定的遊戲行為。</li>
+              <li>玩家之間的遊戲紛爭，請勿牽扯到管理團隊。</li>
+              <li>我們 <b>絕不會</b> 幫任何一方勢力或個人介入遊戲。</li>
+            </ul>
+          </div>
+
+          <div class="doc-sec warn">
+            <h4>⛔ 不尊重 GM 團隊、言語調侃或諷刺者</h4>
+            <ul>
+              <li>嚴禁無理侮辱、責罵管理團隊，以及挑釁管理團隊之行為。</li>
+              <li>嚴禁假冒管理團隊的遊戲人物，或取名類似管理團隊的名字。</li>
+              <li>違規者由管理團隊裁決，得處以 <b>永久性封鎖帳號及 IP</b>。</li>
+            </ul>
+          </div>
+
+          <div class="doc-sec warn">
+            <h4>⛔ 禁止宣傳其他伺服器、拉攏跳服、散播不利謠言</h4>
+            <ul>
+              <li>嚴禁在遊戲或論壇煽動玩家、發起動盪哄動、造謠等任何影響伺服器之行為。</li>
+              <li>嚴禁使用「創造角色公告系統」進行任何宣傳、謾罵或毀損。</li>
+              <li>違者將追查分身之本尊，直接對本尊處理，<b>永久封鎖同 IP 帳號</b>。</li>
+            </ul>
+          </div>
+
+          <div class="doc-sec">
+            <h4>📢 在遊戲中介紹其他伺服器者</h4>
+            <ul>
+              <li>遊戲中嚴禁在任何頻道宣傳其他伺服器，或拉攏、煽動其他玩家不玩及跳服。</li>
+            </ul>
+          </div>
+
+          <!-- 第二章 · 破壞遊戲公平性 -->
+          <div class="doc-sec">
+            <h4>🚧 以非正常手段阻擋他人遊戲、圖利個人者</h4>
+            <ul>
+              <li>以非一般遊戲中會使用之手段，阻擋其他玩家正常進行遊戲者。</li>
+              <li>利用伺服器設定漏洞或 Bug 圖利個人或他人者。</li>
+            </ul>
+          </div>
+
+          <div class="doc-sec warn">
+            <h4>🔒 嚴禁散播他人個資／約架等情事</h4>
+            <ul>
+              <li>嚴格禁止在任何頻道或交易群，散播他人之真實姓名、手機、住址等個人資料，或約人真人現場鬥毆等情事。</li>
+              <li>違者視情況處以 <b>鎖定一～七天或永久停權之處分</b>。</li>
+            </ul>
+            <p>（需提供相關照片截圖，再由本人出面至客服回報確認身分。）</p>
+          </div>
+
+          <div class="doc-sec">
+            <h4>🐞 發現 Bug 不回報且利用、蓄意欺騙 GM 者</h4>
+            <ul>
+              <li>發現 Bug 不回報，且利用 Bug 影響其他玩家遊戲公平性者 —— 視情節大小評判封鎖。</li>
+              <li>蓄意欺騙 GM 者（包含做假圖片、偽證）。</li>
+            </ul>
+          </div>
+
+          <div class="doc-sec warn">
+            <h4>🏚️ 定時掛機 · 小黑屋懲處</h4>
+            <ul>
+              <li>本團隊 <b>不鼓勵</b> 使用定時掛機等行為（例如三重矢、火風暴等技能定點掛機）。</li>
+              <li>凡經官方查證屬實，將直接關閉於 <b>「小黑屋」</b> 懲處：</li>
+              <li>🛡️ 首次違規 <b>禁閉 3 小時</b></li>
+              <li>🛡️ 第二次違規 <b>禁閉 8 小時</b></li>
+              <li>🛡️ 第三次及以上 <b>禁閉 24 小時</b></li>
+              <li>💎 每次開鎖費用：<b>2000 藍鑽</b>（交易後開鎖，沒收到藍鑽不會放行）</li>
+            </ul>
+            <p><b>📌 重要注意事項</b></p>
+            <ul>
+              <li>官方會針對行為路徑與數據自行判斷，確認無誤後直接裁決。</li>
+              <li>不用解釋是否無法打字、或任何狡辯之言論，官方一概不予採納。</li>
+              <li>維護公平環境是我們的底線，請各位勇者切勿挑戰規範。</li>
+              <li>請玩家自行與官方客服預約時間交易；若沒預約，請自行負責額外時間。</li>
+            </ul>
+          </div>
+
+          <!-- 第三章 · 洗物與最終裁決 -->
+          <div class="doc-sec warn">
+            <h4>🧺 洗物品及盜帳號</h4>
+            <ul>
+              <li>遊戲中利用伺服器設定漏洞或 Bug 圖利個人或他人者。</li>
+              <li>涉及盜竊他人帳號或幫忙轉移贓物者，除懲處該帳號外，一並對相關共犯帳號連帶懲處。</li>
+              <li>管理團隊將追蹤回所有贓物並進行 <b>無償回收</b>。</li>
+              <li>如向洗裝者購買物品，也將一並 <b>無償回收</b>。</li>
+            </ul>
+          </div>
+
+          <div class="doc-sec">
+            <h4>👨‍⚖️ 最終裁決</h4>
+            <ul>
+              <li>違規不會單憑玩家投訴舉報便進行處罰，GM 會親自查核與評斷。</li>
+              <li>管理團隊皆可自行判斷是否違規以及做出處罰。</li>
+              <li>任何違規被罰後，若於論壇或遊戲搗亂者 —— 無論是否贊助，一視同仁。</li>
+            </ul>
+          </div>
+
+          <div class="doc-sec">
+            <h4>🔄 贖回裝備及收費服務 · 找回機制</h4>
+            <p>⚠️ 找回僅限「<b>玩家誤刪除</b>」之狀況，不包含衝裝點爆、正常交易錯誤等非誤操作行為。請玩家妥善保管自身帳號與物品。</p>
+            <ul>
+              <li>英雄裝備（及以下）—— 贖回費用 <b>NT$ 1,000</b>，歸還 +0 狀態。</li>
+              <li>傳說裝備 —— 贖回費用 <b>NT$ 2,000</b>，歸還 +0 狀態。</li>
+              <li>神話裝備 —— 贖回費用 <b>NT$ 3,000</b>，歸還 +0 狀態。</li>
+            </ul>
+          </div>
+
+          <div class="doc-sec">
+            <h4>💥 裝備衝爆贖回規章</h4>
+            <ul>
+              <li>英雄裝備 —— 贖回費用 <b>NT$ 2,000</b>。</li>
+              <li>傳說裝備 —— 贖回費用 <b>NT$ 4,000</b>。</li>
+              <li>神話裝備 —— 贖回費用 <b>NT$ 6,000</b>。</li>
+              <li>唯一裝備 —— 贖回費用 <b>NT$ 10,000</b>。</li>
+            </ul>
+          </div>
+
+        </div>
+        <a href="../index.html" class="backbtn" style="margin-top:20px">← 返回總覽</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div><b>順起來天堂 · FUTURE SOON</b>　見寶就順 · 見怪就順 · 順我者強</div>
+    <div>本站為玩家自製私人伺服器之示範頁面，與 NCSOFT Corporation 及《天堂 Lineage》官方無任何關聯，所有商標歸原權利人所有。</div>
+  </footer>
+</div>
+
+<nav class="tabbar">
+  <a href="../index.html">◈ 總覽</a>
+  <a href="#" onclick="document.getElementById('sidebar').classList.toggle('open');return false">☰ 公告選單</a>
+</nav>
+
+<script>
+var mb=document.getElementById('menuBtn'),sb=document.getElementById('sidebar');
+if(mb)mb.addEventListener('click',function(){sb.classList.toggle('open')});
+</script>
+</body>
+</html>

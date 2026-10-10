@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>常見問題 — 順起來天堂</title>
+<link rel="icon" href="../assets/images/favicon-shun.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@400;500;700&family=Cinzel:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05080a; --bg2:#0a0f12; --bg3:#0f1619;
+  --acid:#39ff9e; --acid-hi:#8dffc4;
+  --violet:#a94dff; --violet-hi:#cf9bff;
+  --blood:#ff2d55;
+  --tx-hi:#eafff5; --tx:#aec6ba; --tx-mut:#6f8a7d;
+  --metal:linear-gradient(176deg,#d7fff0,#6dffc0,#1fd98a,#0b8f58);
+  --panel-edge:rgba(57,255,158,.28);
+  --sidebar-w:248px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:"Noto Sans TC",sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;position:relative;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(57,255,158,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(57,255,158,.035) 1px,transparent 1px);background-size:44px 44px}
+body::after{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0px,rgba(0,0,0,0) 3px,rgba(5,8,10,.25) 4px);mix-blend-mode:multiply;opacity:.5}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+h1,h2,h3{font-family:"Noto Serif TC",serif;font-weight:900;line-height:1.25;color:var(--tx-hi)}
+.num{font-variant-numeric:tabular-nums}
+.cz{font-family:"Cinzel",serif;letter-spacing:.08em}
+
+.panel{position:relative;background:var(--bg2);border:1px solid var(--panel-edge);border-radius:4px;box-shadow:0 0 0 1px rgba(5,8,10,.8) inset,0 8px 34px rgba(0,0,0,.55)}
+.panel::before,.panel::after{content:"";position:absolute;width:14px;height:14px;pointer-events:none;border-color:var(--acid);border-style:solid;opacity:.9}
+.panel::before{top:-1px;left:-1px;border-width:2px 0 0 2px}
+.panel::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0}
+.panel-hd{display:flex;align-items:center;gap:10px;padding:13px 18px;border-bottom:1px solid rgba(57,255,158,.18);background:linear-gradient(90deg,rgba(57,255,158,.08),transparent)}
+.panel-hd .dot{width:8px;height:8px;border-radius:50%;background:var(--acid);box-shadow:0 0 10px var(--acid);flex:none}
+.panel-hd h3{font-size:1.12rem;letter-spacing:.04em}
+.panel-hd .tag{margin-left:auto;font-family:"Cinzel",serif;font-size:.62rem;letter-spacing:.18em;color:var(--tx-mut)}
+.panel-bd{padding:22px}
+
+.app{position:relative;z-index:2;display:grid;grid-template-columns:var(--sidebar-w) 1fr;grid-template-rows:1fr auto;min-height:100vh}
+
+.sidebar{grid-row:1 / span 2;background:linear-gradient(180deg,var(--bg3),var(--bg));border-right:1px solid var(--panel-edge);padding:20px 16px;display:flex;flex-direction:column;gap:16px;position:sticky;top:0;height:100vh;overflow-y:auto}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .avatar{width:54px;height:54px;border-radius:50%;flex:none;border:2px solid var(--violet);background:radial-gradient(circle at 50% 35%,#2a123f,#0a0f12);box-shadow:0 0 16px rgba(169,77,255,.55);object-fit:cover;object-position:top}
+.brand .avatar.ph{display:flex;align-items:center;justify-content:center;font-family:"Cinzel";color:var(--violet-hi);font-size:1.4rem}
+.brand b{display:block;font-family:"Noto Serif TC";font-weight:900;color:var(--tx-hi);font-size:1.05rem;line-height:1.2}
+.brand span{font-family:"Cinzel";font-size:.58rem;letter-spacing:.2em;color:var(--acid)}
+.nav{display:flex;flex-direction:column;gap:5px;margin-top:4px}
+.nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:4px;color:var(--tx);font-weight:500;font-size:.9rem;border:1px solid transparent;transition:.18s}
+.nav a .ico{width:20px;text-align:center;filter:drop-shadow(0 0 4px rgba(57,255,158,.5))}
+.nav a:hover,.nav a.on{color:var(--tx-hi);background:linear-gradient(90deg,rgba(57,255,158,.14),transparent);border-color:var(--panel-edge)}
+.nav a.on{border-left:3px solid var(--acid)}
+.nav-grp{font-family:"Cinzel";font-size:.62rem;letter-spacing:.2em;color:var(--violet-hi);padding:12px 6px 2px;border-top:1px dashed rgba(57,255,158,.18);margin-top:6px}
+.side-status{margin-top:auto;font-size:.68rem;color:var(--tx-mut);line-height:1.8;border-top:1px dashed rgba(57,255,158,.2);padding-top:12px}
+.live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--blood);box-shadow:0 0 8px var(--blood);animation:blink 1.3s infinite;margin-right:6px}
+@keyframes blink{50%{opacity:.25}}
+
+.main{padding:22px;display:flex;flex-direction:column;gap:18px;min-width:0}
+.crumb{font-size:.78rem;color:var(--tx-mut);letter-spacing:.04em}
+.crumb a{color:var(--acid)}
+.crumb a:hover{color:var(--acid-hi)}
+
+/* 文件內文 */
+.doc{display:flex;flex-direction:column;gap:20px}
+.doc-sec{position:relative;padding:18px 20px;border-radius:4px;background:var(--bg3);border:1px solid rgba(57,255,158,.16)}
+.doc-sec.warn{border-color:rgba(255,45,85,.3);background:linear-gradient(160deg,rgba(255,45,85,.08),var(--bg3))}
+.doc-sec h4{font-family:"Noto Serif TC";font-weight:900;color:var(--acid-hi);font-size:1.08rem;letter-spacing:.03em;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.doc-sec.warn h4{color:var(--blood)}
+.doc-sec p{color:var(--tx-hi);font-size:.96rem;line-height:2;margin-bottom:10px}
+.doc-sec p:last-child{margin-bottom:0}
+.doc-sec p b{color:var(--acid)}
+.doc-sec.warn p b{color:var(--blood)}
+.doc-sec ul,.doc-sec ol{margin:6px 0 10px 4px;padding-left:20px}
+.doc-sec li{color:var(--tx-hi);font-size:.95rem;line-height:1.95;margin-bottom:8px}
+.doc-sec li b{color:var(--acid)}
+.doc-qa{border-bottom:1px dashed rgba(57,255,158,.16);padding-bottom:14px;margin-bottom:14px}
+.doc-qa:last-child{border-bottom:0;padding-bottom:0;margin-bottom:0}
+.doc-qa .q{color:var(--acid-hi);font-weight:700;font-size:1rem;margin-bottom:8px;display:flex;gap:8px}
+.doc-qa .a{color:var(--tx-hi);font-size:.95rem;line-height:1.95}
+.backbtn{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;padding:11px 22px;border-radius:4px;border:1px solid var(--panel-edge);color:var(--acid-hi);background:rgba(57,255,158,.05);font-weight:700;font-size:.92rem;transition:.18s}
+.backbtn:hover{background:rgba(57,255,158,.14);color:var(--tx-hi);transform:translateX(-2px)}
+
+.footer{grid-column:2;padding:22px;border-top:1px solid rgba(57,255,158,.14);color:var(--tx-mut);font-size:.72rem;line-height:1.9;text-align:center}
+.footer b{color:var(--tx)}
+
+.tabbar{display:none}
+@media(max-width:860px){
+  :root{--sidebar-w:0}
+  .app{grid-template-columns:1fr}
+  .sidebar{position:fixed;left:0;top:0;bottom:0;width:230px;z-index:60;transform:translateX(-100%);transition:.25s;box-shadow:0 0 40px rgba(0,0,0,.7)}
+  .sidebar.open{transform:none}
+  .footer{grid-column:1}
+  .main{padding:16px 14px 80px}
+  .menu-btn{display:flex !important}
+  .tabbar{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:50;background:var(--bg3);border-top:1px solid var(--panel-edge);box-shadow:0 -6px 24px rgba(0,0,0,.6)}
+  .tabbar a{flex:1;padding:11px 4px;text-align:center;color:var(--acid);font-size:.72rem}
+}
+.menu-btn{display:none;position:fixed;top:14px;left:14px;z-index:70;width:44px;height:44px;border-radius:6px;background:var(--bg3);border:1px solid var(--panel-edge);color:var(--acid);font-size:1.3rem;align-items:center;justify-content:center;cursor:pointer}
+</style>
+</head>
+<body>
+
+<button class="menu-btn" id="menuBtn" aria-label="選單">☰</button>
+
+<div class="app">
+  <!-- ===== 左側欄 ===== -->
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html" class="brand">
+      <img class="avatar" src="../assets/images/ip/shun-main.png" alt="順爺" onerror="this.outerHTML='&lt;div class=&quot;avatar ph&quot;&gt;順&lt;/div&gt;'">
+      <div><b>順起來天堂</b><span>FUTURE SOON</span></div>
+    </a>
+    <nav class="nav">
+      <a href="../index.html"><span class="ico">◈</span>總覽</a>
+      <div class="nav-grp">系統公告</div>
+      <a href="disclaimer.html"><span class="ico">⚖</span>免責聲明</a>
+      <a href="faq.html" class="on"><span class="ico">❓</span>常見問題</a>
+      <a href="notice-verify.html"><span class="ico">🔍</span>外掛偵測</a>
+      <a href="speed-myth.html"><span class="ico">⚡</span>加速器迷思</a>
+      <a href="rules.html"><span class="ico">📜</span>遊戲管理規章</a>
+      <a href="anti-cheat.html"><span class="ico">🚫</span>外掛懲處條例</a>
+      <a href="speed-detect.html"><span class="ico">🛰</span>速度偵測說明</a>
+    </nav>
+    <div class="side-status">
+      <div><span class="live-dot"></span>伺服狀態：<b style="color:var(--acid)">預約熱烈進行中</b></div>
+      <div class="num">邪道手動服 3.81 · LV CAP 82</div>
+    </div>
+  </aside>
+
+  <!-- ===== 主區 ===== -->
+  <main class="main">
+    <div class="crumb"><a href="../index.html">總覽</a> ／ 系統公告 ／ 常見問題</div>
+    <section class="panel">
+      <div class="panel-hd"><span class="dot"></span><h3>❓ 常見問題</h3><span class="tag">FAQ</span></div>
+      <div class="panel-bd">
+        <div class="doc">
+          <div class="doc-sec">
+            <h4>🚪 帳號與登入</h4>
+            <div class="doc-qa">
+              <div class="q">Q · 如何註冊遊戲帳號？</div>
+              <div class="a">於遊戲登入介面直接輸入您預想的帳號與密碼，即完成開創並可直接登入。</div>
+            </div>
+            <div class="doc-qa">
+              <div class="q">Q · 帳號或密碼遺失怎麼辦？</div>
+              <div class="a">目前不具備找回密碼功能，請各位玩家務必自行妥善記錄。</div>
+            </div>
+            <div class="doc-qa">
+              <div class="q">Q · 如何保護帳號安全？</div>
+              <div class="a">定期修改高強度密碼、不共用帳號、嚴禁不明外掛軟體，離線前請確實點選退出。</div>
+            </div>
+          </div>
+
+          <div class="doc-sec">
+            <h4>💾 下載與安裝</h4>
+            <div class="doc-qa">
+              <div class="q">Q · 我要到哪裡下載遊戲？</div>
+              <div class="a">請點選導覽列的【遊戲下載】專區取得最新核心資源包。</div>
+            </div>
+            <div class="doc-qa">
+              <div class="q">Q · 執行遊戲發生異常報錯？</div>
+              <div class="a">請確保主程式為最新版，建議完整移除舊檔案後再重新解壓縮安裝。</div>
+            </div>
+          </div>
+
+          <div class="doc-sec">
+            <h4>🛰 連線與疑難排除</h4>
+            <div class="doc-qa">
+              <div class="q">Q · 畫面停在 Loading 畫面怎麼辦？</div>
+              <div class="a">請先嘗試切換網路環境。若問題仍無法排除，請聯繫 LINE@ 尋求技術協助。</div>
+            </div>
+            <div class="doc-qa">
+              <div class="q">Q · 連接伺服器失敗的排除方式？</div>
+              <div class="a">1. 檢查網路　2. 確認是否在維護時間　3. 截圖異常畫面聯繫 LINE@ 專員。</div>
+            </div>
+            <div class="doc-qa">
+              <div class="q">Q · 無法登入遊戲的解決流程？</div>
+              <div class="a">換網路環境 → 重啟遊戲 → 清理系統快取 → 重新安裝資源包。</div>
+            </div>
+          </div>
+
+          <div class="doc-sec">
+            <h4>💬 贊助與客服</h4>
+            <div class="doc-qa">
+              <div class="q">Q · 贊助方式與相關？</div>
+              <div class="a">目前提供【自動贊助】與【客服手動開單】服務。</div>
+            </div>
+            <div class="doc-qa">
+              <div class="q">Q · 如何反映建議或 BUG 異常？</div>
+              <div class="a">請統一透過官方 LINE@ 聯繫，我們將有專人第一時間為您記錄並處理。</div>
+            </div>
+            <div class="doc-qa">
+              <div class="q">Q · 上述方式皆無法解決我的問題？</div>
+              <div class="a">請直接聯繫官方 LINE@ 客服，由客服專員為您服務。</div>
+            </div>
+          </div>
+        </div>
+        <a href="../index.html" class="backbtn" style="margin-top:20px">← 返回總覽</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div><b>順起來天堂 · FUTURE SOON</b>　見寶就順 · 見怪就順 · 順我者強</div>
+    <div>本站為玩家自製私人伺服器之示範頁面，與 NCSOFT Corporation 及《天堂 Lineage》官方無任何關聯，所有商標歸原權利人所有。</div>
+  </footer>
+</div>
+
+<nav class="tabbar">
+  <a href="../index.html">◈ 總覽</a>
+  <a href="#" onclick="document.getElementById('sidebar').classList.toggle('open');return false">☰ 公告選單</a>
+</nav>
+
+<script>
+var mb=document.getElementById('menuBtn'),sb=document.getElementById('sidebar');
+if(mb)mb.addEventListener('click',function(){sb.classList.toggle('open')});
+</script>
+</body>
+</html>
