@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>順起來天堂 · FUTURE SOON</title>
+<link rel="icon" href="../assets/images/favicon-shun.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05080a; --bg2:#0a0f12; --bg3:#0f1619;
+  --acid:#39ff9e; --acid-hi:#8dffc4;
+  --violet:#a94dff; --violet-hi:#cf9bff;
+  --blood:#ff2d55;
+  --tx-hi:#eafff5; --tx:#aec6ba; --tx-mut:#6f8a7d;
+  --metal:linear-gradient(176deg,#d7fff0,#6dffc0,#1fd98a,#0b8f58);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--tx);
+  font-family:"Noto Sans TC",sans-serif;
+  line-height:1.9;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+h1,h2,h3{font-family:"Noto Serif TC",serif;font-weight:900;line-height:1.25;color:var(--tx-hi);letter-spacing:.02em}
+.en{font-family:"Cinzel",serif;letter-spacing:.22em;text-transform:uppercase}
+
+/* ===== 捲動進度條 ===== */
+#progress-bar{
+  position:fixed;top:0;left:0;height:4px;width:0;z-index:999;
+  background:var(--metal);
+  box-shadow:0 0 14px rgba(57,255,158,.8),0 0 4px rgba(57,255,158,1);
+}
+
+/* ===== 極簡錨點點陣 ===== */
+#dots{
+  position:fixed;right:24px;top:50%;transform:translateY(-50%);
+  z-index:998;display:flex;flex-direction:column;gap:16px;
+  opacity:0;transition:opacity .6s ease;
+}
+#dots.show{opacity:1}
+#dots a{
+  width:11px;height:11px;border-radius:50%;
+  border:1.5px solid var(--tx-mut);background:transparent;
+  transition:all .3s ease;position:relative;
+}
+#dots a.active{
+  border-color:var(--acid);background:var(--acid);
+  box-shadow:0 0 12px var(--acid);transform:scale(1.25);
+}
+#dots a span{
+  position:absolute;right:22px;top:50%;transform:translateY(-50%);
+  font-family:"Noto Serif TC",serif;font-size:12px;white-space:nowrap;
+  color:var(--tx-mut);opacity:0;pointer-events:none;transition:opacity .3s;
+}
+#dots a:hover span{opacity:1}
+#dots a.active span{color:var(--acid)}
+
+/* ===== 固定極簡 LOGO ===== */
+#brand-mark{
+  position:fixed;left:26px;top:22px;z-index:998;
+  font-family:"Noto Serif TC",serif;font-weight:900;font-size:18px;
+  color:var(--tx-hi);letter-spacing:.06em;
+  text-shadow:0 0 18px rgba(0,0,0,.9);
+  display:flex;align-items:center;gap:8px;
+}
+#brand-mark .arrow{color:var(--acid);font-size:20px;display:inline-block;transform:translateY(-1px)}
+
+/* ===== 通用區塊 ===== */
+.sec{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.wrap{width:100%;max-width:1180px;margin:0 auto;padding:90px 28px}
+
+/* 捲動觸發基礎 */
+.reveal{opacity:0;transform:translateY(46px);transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.12s}
+.reveal.d2{transition-delay:.24s}
+.reveal.d3{transition-delay:.36s}
+.reveal.d4{transition-delay:.48s}
+.scale-in{opacity:0;transform:scale(.82);transition:opacity 1.1s cubic-bezier(.16,1,.3,1),transform 1.1s cubic-bezier(.16,1,.3,1)}
+.scale-in.in{opacity:1;transform:none}
+
+/* ===== HERO ===== */
+#hero{min-height:100vh}
+#hero .bg{
+  position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse at 70% 30%,rgba(169,77,255,.26),transparent 55%),
+    radial-gradient(ellipse at 30% 80%,rgba(57,255,158,.18),transparent 55%),
+    linear-gradient(180deg,var(--bg),#07110c 60%,var(--bg));
+}
+#hero .hero-img{
+  position:absolute;right:-4%;bottom:0;top:0;z-index:1;
+  width:62%;
+  background:url('../assets/images/hero-shun.png') center right / contain no-repeat;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 32%,#000);
+  mask-image:linear-gradient(90deg,transparent,#000 32%,#000);
+  will-change:transform;
+}
+#hero .hero-img.ph{
+  background:radial-gradient(circle at 60% 45%,rgba(169,77,255,.4),rgba(57,255,158,.08) 55%,transparent 72%);
+}
+#hero .wrap{position:relative;z-index:2}
+.hero-kicker{
+  font-family:"Cinzel",serif;letter-spacing:.34em;font-size:clamp(12px,1.4vw,15px);
+  color:var(--acid);margin-bottom:22px;
+}
+#hero h1{
+  font-size:clamp(54px,11vw,150px);line-height:.98;margin-bottom:6px;
+  text-shadow:0 0 50px rgba(0,0,0,.8);
+}
+#hero h1 .l2{
+  background:var(--metal);-webkit-background-clip:text;background-clip:text;color:transparent;
+  display:inline-block;filter:drop-shadow(0 4px 24px rgba(31,217,138,.35));
+}
+.hero-arrow{
+  font-size:clamp(60px,12vw,150px);line-height:.8;color:var(--acid);
+  display:inline-block;margin-left:8px;
+  text-shadow:0 0 40px rgba(57,255,158,.7);
+  animation:floatUp 2.6s ease-in-out infinite;
+}
+@keyframes floatUp{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.hero-sub{
+  font-size:clamp(16px,2.2vw,22px);color:var(--tx-hi);max-width:560px;margin:26px 0 20px;font-weight:500;
+}
+.hero-sub b{color:var(--violet-hi)}
+.hero-cta{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:16px 34px;border-radius:999px;font-weight:700;font-size:16px;
+  font-family:"Noto Sans TC",sans-serif;text-decoration:none;cursor:pointer;border:none;
+  transition:transform .25s ease,box-shadow .25s ease;
+}
+.btn-main{background:var(--metal);color:#042417;box-shadow:0 10px 30px rgba(31,217,138,.35)}
+.btn-main:hover{transform:translateY(-3px);box-shadow:0 16px 42px rgba(31,217,138,.55)}
+.btn-ghost{background:transparent;color:var(--violet-hi);border:1.5px solid var(--violet)}
+.btn-ghost:hover{background:rgba(169,77,255,.14);transform:translateY(-3px)}
+.scroll-hint{
+  position:absolute;left:50%;bottom:26px;transform:translateX(-50%);z-index:3;
+  color:var(--tx-mut);font-size:12px;letter-spacing:.2em;text-align:center;
+  font-family:"Cinzel",serif;animation:floatUp 2.6s ease-in-out infinite;
+}
+.scroll-hint .m{font-size:22px;color:var(--acid);display:block;margin-top:4px}
+
+/* ===== PAIN ===== */
+#pain{background:linear-gradient(180deg,var(--bg),#0b0607 50%,var(--bg))}
+#pain .bg-glitch{
+  position:absolute;inset:0;z-index:0;
+  background:radial-gradient(ellipse at 50% 50%,rgba(255,45,85,.14),transparent 60%);
+}
+#pain .wrap{position:relative;z-index:1;text-align:center}
+.pain-tag{color:var(--blood);font-family:"Cinzel",serif;letter-spacing:.3em;font-size:14px;margin-bottom:20px}
+#pain h2{font-size:clamp(34px,6.4vw,74px);margin-bottom:14px}
+#pain h2 .stuck{color:var(--blood);position:relative;display:inline-block}
+.pain-list{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:44px}
+.pain-item{
+  background:var(--bg3);border:1px solid rgba(255,45,85,.22);border-radius:16px;
+  padding:30px 26px;width:270px;text-align:left;
+}
+.pain-item .ic{font-size:30px;margin-bottom:12px;filter:grayscale(.2)}
+.pain-item h3{font-size:19px;color:#ffd7de;margin-bottom:8px}
+.pain-item p{font-size:14.5px;color:var(--tx);line-height:1.8}
+
+/* ===== SOLUTION (sticky pin) ===== */
+#solution{min-height:300vh;position:relative}
+#solution .pin{
+  position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+#solution .sol-bg{
+  position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse at 28% 30%,rgba(57,255,158,.2),transparent 55%),
+    radial-gradient(ellipse at 78% 72%,rgba(169,77,255,.18),transparent 55%),
+    linear-gradient(180deg,var(--bg2),#06130d);
+}
+#solution .sol-inner{position:relative;z-index:1;width:100%;max-width:1180px;padding:0 28px;margin:0 auto}
+.sol-label{font-family:"Cinzel",serif;letter-spacing:.3em;color:var(--acid);font-size:14px;text-align:center;margin-bottom:10px}
+#solution h2{font-size:clamp(36px,6.6vw,80px);text-align:center;margin-bottom:8px}
+#solution h2 em{font-style:normal;background:var(--metal);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sol-sub{text-align:center;color:var(--tx);font-size:clamp(15px,2vw,19px);margin-bottom:46px}
+.stats{display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
+.stat{
+  background:var(--bg);border:1px solid rgba(57,255,158,.26);border-radius:20px;
+  padding:34px 30px;min-width:200px;text-align:center;position:relative;overflow:hidden;
+  opacity:0;transform:translateY(40px) scale(.92);transition:opacity .9s ease,transform .9s cubic-bezier(.16,1,.3,1);
+}
+.stat.in{opacity:1;transform:none}
+.stat::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--metal)}
+.stat .num{font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(46px,7vw,72px);line-height:1;color:var(--acid-hi);text-shadow:0 0 30px rgba(57,255,158,.4)}
+.stat .num .x{color:var(--tx-mut);font-size:.5em;vertical-align:.25em;margin-right:2px}
+.stat .cap{margin-top:14px;font-size:15px;color:var(--tx-hi);font-weight:700;letter-spacing:.04em}
+.stat.violet{border-color:rgba(169,77,255,.3)}
+.stat.violet .num{color:var(--violet-hi);text-shadow:0 0 30px rgba(169,77,255,.4)}
+.stat.violet::before{background:linear-gradient(176deg,#e3cbff,#a94dff,#6b1fc0)}
+.sol-tagline{
+  text-align:center;margin-top:44px;font-family:"Noto Serif TC",serif;font-weight:900;
+  font-size:clamp(22px,4vw,40px);color:var(--tx-hi);
+  opacity:0;transform:translateY(30px);transition:all 1s ease .2s;
+}
+.sol-tagline.in{opacity:1;transform:none}
+.sol-tagline b{color:var(--violet-hi)}
+
+/* ===== 順爺 PARALLAX 串場 ===== */
+#mascot{background:linear-gradient(180deg,#06130d,var(--bg) 60%);min-height:120vh}
+#mascot .wrap{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;position:relative;z-index:1}
+#mascot .m-fig{position:relative;display:flex;justify-content:center}
+#mascot .m-fig .glow{
+  position:absolute;width:420px;height:420px;border-radius:50%;z-index:0;
+  background:radial-gradient(circle,rgba(169,77,255,.4),rgba(57,255,158,.1) 55%,transparent 72%);
+  filter:blur(8px);
+}
+#mascot .m-img{
+  position:relative;z-index:1;width:min(78%,380px);will-change:transform;
+  filter:drop-shadow(0 20px 40px rgba(0,0,0,.6));
+}
+#mascot .m-img.ph{
+  aspect-ratio:3/4;border-radius:24px;
+  background:repeating-linear-gradient(135deg,rgba(169,77,255,.25),rgba(169,77,255,.25) 12px,rgba(57,255,158,.12) 12px,rgba(57,255,158,.12) 24px);
+  border:1px dashed rgba(207,155,255,.4);display:flex;align-items:center;justify-content:center;color:var(--violet-hi);font-family:"Noto Serif TC",serif;font-weight:900;font-size:22px;
+}
+#mascot .m-txt .tag{font-family:"Cinzel",serif;letter-spacing:.3em;color:var(--violet-hi);font-size:13px;margin-bottom:16px}
+#mascot h2{font-size:clamp(32px,5.6vw,64px);margin-bottom:18px}
+#mascot h2 .name{color:var(--acid-hi)}
+#mascot .m-txt p{font-size:clamp(15px,2vw,18px);color:var(--tx-hi);max-width:460px;margin-bottom:16px}
+#mascot .m-txt p .hl{color:var(--violet-hi);font-weight:700}
+.m-quote{
+  margin-top:22px;padding:18px 24px;border-left:3px solid var(--acid);
+  background:var(--bg3);border-radius:0 14px 14px 0;
+  font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(18px,2.6vw,26px);color:var(--acid-hi);
+}
+
+/* ===== 信仰三順 ===== */
+#faith{background:linear-gradient(180deg,var(--bg),#0a0612 50%,var(--bg))}
+#faith .wrap{position:relative;z-index:1}
+.faith-head{text-align:center;margin-bottom:60px}
+.faith-head .tag{font-family:"Cinzel",serif;letter-spacing:.3em;color:var(--acid);font-size:14px;margin-bottom:14px}
+.faith-head h2{font-size:clamp(34px,6.2vw,72px)}
+.faith-head h2 .g{background:var(--metal);-webkit-background-clip:text;background-clip:text;color:transparent}
+.creed{display:flex;flex-direction:column;gap:26px;max-width:860px;margin:0 auto}
+.creed-row{
+  display:grid;grid-template-columns:120px 1fr;gap:30px;align-items:center;
+  background:var(--bg3);border:1px solid rgba(57,255,158,.16);border-radius:20px;padding:34px 36px;
+}
+.creed-row .big{
+  font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(50px,9vw,96px);line-height:.9;
+  background:var(--metal);-webkit-background-clip:text;background-clip:text;color:transparent;text-align:center;
+}
+.creed-row:nth-child(2) .big{background:linear-gradient(176deg,#e3cbff,#a94dff,#6b1fc0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.creed-row h3{font-size:clamp(22px,3.4vw,32px);margin-bottom:8px;color:var(--tx-hi)}
+.creed-row h3 .s{color:var(--acid)}
+.creed-row:nth-child(2) h3 .s{color:var(--violet-hi)}
+.creed-row p{font-size:15.5px;color:var(--tx);line-height:1.85}
+
+/* ===== FINAL CTA ===== */
+#final{background:linear-gradient(180deg,var(--bg),#07140d);min-height:100vh}
+#final .bg{
+  position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse at 50% 120%,rgba(57,255,158,.3),transparent 60%),
+    radial-gradient(ellipse at 20% 10%,rgba(169,77,255,.18),transparent 55%);
+}
+#final .wrap{position:relative;z-index:1;text-align:center}
+#final .arrow-big{font-size:clamp(70px,14vw,170px);line-height:.8;color:var(--acid);text-shadow:0 0 50px rgba(57,255,158,.6);animation:floatUp 2.6s ease-in-out infinite}
+#final h2{font-size:clamp(42px,9vw,110px);line-height:1;margin:10px 0 18px}
+#final h2 .g{background:var(--metal);-webkit-background-clip:text;background-clip:text;color:transparent}
+#final .f-sub{font-size:clamp(16px,2.4vw,22px);color:var(--tx-hi);margin-bottom:12px;font-weight:500}
+#final .f-data{color:var(--acid-hi);font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(15px,2vw,19px);margin-bottom:34px;letter-spacing:.03em}
+#final .hero-cta{justify-content:center}
+
+/* ===== FOOTER ===== */
+footer{background:var(--bg);border-top:1px solid rgba(57,255,158,.12);padding:46px 28px;text-align:center}
+footer .f-logo{font-family:"Noto Serif TC",serif;font-weight:900;font-size:22px;color:var(--tx-hi);margin-bottom:10px}
+footer .f-logo .arrow{color:var(--acid)}
+footer .f-en{font-family:"Cinzel",serif;letter-spacing:.28em;color:var(--acid);font-size:12px;margin-bottom:22px}
+footer .disc{font-size:12.5px;color:var(--tx-mut);max-width:620px;margin:0 auto;line-height:1.8}
+footer .copy{margin-top:18px;font-size:12px;color:var(--tx-mut)}
+
+/* ===== 響應式 ===== */
+@media(max-width:860px){
+  #hero .hero-img{width:100%;right:0;opacity:.32;-webkit-mask-image:linear-gradient(180deg,transparent,#000 55%);mask-image:linear-gradient(180deg,transparent,#000 55%)}
+  #mascot .wrap{grid-template-columns:1fr;gap:30px}
+  #mascot .m-txt{text-align:center}
+  #mascot .m-txt p{margin-left:auto;margin-right:auto}
+  #mascot .m-fig .glow{width:300px;height:300px}
+  .creed-row{grid-template-columns:70px 1fr;gap:18px;padding:26px 22px}
+  #dots{right:14px;gap:12px}
+  #solution{min-height:260vh}
+}
+@media(max-width:560px){
+  .wrap{padding:76px 20px}
+  #dots{display:none!important}
+  .pain-item{width:100%}
+}
+
+/* ===== reduced motion：全關動畫 ===== */
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;scroll-behavior:auto!important}
+  .reveal,.scale-in,.stat,.sol-tagline{opacity:1!important;transform:none!important;transition:none!important}
+  #hero .hero-img,#mascot .m-img{transform:none!important}
+  .hero-arrow,#final .arrow-big{animation:none!important}
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<div id="brand-mark"><span class="arrow">↗</span>順起來天堂</div>
+
+<nav id="dots" aria-label="章節導覽">
+  <a href="#hero" data-label="開場"><span>開場</span></a>
+  <a href="#pain" data-label="痛點"><span>卡住了嗎</span></a>
+  <a href="#solution" data-label="解法"><span>順起來</span></a>
+  <a href="#mascot" data-label="順爺"><span>順爺登場</span></a>
+  <a href="#faith" data-label="三順"><span>信仰三順</span></a>
+  <a href="#final" data-label="下載"><span>立即下載</span></a>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="sec" id="hero">
+  <div class="bg"></div>
+  <div class="hero-img" id="heroImg"></div>
+  <div class="wrap">
+    <div class="hero-kicker reveal in">FUTURE SOON · 邪道手動服</div>
+    <h1 class="reveal in d1">天堂<span class="l2">順起來</span><span class="hero-arrow">↗</span></h1>
+    <p class="hero-sub reveal in d2">見寶就順、見怪就順。<b>把別人的成就與裝備，一把順過來。</b></p>
+    <div class="hero-cta reveal in d3">
+      <a href="#" class="btn btn-main">⚡ 立即下載</a>
+      <a href="#" class="btn btn-ghost">加入社群</a>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL<span class="m">↓</span></div>
+</section>
+
+<!-- ===== PAIN ===== -->
+<section class="sec" id="pain">
+  <div class="bg-glitch"></div>
+  <div class="wrap">
+    <div class="pain-tag reveal">THE PAIN</div>
+    <h2 class="reveal d1">你的裝備，<span class="stuck">卡住了嗎？</span></h2>
+    <p class="reveal d2" style="color:var(--tx-hi);max-width:560px;margin:14px auto 0;font-size:17px">練到升不動、寶箱開不到、看著別人全身神裝——卡卡的日子，該結束了。</p>
+    <div class="pain-list">
+      <div class="pain-item reveal d1">
+        <div class="ic">🪤</div>
+        <h3>練等卡牆</h3>
+        <p>肝到天亮才一級，經驗條像蝸牛，進度永遠跟不上別人。</p>
+      </div>
+      <div class="pain-item reveal d2">
+        <div class="ic">🔒</div>
+        <h3>神裝摸不到</h3>
+        <p>稀有掉寶永遠不是你，看得到吃不到，倉庫空空如也。</p>
+      </div>
+      <div class="pain-item reveal d3">
+        <div class="ic">😮‍💨</div>
+        <h3>被海放</h3>
+        <p>戰力差一截，打王搶不贏、PK被壓著打，越玩越無力。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SOLUTION (sticky pin + 計數動畫) ===== -->
+<section id="solution">
+  <div class="pin">
+    <div class="sol-bg"></div>
+    <div class="sol-inner">
+      <div class="sol-label reveal">THE ANSWER</div>
+      <h2 class="reveal d1">順起來：<em>看上的就是你的</em></h2>
+      <p class="sol-sub reveal d2">邪道手動服，數值全開。該順的，一次順個夠。</p>
+      <div class="stats">
+        <div class="stat" data-target="20"><div class="num"><span class="x">×</span><span class="val">0</span></div><div class="cap">經驗加成</div></div>
+        <div class="stat violet" data-target="5"><div class="num"><span class="x">×</span><span class="val">0</span></div><div class="cap">金幣掉落</div></div>
+        <div class="stat" data-target="3"><div class="num"><span class="x">×</span><span class="val">0</span></div><div class="cap">掉寶機率</div></div>
+        <div class="stat violet" data-target="62" data-suffix="LV"><div class="num"><span class="val">0</span><span class="x" style="margin-left:4px;margin-right:0">LV</span></div><div class="cap">等級上限</div></div>
+      </div>
+      <div class="sol-tagline">順我者強，<b>擋我者順</b>。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 順爺 PARALLAX ===== -->
+<section class="sec" id="mascot">
+  <div class="wrap">
+    <div class="m-fig">
+      <div class="glow"></div>
+      <img class="m-img" id="mascotImg" src="../assets/images/ip/shun-main.png" alt="順爺 吉祥物" onerror="this.classList.add('ph');this.removeAttribute('src');this.alt='';this.insertAdjacentHTML('afterend','')">
+    </div>
+    <div class="m-txt">
+      <div class="tag reveal">MEET 順爺</div>
+      <h2 class="reveal d1">紫髮綠眼的<span class="name">順爺</span>，<br>帶你一路順下去。</h2>
+      <p class="reveal d2">他賤、他萌、他什麼都想順。<span class="hl">看上誰的裝備，就湊過去笑嘻嘻地「借」一下</span>——反正在這裡，拳頭大就是道理。</p>
+      <p class="reveal d3">跟著順爺混，練等有加成、打王有肉吃、神裝一件一件往身上套。</p>
+      <div class="m-quote reveal d4">「這把劍挺順手的，我就收下囉 ↗」</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 信仰三順 ===== -->
+<section class="sec" id="faith">
+  <div class="wrap">
+    <div class="faith-head">
+      <div class="tag reveal">OUR CREED · 信仰三順</div>
+      <h2 class="reveal d1">順起來的<span class="g">三條鐵律</span></h2>
+    </div>
+    <div class="creed">
+      <div class="creed-row reveal">
+        <div class="big">順</div>
+        <div>
+          <h3>見寶<span class="s">就順</span></h3>
+          <p>稀有掉落 ×3，寶箱不再是別人的專利。看到會發光的，二話不說，順進倉庫。</p>
+        </div>
+      </div>
+      <div class="creed-row reveal">
+        <div class="big">順</div>
+        <div>
+          <h3>見怪<span class="s">就順</span></h3>
+          <p>經驗 ×20、金幣 ×5，每一隻怪都是你的提款機。清場的速度，就是你變強的速度。</p>
+        </div>
+      </div>
+      <div class="creed-row reveal">
+        <div class="big">順</div>
+        <div>
+          <h3>順我者<span class="s">強</span></h3>
+          <p>手動掛機兩相宜，等級上限 62 任你衝。戰力壓制全場，看上的，就是你的。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FINAL CTA ===== -->
+<section class="sec" id="final">
+  <div class="bg"></div>
+  <div class="wrap">
+    <div class="arrow-big scale-in">↗</div>
+    <h2 class="scale-in">別再卡了，<br><span class="g">順起來</span>吧。</h2>
+    <p class="f-sub reveal d1">邪道手動服 · 全數值開到底，開服即巔峰。</p>
+    <p class="f-data reveal d2">經驗 ×20 · 金幣 ×5 · 掉寶 ×3 · 等級上限 62</p>
+    <div class="hero-cta reveal d3">
+      <a href="#" class="btn btn-main">⚡ 立即下載</a>
+      <a href="#" class="btn btn-ghost">加入社群</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="f-logo"><span class="arrow">↗</span> 順起來天堂</div>
+  <div class="f-en">FUTURE SOON</div>
+  <p class="disc">本遊戲為玩家自架之私人伺服器，純屬同好交流與懷舊體驗，與 NC Soft（NCSOFT Corporation）及《天堂 Lineage》官方無任何關聯、未獲其授權或認可。所有相關商標、名稱之權利均屬原權利人所有。</p>
+  <p class="copy">© 2026 順起來天堂 · 僅供娛樂</p>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  /* ---- 捲動進度條 + 錨點點陣顯示 ---- */
+  var bar = document.getElementById('progress-bar');
+  var dotsNav = document.getElementById('dots');
+  var dots = Array.prototype.slice.call(document.querySelectorAll('#dots a'));
+  var sections = dots.map(function(a){ return document.querySelector(a.getAttribute('href')); });
+  // 把 data-label 塞進 span
+  dots.forEach(function(a){ var s=document.createElement('span'); s.textContent=a.getAttribute('data-label'); a.appendChild(s); });
+
+  var ticking = false;
+  function onScroll(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){
+      var h = document.documentElement;
+      var scrolled = h.scrollTop;
+      var max = h.scrollHeight - h.clientHeight;
+      var pct = max>0 ? (scrolled/max)*100 : 0;
+      bar.style.width = pct.toFixed(2)+'%';
+
+      // 顯示點陣（離開 hero 後）
+      if(scrolled > window.innerHeight*0.6){ dotsNav.classList.add('show'); }
+      else{ dotsNav.classList.remove('show'); }
+
+      // 當前段落 active
+      var mid = scrolled + window.innerHeight*0.45;
+      var activeIdx = 0;
+      for(var i=0;i<sections.length;i++){
+        if(sections[i] && sections[i].offsetTop <= mid) activeIdx = i;
+      }
+      dots.forEach(function(d,i){ d.classList.toggle('active', i===activeIdx); });
+
+      // parallax
+      applyParallax(scrolled);
+      ticking = false;
+    });
+  }
+
+  /* ---- Parallax：hero 大圖 + 順爺視差滑入 ---- */
+  var heroImg = document.getElementById('heroImg');
+  var mascotImg = document.getElementById('mascotImg');
+  var mascotSec = document.getElementById('mascot');
+  function applyParallax(scrolled){
+    if(reduceMotion) return;
+    // hero 背景圖隨捲動下沉（慢速）
+    if(heroImg && scrolled < window.innerHeight*1.2){
+      heroImg.style.transform = 'translateY('+(scrolled*0.18)+'px) scale('+(1+scrolled*0.00008)+')';
+    }
+    // 順爺：進入視窗時依相對位置做視差上滑
+    if(mascotImg && mascotSec){
+      var rect = mascotSec.getBoundingClientRect();
+      if(rect.bottom>0 && rect.top<window.innerHeight){
+        var prog = (window.innerHeight - rect.top)/(window.innerHeight+rect.height); // 0~1
+        var offset = (0.5 - prog) * 120; // 視差位移
+        mascotImg.style.transform = 'translateY('+offset.toFixed(1)+'px)';
+      }
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+
+  /* ---- 平滑錨點（避免 reduce motion 時跳動） ---- */
+  dots.forEach(function(a){
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      var t = document.querySelector(a.getAttribute('href'));
+      if(t) t.scrollIntoView({behavior: reduceMotion?'auto':'smooth'});
+    });
+  });
+
+  /* ---- IntersectionObserver：淡入 reveal / scale-in ---- */
+  if(reduceMotion){
+    // 全部直接顯示
+    document.querySelectorAll('.reveal,.scale-in,.stat,.sol-tagline').forEach(function(el){ el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          en.target.classList.add('in');
+          io.unobserve(en.target);
+        }
+      });
+    }, {threshold:0.18, rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.reveal,.scale-in,.sol-tagline').forEach(function(el){ io.observe(el); });
+  }
+
+  /* ---- 數字計數跳動（stat 捲到時） ---- */
+  function countUp(el){
+    var valEl = el.querySelector('.val');
+    var target = parseInt(el.getAttribute('data-target'),10);
+    if(reduceMotion){ valEl.textContent = target; return; }
+    var dur = 1100, start = null;
+    function step(ts){
+      if(!start) start = ts;
+      var p = Math.min((ts-start)/dur,1);
+      var eased = 1 - Math.pow(1-p,3);
+      valEl.textContent = Math.round(target*eased);
+      if(p<1) requestAnimationFrame(step);
+      else valEl.textContent = target;
+    }
+    requestAnimationFrame(step);
+  }
+  var statObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){
+        en.target.classList.add('in');
+        countUp(en.target);
+        statObs.unobserve(en.target);
+      }
+    });
+  }, {threshold:0.4});
+  document.querySelectorAll('.stat').forEach(function(el){ statObs.observe(el); });
+
+  /* ---- 順爺圖載入失敗佔位文字 ---- */
+  if(mascotImg){
+    mascotImg.addEventListener('error', function(){
+      if(!this.classList.contains('ph')){
+        this.classList.add('ph');
+        this.textContent = '順爺';
+      }
+    });
+  }
+
+  // 初次執行
+  onScroll();
+})();
+</script>
+</body>
+</html>

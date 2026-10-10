@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>順起來天堂 · FUTURE SOON</title>
+<link rel="icon" href="../assets/images/favicon-shun.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700;900&family=Noto+Sans+TC:wght@400;500;700&family=Cinzel:wght@600;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05080a; --bg2:#0a0f12; --bg3:#0f1619;
+  --acid:#39ff9e; --acid-hi:#8dffc4;
+  --violet:#a94dff; --violet-hi:#cf9bff;
+  --blood:#ff2d55;
+  --tx-hi:#eafff5; --tx:#aec6ba; --tx-mut:#6f8a7d;
+  --metal:linear-gradient(176deg,#d7fff0,#6dffc0,#1fd98a,#0b8f58);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:var(--bg);color:var(--tx);
+  font-family:'Noto Sans TC',sans-serif;overflow:hidden}
+body{position:relative}
+::selection{background:var(--acid);color:#02130b}
+
+/* ===== 橫向主容器 ===== */
+.track{
+  display:flex;flex-direction:row;height:100vh;width:max-content;
+  will-change:transform;
+  transition:transform .9s cubic-bezier(.76,0,.24,1);
+}
+.panel{
+  width:100vw;height:100vh;flex:0 0 100vw;position:relative;
+  display:flex;align-items:center;overflow:hidden;
+  padding:clamp(28px,6vw,110px);
+}
+.panel::before{content:'';position:absolute;inset:0;z-index:0;
+  background:radial-gradient(1200px 600px at var(--gx,30%) 40%, rgba(57,255,158,.06), transparent 60%),
+             radial-gradient(900px 500px at 80% 90%, rgba(169,77,255,.07), transparent 65%);
+}
+.inner{position:relative;z-index:2;width:100%;max-width:1200px;margin:0 auto}
+
+/* 進場動畫：僅 active 面板 */
+.panel .anim{opacity:0;transform:translateY(38px);
+  transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+.panel.active .anim{opacity:1;transform:none}
+.panel.active .anim.d1{transition-delay:.12s}
+.panel.active .anim.d2{transition-delay:.26s}
+.panel.active .anim.d3{transition-delay:.40s}
+.panel.active .anim.d4{transition-delay:.54s}
+
+/* ===== 面板背景色差異 ===== */
+#p0{background:
+  radial-gradient(1400px 900px at 70% 50%, rgba(169,77,255,.14), transparent 60%),
+  linear-gradient(120deg,var(--bg) 0%, #070d16 100%)}
+#p1{background:linear-gradient(135deg,var(--bg2),#06110c)}
+#p2{background:linear-gradient(135deg,#090d16,var(--bg))}
+#p3{background:
+  radial-gradient(900px 700px at 28% 55%, rgba(169,77,255,.16), transparent 60%),
+  linear-gradient(135deg,var(--bg3),#080a12)}
+#p4{background:linear-gradient(160deg,#07120d,var(--bg) 70%)}
+
+/* ===== 共用字 ===== */
+.kicker{font-family:'Cinzel',serif;letter-spacing:.42em;font-size:13px;
+  color:var(--acid-hi);text-transform:uppercase;margin-bottom:22px;
+  display:flex;align-items:center;gap:14px}
+.kicker::before{content:'';width:46px;height:2px;background:var(--metal)}
+.chapno{font-family:'Cinzel',serif;font-weight:900;font-size:clamp(60px,12vw,150px);
+  line-height:.8;color:transparent;-webkit-text-stroke:1.5px rgba(141,255,196,.22);
+  position:absolute;top:clamp(20px,5vh,60px);right:clamp(24px,5vw,80px);z-index:1;pointer-events:none}
+h1,h2{font-family:'Noto Serif TC',serif;font-weight:900;color:var(--tx-hi);line-height:1.04}
+.metaltext{background:var(--metal);-webkit-background-clip:text;background-clip:text;color:transparent}
+.violettext{color:var(--violet-hi)}
+.lead{color:var(--tx);font-size:clamp(15px,1.5vw,19px);line-height:2;max-width:46ch}
+.muted{color:var(--tx-mut)}
+
+/* ===== P0 封面 ===== */
+.cover{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.cover h1{font-size:clamp(52px,9vw,128px);letter-spacing:.02em}
+.cover .sub{font-family:'Cinzel',serif;font-weight:600;letter-spacing:.3em;
+  color:var(--violet-hi);font-size:clamp(14px,1.6vw,20px);margin:18px 0 26px}
+.slogan-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.tag{border:1px solid rgba(57,255,158,.3);background:var(--bg2);
+  color:var(--acid-hi);padding:10px 18px;border-radius:40px;font-size:14px;font-weight:700}
+.arrow-up{display:inline-flex;align-items:center;justify-content:center;
+  width:clamp(56px,7vw,86px);height:clamp(56px,7vw,86px);border-radius:50%;
+  background:var(--metal);color:#02130b;font-size:clamp(30px,4vw,48px);font-weight:900;
+  box-shadow:0 0 0 6px rgba(57,255,158,.12),0 18px 50px rgba(31,217,138,.35);
+  margin-left:14px;animation:bob 2.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.hero-art{position:relative;height:72vh;display:flex;align-items:center;justify-content:center}
+.hero-art img{max-width:100%;max-height:100%;object-fit:contain;
+  filter:drop-shadow(0 30px 60px rgba(169,77,255,.4))}
+.hero-ph{width:100%;height:100%;border-radius:20px;
+  background:
+    repeating-linear-gradient(45deg,rgba(169,77,255,.08) 0 14px,transparent 14px 28px),
+    linear-gradient(160deg,var(--bg3),#140a22);
+  border:1px solid rgba(169,77,255,.35);display:flex;align-items:center;justify-content:center;
+  color:var(--violet-hi);font-family:'Noto Serif TC',serif;font-weight:900;font-size:clamp(22px,3vw,34px)}
+
+/* ===== P1 裝備順起來（圖左文右概念：左大字右列表） ===== */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,80px);align-items:center}
+.bigword{font-size:clamp(60px,11vw,150px);line-height:.92}
+.loot-list{list-style:none;display:flex;flex-direction:column;gap:18px}
+.loot-list li{display:flex;gap:18px;align-items:flex-start;
+  background:var(--bg2);border:1px solid rgba(57,255,158,.14);
+  border-left:4px solid var(--acid);padding:22px 24px;border-radius:12px}
+.loot-list .ic{font-size:26px;line-height:1.3;color:var(--acid-hi)}
+.loot-list b{color:var(--tx-hi);font-size:18px;display:block;margin-bottom:6px}
+.loot-list p{color:var(--tx);font-size:14.5px;line-height:1.85}
+
+/* ===== P2 等級成就順起來（文左，右側數字階梯） ===== */
+.ladder{display:flex;flex-direction:column;gap:14px}
+.step{background:var(--bg3);border:1px solid rgba(169,77,255,.2);
+  border-radius:12px;padding:20px 26px;display:flex;align-items:center;gap:22px}
+.step .n{font-family:'Cinzel',serif;font-weight:900;font-size:34px;color:var(--violet-hi);min-width:56px}
+.step .t{color:var(--tx-hi);font-weight:700;font-size:17px}
+.step .t span{display:block;color:var(--tx-mut);font-weight:400;font-size:13.5px;margin-top:5px}
+.step:nth-child(odd){border-left:4px solid var(--violet)}
+.step:nth-child(even){border-left:4px solid var(--acid)}
+
+/* ===== P3 順爺登場（圖左文右） ===== */
+.shun{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(30px,5vw,70px);align-items:center}
+.shun-art{height:68vh;display:flex;align-items:center;justify-content:center;position:relative}
+.shun-art img{max-width:100%;max-height:100%;object-fit:contain;
+  filter:drop-shadow(0 24px 50px rgba(169,77,255,.5));animation:float 4s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-16px) rotate(1deg)}}
+.shun-ph{width:80%;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 40% 35%,#cf9bff,#6a1fb0 70%);
+  border:3px solid rgba(207,155,255,.5);display:flex;align-items:center;justify-content:center;
+  color:#fff;font-family:'Noto Serif TC',serif;font-weight:900;font-size:clamp(26px,4vw,40px)}
+.speech{background:var(--bg2);border:1px solid rgba(207,155,255,.3);
+  border-radius:16px;padding:22px 26px;position:relative;margin-top:26px}
+.speech::before{content:'';position:absolute;left:-12px;top:30px;
+  border:8px solid transparent;border-right-color:rgba(207,155,255,.3)}
+.speech p{color:var(--violet-hi);font-size:17px;line-height:1.9;font-weight:500}
+
+/* ===== P4 加入我們 ===== */
+.join{text-align:center}
+.join h2{font-size:clamp(40px,7vw,90px);margin-bottom:12px}
+.stats{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin:36px 0 42px}
+.stat{background:var(--bg2);border:1px solid rgba(57,255,158,.2);border-radius:14px;
+  padding:22px 28px;min-width:140px}
+.stat .v{font-family:'Cinzel',serif;font-weight:900;font-size:clamp(26px,3.4vw,40px);
+  background:var(--metal);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat .l{color:var(--tx-mut);font-size:13.5px;letter-spacing:.14em;margin-top:8px}
+.cta-row{display:flex;flex-wrap:wrap;justify-content:center;gap:18px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:18px 40px;border-radius:50px;
+  font-family:'Noto Serif TC',serif;font-weight:900;font-size:18px;text-decoration:none;
+  transition:transform .2s ease,box-shadow .2s ease;cursor:pointer}
+.btn-primary{background:var(--metal);color:#02130b;
+  box-shadow:0 14px 40px rgba(31,217,138,.4)}
+.btn-primary:hover{transform:translateY(-4px);box-shadow:0 20px 56px rgba(31,217,138,.6)}
+.btn-ghost{background:var(--bg3);color:var(--violet-hi);border:1.5px solid rgba(169,77,255,.5)}
+.btn-ghost:hover{transform:translateY(-4px);border-color:var(--violet-hi)}
+.disclaimer{margin-top:50px;color:var(--tx-mut);font-size:12.5px;line-height:1.9}
+
+/* ===== 進度列 ===== */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px clamp(20px,5vw,60px);pointer-events:none}
+.brand{font-family:'Noto Serif TC',serif;font-weight:900;color:var(--tx-hi);font-size:20px;
+  display:flex;align-items:center;gap:10px}
+.brand small{font-family:'Cinzel',serif;font-weight:600;color:var(--acid-hi);
+  font-size:11px;letter-spacing:.3em}
+.progress{position:fixed;left:0;top:0;height:3px;background:var(--metal);z-index:60;width:0;
+  transition:width .6s cubic-bezier(.76,0,.24,1)}
+
+/* ===== 底部圓點導航 ===== */
+.dots{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:55;
+  display:flex;align-items:center;gap:18px;
+  background:rgba(10,15,18,.72);backdrop-filter:blur(8px);
+  border:1px solid rgba(57,255,158,.18);border-radius:40px;padding:12px 22px}
+.dot{width:12px;height:12px;border-radius:50%;background:transparent;
+  border:1.5px solid var(--tx-mut);cursor:pointer;position:relative;
+  transition:all .3s ease;padding:0}
+.dot:hover{border-color:var(--acid)}
+.dot.on{background:var(--metal);border-color:var(--acid-hi);
+  box-shadow:0 0 0 4px rgba(57,255,158,.18);width:14px;height:14px}
+.dot .lab{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
+  white-space:nowrap;font-size:12px;color:var(--tx-hi);background:var(--bg3);
+  border:1px solid rgba(57,255,158,.25);padding:5px 12px;border-radius:8px;
+  opacity:0;pointer-events:none;transition:opacity .25s ease}
+.dot:hover .lab{opacity:1}
+
+/* 左右方向提示 */
+.hint{position:fixed;right:clamp(16px,4vw,46px);bottom:34px;z-index:55;
+  color:var(--tx-mut);font-size:12.5px;letter-spacing:.1em;display:flex;align-items:center;gap:8px}
+.hint .k{border:1px solid var(--tx-mut);border-radius:5px;padding:2px 7px;color:var(--tx)}
+
+/* ===== 手機：垂直堆疊 ===== */
+@media (max-width:760px){
+  html,body{overflow:auto}
+  .track{flex-direction:column;width:100%;height:auto;transform:none!important;transition:none}
+  .panel{width:100%;flex:none;height:auto;min-height:100vh;padding:86px 22px 120px}
+  .cover,.split,.shun{grid-template-columns:1fr;gap:34px}
+  .shun{grid-template-columns:1fr}
+  .hero-art,.shun-art{height:auto;min-height:300px}
+  .panel .anim{opacity:1;transform:none}
+  .chapno{font-size:72px;top:64px;right:20px}
+  .hint{display:none}
+  .dots{bottom:16px;padding:10px 16px;gap:13px}
+  .cover{text-align:left}
+}
+@media (max-width:480px){
+  .slogan-row .tag{font-size:12.5px;padding:8px 14px}
+  .stat{min-width:120px;padding:18px 20px}
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<div class="topbar">
+  <div class="brand">順起來天堂 <small>FUTURE SOON ↗</small></div>
+</div>
+
+<div class="track" id="track">
+
+  <!-- ① 封面 -->
+  <section class="panel active" id="p0" style="--gx:70%">
+    <span class="chapno">I</span>
+    <div class="inner">
+      <div class="cover">
+        <div>
+          <div class="kicker anim d1">Chapter One · 封面</div>
+          <h1 class="anim d1">天堂<span class="metaltext">順起來</span><span class="arrow-up">↗</span></h1>
+          <div class="sub anim d2">FUTURE SOON · 邪道手動服</div>
+          <p class="lead anim d2">卡卡的世界？讓它順起來。<br>別人的神裝、別人的成就——<span class="violettext">看上的，就順過來。</span></p>
+          <div class="slogan-row anim d3">
+            <span class="tag">見寶就順</span>
+            <span class="tag">見怪就順</span>
+            <span class="tag">順我者強</span>
+          </div>
+        </div>
+        <div class="hero-art anim d2">
+          <img src="../assets/images/hero-shun.png" alt="順起來天堂主視覺"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="hero-ph" style="display:none">邪惡中二<br>主視覺</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ② 裝備順起來 -->
+  <section class="panel" id="p1">
+    <span class="chapno">II</span>
+    <div class="inner">
+      <div class="split">
+        <div>
+          <div class="kicker anim d1">Chapter Two · 裝備</div>
+          <h2 class="bigword anim d1">裝備<br><span class="metaltext">順起來</span></h2>
+          <p class="lead anim d2" style="margin-top:24px">掉落 ×3、金幣 ×5。打得兇，順得快。<br>看上的那把武器，不用等——<span class="violettext">它遲早是你的。</span></p>
+        </div>
+        <ul class="loot-list">
+          <li class="anim d2"><span class="ic">⚔</span><div><b>神裝自己順</b><p>掉寶 ×3 加成，稀有裝備落地機率拉滿，開箱手不軟。</p></div></li>
+          <li class="anim d3"><span class="ic">💰</span><div><b>金幣流水帳</b><p>金幣 ×5，交易所喊價不手軟，想買就買、想囤就囤。</p></div></li>
+          <li class="anim d4"><span class="ic">🩸</span><div><b>見怪就順</b><p>手動掛機兩相宜，BOSS 掉落照樣順，紅字裝備越堆越高。</p></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ③ 等級成就順起來 -->
+  <section class="panel" id="p2">
+    <span class="chapno">III</span>
+    <div class="inner">
+      <div class="split">
+        <div>
+          <div class="kicker anim d1">Chapter Three · 成就</div>
+          <h2 class="bigword anim d1"><span class="violettext">等級</span>·成就<br><span class="metaltext">順起來</span></h2>
+          <p class="lead anim d2" style="margin-top:24px">經驗 ×20，升級像搭電梯。<br>等級上限 62，排行榜前段班——<span class="violettext">順勢一路向上 ↗</span></p>
+        </div>
+        <div class="ladder">
+          <div class="step anim d2"><span class="n">×20</span><div class="t">經驗加成<span>練功不熬夜，升級一路順到頂</span></div></div>
+          <div class="step anim d2"><span class="n">62</span><div class="t">等級上限<span>衝頂不是夢，封頂才是起點</span></div></div>
+          <div class="step anim d3"><span class="n">↗</span><div class="t">成就全順<span>別人的里程碑，你一天就順完</span></div></div>
+          <div class="step anim d4"><span class="n">#1</span><div class="t">排行榜前段班<span>順我者強，榜首位置先卡好</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ④ 順爺登場 -->
+  <section class="panel" id="p3">
+    <span class="chapno">IV</span>
+    <div class="inner">
+      <div class="shun">
+        <div class="shun-art anim d1">
+          <img src="../assets/images/ip/shun-main.png" alt="吉祥物順爺"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="shun-ph" style="display:none">順爺</div>
+        </div>
+        <div>
+          <div class="kicker anim d1">Chapter Four · 吉祥物</div>
+          <h2 class="bigword anim d1" style="font-size:clamp(48px,9vw,120px)"><span class="violettext">順爺</span> 登場</h2>
+          <p class="lead anim d2" style="margin-top:22px">紫髮綠眼、賤萌欠揍的本服代言人。<br>口頭禪只有一句——<span class="violettext">「看上的，就是你的。」</span></p>
+          <div class="speech anim d3">
+            <p>「卡關？沒有啦，這世界本來就該為你讓路。<br>神裝、頭銜、第一名……你不順白不順，順了也白順，那還不如——順啦！」</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ⑤ 加入我們 -->
+  <section class="panel" id="p4">
+    <span class="chapno">V</span>
+    <div class="inner">
+      <div class="join">
+        <div class="kicker anim d1" style="justify-content:center">Chapter Five · 加入</div>
+        <h2 class="anim d1">一起<span class="metaltext">順起來</span> <span style="font-size:.7em">↗</span></h2>
+        <p class="lead anim d2" style="margin:18px auto 0;text-align:center">邪道手動服現正開放。順我者強，入坑就送整個天堂。</p>
+        <div class="stats">
+          <div class="stat anim d2"><div class="v">×20</div><div class="l">經驗</div></div>
+          <div class="stat anim d2"><div class="v">×5</div><div class="l">金幣</div></div>
+          <div class="stat anim d3"><div class="v">×3</div><div class="l">掉寶</div></div>
+          <div class="stat anim d3"><div class="v">Lv.62</div><div class="l">等級上限</div></div>
+          <div class="stat anim d4"><div class="v">手動</div><div class="l">邪道服</div></div>
+        </div>
+        <div class="cta-row anim d4">
+          <a class="btn btn-primary" href="#">立即下載 ↗</a>
+          <a class="btn btn-ghost" href="#">加入社群</a>
+        </div>
+        <p class="disclaimer anim d4">
+          本遊戲為玩家自架學習研究用私服，與 NC Soft 及《天堂 Lineage》官方無任何關聯。<br>
+          所有商標、美術資源版權歸原權利人所有。「FUTURE SOON ↗ 天堂順起來」為趣味二創梗。
+        </p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- 底部圓點導航 -->
+<nav class="dots" id="dots" aria-label="章節導航"></nav>
+
+<div class="hint">橫向捲動 <span class="k">←</span><span class="k">→</span> 滑鼠滾輪也可</div>
+
+<script>
+(function(){
+  var track = document.getElementById('track');
+  var panels = Array.prototype.slice.call(document.querySelectorAll('.panel'));
+  var dotsWrap = document.getElementById('dots');
+  var progress = document.getElementById('progress');
+  var labels = ['封面','裝備順','成就順','順爺','加入我們'];
+  var current = 0;
+  var total = panels.length;
+
+  // 建圓點
+  panels.forEach(function(p,i){
+    var b = document.createElement('button');
+    b.className = 'dot' + (i===0?' on':'');
+    b.setAttribute('aria-label','第'+(i+1)+'章 '+labels[i]);
+    b.innerHTML = '<span class="lab">'+labels[i]+'</span>';
+    b.addEventListener('click', function(){ goTo(i); });
+    dotsWrap.appendChild(b);
+  });
+  var dots = Array.prototype.slice.call(dotsWrap.querySelectorAll('.dot'));
+
+  function isMobile(){ return window.matchMedia('(max-width:760px)').matches; }
+
+  function render(){
+    if(!isMobile()){
+      track.style.transform = 'translateX(' + (-current * window.innerWidth) + 'px)';
+    }
+    panels.forEach(function(p,i){ p.classList.toggle('active', i===current); });
+    dots.forEach(function(d,i){ d.classList.toggle('on', i===current); });
+    progress.style.width = ((current)/(total-1)*100) + '%';
+  }
+
+  function goTo(i){
+    current = Math.max(0, Math.min(total-1, i));
+    if(isMobile()){
+      panels[current].scrollIntoView({behavior:'smooth'});
+      panels.forEach(function(p,k){ p.classList.toggle('active', k===current); });
+      dots.forEach(function(d,k){ d.classList.toggle('on', k===current); });
+    }else{
+      render();
+    }
+  }
+
+  // ---- 桌機：滾輪劫持 ----
+  var lock = false;
+  window.addEventListener('wheel', function(e){
+    if(isMobile()) return;
+    e.preventDefault();
+    if(lock) return;
+    var d = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+    if(Math.abs(d) < 8) return;
+    lock = true;
+    if(d > 0) goTo(current+1); else goTo(current-1);
+    setTimeout(function(){ lock=false; }, 780);
+  }, {passive:false});
+
+  // ---- 鍵盤 ----
+  window.addEventListener('keydown', function(e){
+    if(e.key==='ArrowRight'||e.key==='PageDown'){ e.preventDefault(); goTo(current+1); }
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); goTo(current-1); }
+    else if(e.key==='Home'){ goTo(0); }
+    else if(e.key==='End'){ goTo(total-1); }
+  });
+
+  // ---- 觸控（桌機寬度下的滑動；手機走原生捲動） ----
+  var sx=0, sy=0, touching=false;
+  window.addEventListener('touchstart', function(e){
+    if(isMobile()) return;
+    touching=true; sx=e.touches[0].clientX; sy=e.touches[0].clientY;
+  }, {passive:true});
+  window.addEventListener('touchend', function(e){
+    if(isMobile()||!touching) return;
+    touching=false;
+    var dx = e.changedTouches[0].clientX - sx;
+    var dy = e.changedTouches[0].clientY - sy;
+    if(Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)){
+      if(dx < 0) goTo(current+1); else goTo(current-1);
+    }
+  }, {passive:true});
+
+  // ---- 手機：捲動時更新圓點與 active ----
+  var mobScrollTimer;
+  window.addEventListener('scroll', function(){
+    if(!isMobile()) return;
+    clearTimeout(mobScrollTimer);
+    mobScrollTimer = setTimeout(function(){
+      var mid = window.scrollY + window.innerHeight/2;
+      var idx = 0;
+      panels.forEach(function(p,i){ if(p.offsetTop <= mid) idx = i; });
+      current = idx;
+      panels.forEach(function(p,i){ p.classList.toggle('active', i===current); });
+      dots.forEach(function(d,i){ d.classList.toggle('on', i===current); });
+      progress.style.width = ((current)/(total-1)*100) + '%';
+    }, 60);
+  }, {passive:true});
+
+  window.addEventListener('resize', function(){ render(); });
+
+  render();
+})();
+</script>
+</body>
+</html>

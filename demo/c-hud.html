@@ -1,0 +1,519 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>順起來天堂 · FUTURE SOON — HUD 控制台</title>
+<link rel="icon" href="../assets/images/favicon-shun.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@400;500;700&family=Cinzel:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05080a; --bg2:#0a0f12; --bg3:#0f1619;
+  --acid:#39ff9e; --acid-hi:#8dffc4;
+  --violet:#a94dff; --violet-hi:#cf9bff;
+  --blood:#ff2d55;
+  --tx-hi:#eafff5; --tx:#aec6ba; --tx-mut:#6f8a7d;
+  --metal:linear-gradient(176deg,#d7fff0,#6dffc0,#1fd98a,#0b8f58);
+  --panel-edge:rgba(57,255,158,.28);
+  --sidebar-w:248px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--tx);
+  font-family:"Noto Sans TC",sans-serif;
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  position:relative;
+  overflow-x:hidden;
+}
+/* ===== 全域科技格線 / 掃描線背景 ===== */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(57,255,158,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(57,255,158,.035) 1px,transparent 1px);
+  background-size:44px 44px;
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0px,rgba(0,0,0,0) 3px,rgba(5,8,10,.25) 4px);
+  mix-blend-mode:multiply;opacity:.5;
+}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+h1,h2,h3{font-family:"Noto Serif TC",serif;font-weight:900;line-height:1.25;color:var(--tx-hi)}
+.num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+.cz{font-family:"Cinzel",serif;letter-spacing:.08em}
+
+/* ===== 面板通用：科幻邊框 + 角標 + 發光 ===== */
+.panel{
+  position:relative;
+  background:var(--bg2);
+  border:1px solid var(--panel-edge);
+  border-radius:4px;
+  box-shadow:0 0 0 1px rgba(5,8,10,.8) inset, 0 8px 34px rgba(0,0,0,.55);
+}
+.panel::before,.panel::after{
+  content:"";position:absolute;width:14px;height:14px;pointer-events:none;
+  border-color:var(--acid);border-style:solid;opacity:.9;
+}
+.panel::before{top:-1px;left:-1px;border-width:2px 0 0 2px}
+.panel::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0}
+.panel-hd{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 16px;
+  border-bottom:1px solid rgba(57,255,158,.18);
+  background:linear-gradient(90deg,rgba(57,255,158,.08),transparent);
+}
+.panel-hd .dot{width:8px;height:8px;border-radius:50%;background:var(--acid);box-shadow:0 0 10px var(--acid);flex:none}
+.panel-hd h3{font-size:1rem;letter-spacing:.04em}
+.panel-hd .tag{margin-left:auto;font-family:"Cinzel",serif;font-size:.62rem;letter-spacing:.18em;color:var(--tx-mut)}
+.panel-bd{padding:16px}
+
+/* ===== 版面 Grid ===== */
+.app{
+  position:relative;z-index:2;
+  display:grid;
+  grid-template-columns:var(--sidebar-w) 1fr;
+  grid-template-rows:1fr auto;
+  min-height:100vh;
+}
+
+/* ===== 左側欄 ===== */
+.sidebar{
+  grid-row:1 / span 2;
+  background:linear-gradient(180deg,var(--bg3),var(--bg));
+  border-right:1px solid var(--panel-edge);
+  padding:20px 16px;
+  display:flex;flex-direction:column;gap:18px;
+  position:sticky;top:0;height:100vh;
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .avatar{
+  width:54px;height:54px;border-radius:50%;flex:none;
+  border:2px solid var(--violet);
+  background:radial-gradient(circle at 50% 35%,#2a123f,#0a0f12);
+  box-shadow:0 0 16px rgba(169,77,255,.55);
+  object-fit:cover;object-position:top;
+}
+.brand .avatar.ph{display:flex;align-items:center;justify-content:center;font-family:"Cinzel";color:var(--violet-hi);font-size:1.4rem}
+.brand b{display:block;font-family:"Noto Serif TC";font-weight:900;color:var(--tx-hi);font-size:1.05rem;line-height:1.2}
+.brand span{font-family:"Cinzel";font-size:.58rem;letter-spacing:.2em;color:var(--acid)}
+.nav{display:flex;flex-direction:column;gap:6px;margin-top:4px}
+.nav a{
+  display:flex;align-items:center;gap:12px;
+  padding:11px 13px;border-radius:4px;
+  color:var(--tx);font-weight:500;font-size:.92rem;
+  border:1px solid transparent;transition:.18s;
+}
+.nav a .ico{width:20px;text-align:center;filter:drop-shadow(0 0 4px rgba(57,255,158,.5))}
+.nav a:hover,.nav a.on{
+  color:var(--tx-hi);
+  background:linear-gradient(90deg,rgba(57,255,158,.14),transparent);
+  border-color:var(--panel-edge);
+}
+.nav a.on{border-left:3px solid var(--acid)}
+.side-status{margin-top:auto;font-size:.68rem;color:var(--tx-mut);line-height:1.8;border-top:1px dashed rgba(57,255,158,.2);padding-top:12px}
+.live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--blood);box-shadow:0 0 8px var(--blood);animation:blink 1.3s infinite;margin-right:6px}
+@keyframes blink{50%{opacity:.25}}
+
+/* ===== 主區 ===== */
+.main{padding:22px;display:flex;flex-direction:column;gap:18px;min-width:0}
+
+/* HUD 即時數據列 */
+.statbar{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.stat{
+  position:relative;background:var(--bg2);border:1px solid var(--panel-edge);
+  border-radius:4px;padding:14px 16px;overflow:hidden;
+}
+.stat::after{content:"";position:absolute;top:0;right:0;width:26px;height:26px;background:linear-gradient(225deg,rgba(57,255,158,.25),transparent 60%)}
+.stat.v{border-color:rgba(169,77,255,.32)}
+.stat.v .sv{color:var(--violet-hi)}
+.stat.v::after{background:linear-gradient(225deg,rgba(169,77,255,.3),transparent 60%)}
+.stat .sl{font-size:.68rem;letter-spacing:.1em;color:var(--tx-mut);display:flex;align-items:center;gap:6px}
+.stat .sv{font-family:"Noto Serif TC";font-weight:900;font-size:1.9rem;color:var(--acid-hi);line-height:1.1;margin-top:6px}
+.stat .su{font-size:.66rem;color:var(--tx-mut);margin-top:2px}
+
+/* 中央主面板 hero */
+.hero{display:grid;grid-template-columns:1.25fr 1fr;gap:0}
+.hero-l{padding:26px 26px 24px;display:flex;flex-direction:column;justify-content:center;min-width:0}
+.hero-l .kick{font-family:"Cinzel";font-size:.72rem;letter-spacing:.32em;color:var(--violet-hi);margin-bottom:10px}
+.hero-l h1{font-size:clamp(2.3rem,4.6vw,3.6rem);letter-spacing:.02em}
+.hero-l h1 .g{
+  background:var(--metal);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 18px rgba(57,255,158,.35));
+}
+.hero-l .slog{margin:14px 0 20px;color:var(--tx-hi);font-size:1.02rem;line-height:1.9;font-weight:500}
+.hero-l .slog b{color:var(--acid)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.chip{
+  font-size:.74rem;padding:6px 12px;border-radius:999px;
+  border:1px solid rgba(169,77,255,.4);color:var(--violet-hi);
+  background:rgba(169,77,255,.08);font-weight:500;
+}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.btn{
+  position:relative;display:inline-flex;align-items:center;gap:9px;
+  padding:13px 24px;border-radius:4px;font-weight:700;font-size:.96rem;
+  letter-spacing:.04em;cursor:pointer;border:1px solid transparent;transition:.18s;
+}
+.btn.primary{background:var(--metal);color:#042a1a;box-shadow:0 6px 24px rgba(31,217,138,.4)}
+.btn.primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(31,217,138,.55)}
+.btn.ghost{border-color:var(--panel-edge);color:var(--acid-hi);background:rgba(57,255,158,.05)}
+.btn.ghost:hover{background:rgba(57,255,158,.13);color:var(--tx-hi)}
+.hero-r{position:relative;border-left:1px solid rgba(57,255,158,.18);min-height:340px;overflow:hidden;background:radial-gradient(circle at 60% 30%,#1a0d2a,#070b0d 70%)}
+.hero-r img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;filter:saturate(1.1) contrast(1.05)}
+.hero-r .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:"Cinzel";color:var(--violet);opacity:.5;font-size:1rem}
+.hero-r .frame{position:absolute;inset:14px;border:1px solid rgba(57,255,158,.25);pointer-events:none}
+.hero-r .frame::before{content:"● REC";position:absolute;top:8px;left:10px;font-family:"Cinzel";font-size:.6rem;letter-spacing:.15em;color:var(--blood)}
+.hero-r .frame::after{content:"TARGET // SOUL";position:absolute;bottom:8px;right:10px;font-family:"Cinzel";font-size:.58rem;letter-spacing:.12em;color:var(--acid)}
+
+/* 能量 / 屬性列 */
+.mult-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.mult{position:relative}
+.mult .mt{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.mult .mt .mn{font-size:.78rem;color:var(--tx);letter-spacing:.06em}
+.mult .mt .mx{font-family:"Noto Serif TC";font-weight:900;font-size:1.3rem;color:var(--acid-hi)}
+.bar{height:11px;border-radius:999px;background:var(--bg3);border:1px solid rgba(57,255,158,.2);overflow:hidden;position:relative}
+.bar i{display:block;height:100%;width:0;border-radius:999px;background:var(--metal);box-shadow:0 0 12px rgba(57,255,158,.6);transition:width 1.4s cubic-bezier(.2,.8,.2,1)}
+.mult.v .mt .mx{color:var(--violet-hi)}
+.mult.v .bar i{background:linear-gradient(176deg,#e6ccff,#cf9bff,#a94dff,#6a1fb0);box-shadow:0 0 12px rgba(169,77,255,.6)}
+
+/* 下方面板群 */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+/* BOSS 列表 */
+.boss-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px dashed rgba(57,255,158,.14)}
+.boss-row:last-child{border-bottom:0}
+.boss-ic{width:40px;height:40px;flex:none;border-radius:4px;border:1px solid rgba(169,77,255,.4);background:radial-gradient(circle,#2a123f,#0a0f12);display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+.boss-nm{flex:1;min-width:0}
+.boss-nm b{color:var(--tx-hi);font-weight:700;font-size:.95rem;display:block;font-family:"Noto Serif TC"}
+.boss-nm span{font-size:.7rem;color:var(--tx-mut)}
+.boss-cd{font-family:"Cinzel";font-variant-numeric:tabular-nums;font-size:1.05rem;color:var(--acid);letter-spacing:.05em;text-align:right;flex:none;min-width:88px}
+.boss-cd.soon{color:var(--blood);animation:blink 1s infinite}
+/* 排行榜 */
+.rank-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px dashed rgba(57,255,158,.14)}
+.rank-row:last-child{border-bottom:0}
+.rk{width:26px;height:26px;flex:none;border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:"Cinzel";font-weight:700;font-size:.8rem;background:var(--bg3);border:1px solid rgba(57,255,158,.22);color:var(--tx)}
+.rank-row:nth-child(1) .rk{background:var(--metal);color:#042a1a;border-color:transparent}
+.rank-row:nth-child(2) .rk{color:var(--acid-hi);border-color:var(--acid)}
+.rank-row:nth-child(3) .rk{color:var(--violet-hi);border-color:var(--violet)}
+.rank-nm{flex:1;color:var(--tx-hi);font-weight:500;font-size:.92rem}
+.rank-nm small{color:var(--tx-mut);margin-left:6px;font-size:.68rem}
+.rank-val{font-variant-numeric:tabular-nums;font-family:"Noto Serif TC";font-weight:900;color:var(--acid-hi);font-size:1rem}
+.rank-val span{font-size:.64rem;color:var(--tx-mut);font-weight:400;margin-left:3px}
+
+/* 快速下載面板 */
+.dl-panel{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center}
+.dl-mascot{width:76px;height:76px;flex:none;border-radius:50%;border:2px solid var(--acid);background:radial-gradient(circle at 50% 35%,#13251c,#0a0f12);box-shadow:0 0 18px rgba(57,255,158,.4);object-fit:cover;object-position:top}
+.dl-mascot.ph{display:flex;align-items:center;justify-content:center;font-family:"Cinzel";color:var(--acid);font-size:1.5rem}
+.dl-txt b{font-family:"Noto Serif TC";font-weight:900;color:var(--tx-hi);font-size:1.15rem;display:block}
+.dl-txt span{font-size:.82rem;color:var(--tx)}
+
+/* 右底資訊面板行 */
+.info-line{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px dashed rgba(57,255,158,.12);font-size:.86rem}
+.info-line:last-child{border-bottom:0}
+.info-line span{color:var(--tx-mut)}
+.info-line b{color:var(--acid-hi);font-variant-numeric:tabular-nums;font-weight:700}
+
+/* 頁尾 */
+.footer{
+  grid-column:2;
+  padding:22px;border-top:1px solid rgba(57,255,158,.14);
+  color:var(--tx-mut);font-size:.72rem;line-height:1.9;text-align:center;
+}
+.footer b{color:var(--tx)}
+
+/* 手機底部 tab */
+.tabbar{display:none}
+
+@media(max-width:860px){
+  :root{--sidebar-w:0}
+  .app{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .footer{grid-column:1}
+  .statbar{grid-template-columns:1fr 1fr}
+  .hero{grid-template-columns:1fr}
+  .hero-r{min-height:280px;border-left:0;border-top:1px solid rgba(57,255,158,.18)}
+  .mult-grid{grid-template-columns:1fr 1fr}
+  .grid2{grid-template-columns:1fr}
+  .dl-panel{grid-template-columns:1fr;text-align:center;justify-items:center;gap:12px}
+  .main{padding:16px 14px 90px}
+  /* 底部 tab bar */
+  .tabbar{
+    display:flex;position:fixed;bottom:0;left:0;right:0;z-index:50;
+    background:var(--bg3);border-top:1px solid var(--panel-edge);
+    box-shadow:0 -6px 24px rgba(0,0,0,.6);
+  }
+  .tabbar a{flex:1;padding:10px 4px;text-align:center;color:var(--tx-mut);font-size:.64rem}
+  .tabbar a .ico{display:block;font-size:1.15rem;margin-bottom:3px;filter:drop-shadow(0 0 5px rgba(57,255,158,.5))}
+  .tabbar a.on{color:var(--acid)}
+}
+@media(max-width:420px){
+  .statbar{grid-template-columns:1fr 1fr}
+  .mult-grid{grid-template-columns:1fr}
+}
+</style>
+
+<div class="app">
+  <!-- ===== 左側欄 ===== -->
+  <aside class="sidebar">
+    <div class="brand">
+      <img class="avatar" src="../assets/images/ip/shun-main.png" alt="順爺" onerror="this.outerHTML='&lt;div class=&quot;avatar ph&quot;&gt;順&lt;/div&gt;'">
+      <div>
+        <b>順起來天堂</b>
+        <span>FUTURE SOON</span>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="#overview" class="on"><span class="ico">◈</span>總覽</a>
+      <a href="#sell"><span class="ico">⚔</span>賣點</a>
+      <a href="#boss"><span class="ico">☠</span>BOSS</a>
+      <a href="#rank"><span class="ico">♛</span>排行</a>
+      <a href="#download"><span class="ico">⇩</span>下載</a>
+    </nav>
+    <div class="side-status">
+      <div><span class="live-dot"></span>伺服狀態：<b style="color:var(--acid)">順暢運行中</b></div>
+      <div class="num">NODE // TPE-03</div>
+      <div class="num">PING 12ms · LV CAP 62</div>
+    </div>
+  </aside>
+
+  <!-- ===== 主區 ===== -->
+  <main class="main">
+    <!-- HUD 即時數據列 -->
+    <section class="statbar" id="overview">
+      <div class="stat">
+        <div class="sl"><span class="live-dot"></span>目前在線</div>
+        <div class="sv num" data-count="1847">0</div>
+        <div class="su">ONLINE PLAYERS</div>
+      </div>
+      <div class="stat v">
+        <div class="sl">今日順走寶物</div>
+        <div class="sv num" data-count="28416">0</div>
+        <div class="su">LOOT SNATCHED</div>
+      </div>
+      <div class="stat">
+        <div class="sl">下次 BOSS</div>
+        <div class="sv num" id="nextBoss">00:00</div>
+        <div class="su">NEXT SPAWN</div>
+      </div>
+      <div class="stat v">
+        <div class="sl">伺服開放</div>
+        <div class="sv num" data-count="137">0</div>
+        <div class="su">DAYS ONLINE</div>
+      </div>
+    </section>
+
+    <!-- 中央主面板 -->
+    <section class="panel hero">
+      <div class="hero-l">
+        <div class="kick cz">EVIL · GREEDY · OVERPOWERED</div>
+        <h1>天堂<span class="g">順起來</span></h1>
+        <p class="slog">見寶就順、見怪就順。<b>順我者強</b>，看上的就是你的——<br>把別人的成就、裝備，全部順過來。</p>
+        <div class="chips">
+          <span class="chip">邪道手動服</span>
+          <span class="chip">經驗 ×20</span>
+          <span class="chip">金幣 ×5</span>
+          <span class="chip">掉寶 ×3</span>
+          <span class="chip">等級上限 62</span>
+        </div>
+        <div class="cta">
+          <a href="#" class="btn primary"><span>⇩</span>立即下載</a>
+          <a href="#" class="btn ghost"><span>◎</span>加入社群</a>
+        </div>
+      </div>
+      <div class="hero-r">
+        <img src="../assets/images/hero-shun.png" alt="順起來天堂主視覺" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="ph" style="display:none">HERO // SHUN</div>
+        <div class="frame"></div>
+      </div>
+    </section>
+
+    <!-- 能量 / 倍率屬性列 -->
+    <section class="panel" id="sell">
+      <div class="panel-hd"><span class="dot"></span><h3>核心倍率 · 屬性輸出</h3><span class="tag">CORE MULTIPLIERS</span></div>
+      <div class="panel-bd">
+        <div class="mult-grid">
+          <div class="mult">
+            <div class="mt"><span class="mn">經驗 EXP</span><span class="mx num">×20</span></div>
+            <div class="bar"><i data-w="100%"></i></div>
+          </div>
+          <div class="mult v">
+            <div class="mt"><span class="mn">金幣 GOLD</span><span class="mx num">×5</span></div>
+            <div class="bar"><i data-w="70%"></i></div>
+          </div>
+          <div class="mult">
+            <div class="mt"><span class="mn">掉寶 DROP</span><span class="mx num">×3</span></div>
+            <div class="bar"><i data-w="55%"></i></div>
+          </div>
+          <div class="mult v">
+            <div class="mt"><span class="mn">等級上限 LV</span><span class="mx num">62</span></div>
+            <div class="bar"><i data-w="88%"></i></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 下方面板群：BOSS + 排行 -->
+    <div class="grid2">
+      <!-- BOSS -->
+      <section class="panel" id="boss">
+        <div class="panel-hd"><span class="dot"></span><h3>BOSS 刷新倒數</h3><span class="tag">SPAWN TIMER</span></div>
+        <div class="panel-bd">
+          <div class="boss-row">
+            <div class="boss-ic">☠</div>
+            <div class="boss-nm"><b>巴列斯</b><span>沉默洞窟 B3 · 掉落變身卷</span></div>
+            <div class="boss-cd num" data-sec="184">--:--</div>
+          </div>
+          <div class="boss-row">
+            <div class="boss-ic">🐉</div>
+            <div class="boss-nm"><b>妖魔首領</b><span>象牙塔 7F · 稀有武器池</span></div>
+            <div class="boss-cd num" data-sec="921">--:--</div>
+          </div>
+          <div class="boss-row">
+            <div class="boss-ic">👁</div>
+            <div class="boss-nm"><b>死亡騎士</b><span>古代倉庫 · 高階防具</span></div>
+            <div class="boss-cd num" data-sec="43">--:--</div>
+          </div>
+          <div class="boss-row">
+            <div class="boss-ic">🔥</div>
+            <div class="boss-nm"><b>勇猛的肯恩</b><span>火焰之地 · 傳說飾品</span></div>
+            <div class="boss-cd num" data-sec="2578">--:--</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 排行榜 -->
+      <section class="panel" id="rank">
+        <div class="panel-hd"><span class="dot"></span><h3>順走排行榜</h3><span class="tag">TOP SNATCHERS</span></div>
+        <div class="panel-bd">
+          <div class="rank-row"><div class="rk">1</div><div class="rank-nm">暗夜順爺<small>法師</small></div><div class="rank-val num">9,982<span>件</span></div></div>
+          <div class="rank-row"><div class="rk">2</div><div class="rank-nm">都是我的<small>妖精</small></div><div class="rank-val num">8,471<span>件</span></div></div>
+          <div class="rank-row"><div class="rk">3</div><div class="rank-nm">見寶就衝<small>騎士</small></div><div class="rank-val num">7,330<span>件</span></div></div>
+          <div class="rank-row"><div class="rk">4</div><div class="rank-nm">順手牽龍<small>王族</small></div><div class="rank-val num">6,105<span>件</span></div></div>
+          <div class="rank-row"><div class="rk">5</div><div class="rank-nm">別跑留下<small>黑妖</small></div><div class="rank-val num">5,642<span>件</span></div></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- 快速下載面板 -->
+    <section class="panel" id="download">
+      <div class="panel-hd"><span class="dot"></span><h3>快速進服</h3><span class="tag">DEPLOY NOW</span></div>
+      <div class="panel-bd">
+        <div class="dl-panel">
+          <img class="dl-mascot" src="../assets/images/ip/shun-main.png" alt="順爺" onerror="this.outerHTML='&lt;div class=&quot;dl-mascot ph&quot;&gt;順&lt;/div&gt;'">
+          <div class="dl-txt">
+            <b>順爺在線上等你開順</b>
+            <span>下載客戶端，立刻把整個天堂順起來。</span>
+          </div>
+          <div class="cta">
+            <a href="#" class="btn primary"><span>⇩</span>立即下載</a>
+            <a href="#" class="btn ghost"><span>◎</span>加入社群</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 底部資訊面板 -->
+    <section class="panel">
+      <div class="panel-hd"><span class="dot"></span><h3>伺服資訊</h3><span class="tag">SERVER INFO</span></div>
+      <div class="panel-bd">
+        <div class="info-line"><span>版本核心</span><b>邪道手動服 · 60FPS</b></div>
+        <div class="info-line"><span>開服天數</span><b class="num">137 天</b></div>
+        <div class="info-line"><span>今日尖峰在線</span><b class="num">2,314 人</b></div>
+        <div class="info-line"><span>綁定帳號總數</span><b class="num">41,920</b></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 頁尾 -->
+  <footer class="footer">
+    <div><b>順起來天堂 · FUTURE SOON</b>　見寶就順 · 見怪就順 · 順我者強</div>
+    <div>本站為玩家自製私人伺服器之示範頁面，與 NCSOFT Corporation 及《天堂 Lineage》官方無任何關聯，所有商標歸原權利人所有。</div>
+  </footer>
+</div>
+
+<!-- 手機底部 tab bar -->
+<nav class="tabbar">
+  <a href="#overview" class="on"><span class="ico">◈</span>總覽</a>
+  <a href="#sell"><span class="ico">⚔</span>賣點</a>
+  <a href="#boss"><span class="ico">☠</span>BOSS</a>
+  <a href="#rank"><span class="ico">♛</span>排行</a>
+  <a href="#download"><span class="ico">⇩</span>下載</a>
+</nav>
+
+<script>
+/* ===== 數字計數動畫 ===== */
+function animateCount(el){
+  const target=+el.dataset.count, dur=1600, t0=performance.now();
+  function tick(now){
+    const p=Math.min((now-t0)/dur,1);
+    const e=1-Math.pow(1-p,3);
+    el.textContent=Math.floor(target*e).toLocaleString();
+    if(p<1)requestAnimationFrame(tick);
+    else el.textContent=target.toLocaleString();
+  }
+  requestAnimationFrame(tick);
+}
+/* 進入視窗才觸發 */
+const io=new IntersectionObserver((es)=>{
+  es.forEach(en=>{
+    if(!en.isIntersecting)return;
+    const el=en.target;
+    if(el.dataset.count)animateCount(el);
+    if(el.classList.contains('bar'))el.querySelector('i').style.width=el.querySelector('i').dataset.w;
+    io.unobserve(el);
+  });
+},{threshold:.4});
+document.querySelectorAll('[data-count]').forEach(e=>io.observe(e));
+document.querySelectorAll('.bar').forEach(e=>io.observe(e));
+
+/* ===== 在線人數微幅跳動 ===== */
+const onlineEl=document.querySelector('.stat .sv[data-count="1847"]');
+setInterval(()=>{
+  if(!onlineEl)return;
+  const base=1847+Math.floor(Math.random()*60-20);
+  onlineEl.textContent=base.toLocaleString();
+},2600);
+
+/* ===== 今日順走寶物持續增加 ===== */
+let lootBase=28416;
+const lootEl=document.querySelector('.stat.v .sv[data-count="28416"]');
+setInterval(()=>{
+  if(!lootEl)return;
+  lootBase+=Math.floor(Math.random()*7+1);
+  lootEl.textContent=lootBase.toLocaleString();
+},1800);
+
+/* ===== BOSS 倒數計時 ===== */
+function fmt(s){const m=Math.floor(s/60),ss=s%60;return String(m).padStart(2,'0')+':'+String(ss).padStart(2,'0');}
+const bossEls=[...document.querySelectorAll('.boss-cd')];
+bossEls.forEach(el=>el.dataset.sec=+el.dataset.sec);
+setInterval(()=>{
+  bossEls.forEach(el=>{
+    let s=+el.dataset.sec;
+    s=s>0?s-1:Math.floor(Math.random()*2400+300);
+    el.dataset.sec=s;
+    el.textContent=fmt(s);
+    el.classList.toggle('soon',s<60);
+  });
+  // 更新 HUD「下次 BOSS」= 最小倒數
+  const min=Math.min(...bossEls.map(e=>+e.dataset.sec));
+  const nb=document.getElementById('nextBoss');
+  if(nb)nb.textContent=fmt(min);
+},1000);
+
+/* ===== 導航捲動高亮 ===== */
+const navLinks=[...document.querySelectorAll('.nav a, .tabbar a')];
+const secs=[...document.querySelectorAll('section[id]')];
+const spy=new IntersectionObserver((es)=>{
+  es.forEach(en=>{
+    if(en.isIntersecting){
+      const id=en.target.id;
+      navLinks.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+id));
+    }
+  });
+},{rootMargin:'-40% 0px -55% 0px'});
+secs.forEach(s=>spy.observe(s));
+</script>

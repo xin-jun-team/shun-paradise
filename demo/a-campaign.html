@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>順起來天堂 · FUTURE SOON — 見寶就順，見怪就順</title>
+<link rel="icon" href="../assets/images/favicon-shun.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700;900&family=Noto+Sans+TC:wght@400;500;700&family=Cinzel:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05080a; --bg2:#0a0f12; --bg3:#0f1619;
+  --acid:#39ff9e; --acid-hi:#8dffc4;
+  --violet:#a94dff; --violet-hi:#cf9bff;
+  --blood:#ff2d55;
+  --tx-hi:#eafff5; --tx:#aec6ba; --tx-mut:#6f8a7d;
+  --metal:linear-gradient(176deg,#d7fff0,#6dffc0,#1fd98a,#0b8f58);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg); color:var(--tx);
+  font-family:"Noto Sans TC",sans-serif;
+  line-height:1.8; overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.serif{font-family:"Noto Serif TC",serif;font-weight:900;color:var(--tx-hi);line-height:1.25}
+.en{font-family:"Cinzel",serif;letter-spacing:.14em}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.acid{color:var(--acid)}
+.violet{color:var(--violet-hi)}
+.blood{color:var(--blood)}
+
+/* 競選色帶 */
+.ribbon{
+  height:6px;width:100%;
+  background:linear-gradient(90deg,var(--acid) 0 33%,var(--violet) 33% 66%,var(--blood) 66% 100%);
+}
+
+/* ===== 導航：競選徽章式 ===== */
+header{
+  position:sticky;top:0;z-index:50;
+  background:rgba(5,8,10,.92);
+  border-bottom:1px solid rgba(57,255,158,.22);
+  backdrop-filter:blur(8px);
+}
+.nav{display:flex;align-items:center;justify-content:space-between;height:74px;gap:20px}
+.brand{display:flex;align-items:center;gap:14px}
+.badge{
+  width:48px;height:48px;border-radius:50%;
+  background:var(--metal);
+  display:flex;align-items:center;justify-content:center;
+  font-family:"Noto Serif TC",serif;font-weight:900;font-size:26px;color:#05240f;
+  box-shadow:0 0 0 3px rgba(5,8,10,1),0 0 0 5px var(--acid),0 0 22px rgba(57,255,158,.55);
+  flex:0 0 auto;
+}
+.brand .nm{display:flex;flex-direction:column;line-height:1.1}
+.brand .nm b{font-family:"Noto Serif TC",serif;font-weight:900;font-size:21px;color:var(--tx-hi)}
+.brand .nm span{font-size:11px;letter-spacing:.3em;color:var(--acid)}
+.menu{display:flex;gap:30px;align-items:center}
+.menu a{font-weight:700;color:var(--tx);font-size:15px;position:relative;padding:6px 0}
+.menu a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--acid);transition:.25s}
+.menu a:hover{color:var(--tx-hi)}
+.menu a:hover::after{width:100%}
+.nav-cta{
+  background:var(--metal);color:#05240f;font-weight:700;
+  padding:11px 22px;border-radius:30px;font-size:14px;
+  box-shadow:0 0 18px rgba(57,255,158,.4);
+}
+.nav-tog{display:none;background:none;border:1px solid var(--acid);color:var(--acid);border-radius:8px;padding:8px 12px;font-size:18px;cursor:pointer}
+
+/* ===== HERO：超大競選標語 ===== */
+.hero{position:relative;overflow:hidden;padding:70px 0 90px}
+.hero::before{
+  content:"";position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(60% 55% at 78% 30%,rgba(169,77,255,.26),transparent 60%),
+    radial-gradient(55% 50% at 12% 72%,rgba(57,255,158,.22),transparent 60%),
+    var(--bg);
+}
+.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+.poster-tag{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--bg3);border:1px solid rgba(57,255,158,.35);
+  color:var(--acid);font-weight:700;font-size:13px;letter-spacing:.08em;
+  padding:8px 16px;border-radius:30px;margin-bottom:22px;
+}
+.poster-tag .dot{width:8px;height:8px;border-radius:50%;background:var(--blood);box-shadow:0 0 10px var(--blood)}
+.hero h1{font-size:clamp(52px,9vw,112px);line-height:.98;letter-spacing:.02em;margin-bottom:6px}
+.hero h1 .grad{
+  background:var(--metal);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 4px 18px rgba(57,255,158,.35));
+}
+.arrow-up{
+  display:inline-block;font-family:"Cinzel",serif;font-weight:800;
+  font-size:clamp(50px,9vw,108px);line-height:1;color:var(--violet-hi);
+  transform:translateY(8px);
+  text-shadow:0 0 28px rgba(169,77,255,.7);
+  animation:nudge 1.8s ease-in-out infinite;
+}
+@keyframes nudge{0%,100%{transform:translate(0,8px)}50%{transform:translate(8px,-4px)}}
+.hero .en-main{font-family:"Cinzel",serif;font-weight:800;font-size:clamp(22px,4vw,42px);color:var(--tx-hi);letter-spacing:.22em;margin:14px 0 20px}
+.hero .sub{font-size:clamp(16px,2.2vw,21px);color:var(--tx);max-width:520px;margin-bottom:12px;font-weight:500}
+.hero .sub b{color:var(--acid-hi)}
+.slogan-line{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 30px}
+.slogan-line span{
+  background:var(--bg3);border-left:3px solid var(--acid);
+  padding:6px 14px;font-weight:700;color:var(--tx-hi);font-size:14px;border-radius:4px;
+}
+.hero-cta{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.btn-big{
+  background:var(--metal);color:#05240f;font-weight:900;font-family:"Noto Serif TC",serif;
+  font-size:21px;padding:16px 46px;border-radius:40px;
+  box-shadow:0 8px 30px rgba(57,255,158,.45);border:none;cursor:pointer;
+  display:inline-flex;align-items:center;gap:10px;transition:.2s;
+}
+.btn-big:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(57,255,158,.65)}
+.btn-ghost{
+  border:1.5px solid var(--violet);color:var(--violet-hi);font-weight:700;
+  padding:15px 30px;border-radius:40px;font-size:16px;transition:.2s;
+}
+.btn-ghost:hover{background:rgba(169,77,255,.14);color:#fff}
+
+.hero-visual{position:relative}
+.hero-visual .frame{
+  position:relative;border-radius:18px;overflow:hidden;
+  border:1px solid rgba(57,255,158,.3);
+  box-shadow:0 0 0 1px rgba(169,77,255,.3),0 20px 60px rgba(0,0,0,.6);
+  background:linear-gradient(160deg,var(--bg3),var(--bg));
+}
+.hero-visual img{width:100%;height:100%;object-fit:cover;object-position:center top}
+.hero-visual .cap{
+  position:absolute;left:0;right:0;bottom:0;
+  background:linear-gradient(0deg,rgba(5,8,10,.95),transparent);
+  padding:26px 22px 18px;
+}
+.hero-visual .cap b{font-family:"Noto Serif TC",serif;font-weight:900;color:var(--acid-hi);font-size:18px}
+.hero-visual .cap p{font-size:13px;color:var(--tx);margin-top:2px}
+.float-no{
+  position:absolute;top:-16px;right:-14px;z-index:3;
+  background:var(--blood);color:#fff;font-family:"Cinzel",serif;font-weight:800;
+  padding:8px 16px;border-radius:30px;font-size:13px;letter-spacing:.1em;
+  box-shadow:0 6px 20px rgba(255,45,85,.5);transform:rotate(6deg);
+}
+
+/* 競選數據條 */
+.stats{
+  position:relative;z-index:2;margin-top:48px;
+  display:grid;grid-template-columns:repeat(5,1fr);gap:1px;
+  background:rgba(57,255,158,.2);border:1px solid rgba(57,255,158,.25);border-radius:14px;overflow:hidden;
+}
+.stats .cell{background:var(--bg2);padding:20px 14px;text-align:center}
+.stats .n{font-family:"Cinzel",serif;font-weight:800;font-size:clamp(24px,4vw,38px);color:var(--acid)}
+.stats .n.v{color:var(--violet-hi)}
+.stats .l{font-size:12px;color:var(--tx-mut);margin-top:4px;letter-spacing:.05em}
+
+/* ===== 區段標題 ===== */
+.sec{padding:84px 0;position:relative}
+.sec-head{text-align:center;margin-bottom:54px}
+.sec-head .kick{
+  font-family:"Cinzel",serif;font-weight:800;color:var(--violet-hi);
+  letter-spacing:.3em;font-size:14px;margin-bottom:12px;
+}
+.sec-head h2{font-size:clamp(32px,5vw,52px)}
+.sec-head h2 .grad{background:var(--metal);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sec-head p{color:var(--tx);margin-top:12px;font-size:16px}
+
+/* ===== 政見牆 ===== */
+.pledge-wall{display:flex;flex-direction:column;gap:18px}
+.pledge{
+  display:grid;grid-template-columns:120px 1fr auto;gap:26px;align-items:center;
+  background:var(--bg2);border:1px solid rgba(57,255,158,.16);
+  border-left:5px solid var(--acid);
+  border-radius:14px;padding:26px 30px;transition:.25s;
+}
+.pledge:nth-child(even){border-left-color:var(--violet)}
+.pledge:hover{transform:translateX(6px);border-color:rgba(57,255,158,.5);background:var(--bg3)}
+.pledge .no{
+  font-family:"Cinzel",serif;font-weight:800;
+  font-size:clamp(44px,7vw,70px);line-height:1;
+  background:var(--metal);-webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.pledge:nth-child(even) .no{background:linear-gradient(160deg,#e3c9ff,#a94dff,#6a1fb8);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pledge .body h3{font-size:clamp(21px,3vw,27px);margin-bottom:6px}
+.pledge .body h3 .en{font-size:13px;color:var(--tx-mut);font-weight:600;margin-left:8px}
+.pledge .body p{color:var(--tx);font-size:15px}
+.pledge .tag{
+  background:var(--bg3);border:1px solid rgba(57,255,158,.3);color:var(--acid);
+  font-weight:700;font-size:13px;padding:8px 16px;border-radius:30px;white-space:nowrap;
+}
+.pledge:nth-child(even) .tag{border-color:rgba(169,77,255,.4);color:var(--violet-hi)}
+
+/* 進度條裝飾 */
+.progress-box{
+  margin-top:40px;background:var(--bg2);border:1px solid rgba(57,255,158,.2);
+  border-radius:14px;padding:24px 28px;
+}
+.progress-box .top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.progress-box .top b{font-family:"Noto Serif TC",serif;font-weight:900;color:var(--tx-hi);font-size:18px}
+.progress-box .top .pct{font-family:"Cinzel",serif;font-weight:800;color:var(--acid);font-size:22px}
+.bar{height:16px;border-radius:10px;background:var(--bg);overflow:hidden;border:1px solid rgba(57,255,158,.25)}
+.bar i{display:block;height:100%;width:94%;background:var(--metal);border-radius:10px;box-shadow:0 0 18px rgba(57,255,158,.6)}
+.progress-box .note{margin-top:10px;font-size:13px;color:var(--tx-mut)}
+
+/* ===== 參與·連署區 ===== */
+.join{position:relative;overflow:hidden;background:var(--bg2)}
+.join::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(50% 60% at 85% 50%,rgba(169,77,255,.2),transparent 60%),
+    radial-gradient(50% 60% at 10% 40%,rgba(57,255,158,.16),transparent 60%);
+}
+.join-grid{position:relative;z-index:2;display:grid;grid-template-columns:.9fr 1.1fr;gap:50px;align-items:center}
+.mascot-col{text-align:center;position:relative}
+.mascot-col img{max-width:300px;margin:0 auto;filter:drop-shadow(0 18px 40px rgba(169,77,255,.4))}
+.mascot-col .bubble{
+  position:absolute;top:10px;left:50%;transform:translateX(-50%);
+  background:var(--metal);color:#05240f;font-family:"Noto Serif TC",serif;font-weight:900;
+  padding:10px 20px;border-radius:30px 30px 30px 4px;font-size:16px;white-space:nowrap;
+  box-shadow:0 8px 24px rgba(0,0,0,.4);z-index:3;
+}
+.join-form h2{font-size:clamp(30px,4.5vw,46px);margin-bottom:10px}
+.join-form .kick{font-family:"Cinzel",serif;font-weight:800;color:var(--violet-hi);letter-spacing:.28em;font-size:13px;margin-bottom:14px}
+.join-form p{color:var(--tx);font-size:16px;margin-bottom:26px;max-width:480px}
+.sign-row{display:flex;gap:12px;flex-wrap:wrap}
+.sign-row input{
+  flex:1;min-width:220px;background:var(--bg);border:1.5px solid rgba(57,255,158,.3);
+  color:var(--tx-hi);padding:16px 20px;border-radius:12px;font-size:15px;font-family:inherit;
+}
+.sign-row input::placeholder{color:var(--tx-mut)}
+.sign-row input:focus{outline:none;border-color:var(--acid);box-shadow:0 0 0 3px rgba(57,255,158,.15)}
+.sign-btn{
+  background:var(--metal);color:#05240f;font-weight:900;font-family:"Noto Serif TC",serif;
+  font-size:17px;padding:16px 34px;border-radius:12px;border:none;cursor:pointer;
+  box-shadow:0 8px 24px rgba(57,255,158,.4);transition:.2s;white-space:nowrap;
+}
+.sign-btn:hover{transform:translateY(-2px)}
+.sign-note{margin-top:14px;font-size:13px;color:var(--tx-mut)}
+.sign-count{margin-top:24px;display:flex;gap:28px;flex-wrap:wrap}
+.sign-count div b{font-family:"Cinzel",serif;font-weight:800;font-size:28px;color:var(--acid);display:block}
+.sign-count div span{font-size:13px;color:var(--tx-mut)}
+
+/* ===== 頁尾 ===== */
+footer{background:var(--bg);border-top:1px solid rgba(57,255,158,.18);padding:60px 0 30px}
+.foot-top{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;margin-bottom:34px}
+.foot-brand{max-width:360px}
+.foot-brand .badge{margin-bottom:16px}
+.foot-brand .slg{font-family:"Noto Serif TC",serif;font-weight:900;color:var(--tx-hi);font-size:22px;margin-bottom:8px}
+.foot-brand p{color:var(--tx-mut);font-size:14px}
+.foot-links{display:flex;gap:56px;flex-wrap:wrap}
+.foot-col h4{color:var(--acid);font-family:"Cinzel",serif;font-weight:800;font-size:13px;letter-spacing:.2em;margin-bottom:14px}
+.foot-col a{display:block;color:var(--tx);font-size:14px;margin-bottom:10px;transition:.2s}
+.foot-col a:hover{color:var(--acid-hi)}
+.foot-bottom{border-top:1px solid rgba(57,255,158,.12);padding-top:22px;text-align:center}
+.foot-bottom p{font-size:12px;color:var(--tx-mut);line-height:1.9}
+.foot-bottom .en{color:var(--acid);letter-spacing:.2em;margin-bottom:8px;font-weight:600}
+
+@media(max-width:900px){
+  .menu,.nav-cta{display:none}
+  .nav-tog{display:block}
+  .hero-grid{grid-template-columns:1fr;gap:36px}
+  .hero-visual{order:-1;max-width:420px;margin:0 auto}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stats .cell:last-child{grid-column:1/-1}
+  .pledge{grid-template-columns:70px 1fr;gap:16px;padding:22px}
+  .pledge .tag{grid-column:2;justify-self:start}
+  .join-grid{grid-template-columns:1fr;gap:36px}
+  .mascot-col{order:-1}
+  .foot-top{flex-direction:column}
+}
+@media(max-width:480px){
+  .stats{grid-template-columns:1fr}
+  .stats .cell:last-child{grid-column:auto}
+  .slogan-line span{font-size:13px}
+}
+</style>
+</head>
+<body>
+<div class="ribbon"></div>
+
+<!-- 導航：競選徽章式 -->
+<header>
+  <div class="wrap nav">
+    <div class="brand">
+      <div class="badge">順</div>
+      <div class="nm">
+        <b>順起來天堂</b>
+        <span class="en">FUTURE SOON</span>
+      </div>
+    </div>
+    <nav class="menu">
+      <a href="#pledge">政見</a>
+      <a href="#join">參與</a>
+      <a href="#join">加入我們</a>
+    </nav>
+    <a href="#" class="nav-cta">立即下載 ↗</a>
+    <button class="nav-tog" aria-label="選單">☰</button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <div class="poster-tag"><span class="dot"></span>2026 天堂改革主軸 · 邪道手動服</div>
+        <h1><span class="grad">天堂順起來</span><span class="arrow-up">↗</span></h1>
+        <div class="en-main">FUTURE&nbsp;SOON</div>
+        <p class="sub">讓你的<b>裝備、等級、成就</b>，全部順起來。<br>看上的就是你的 —— 見寶就順，見怪就順。</p>
+        <div class="slogan-line">
+          <span>見寶就順</span>
+          <span>見怪就順</span>
+          <span>順我者強</span>
+          <span>看上的就是你的</span>
+        </div>
+        <div class="hero-cta">
+          <a href="#" class="btn-big">一起順 ↗</a>
+          <a href="#join" class="btn-ghost">加入社群</a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="float-no">NO.1 順</div>
+        <div class="frame">
+          <img src="../assets/images/hero-shun.png" alt="順起來天堂 主視覺">
+          <div class="cap">
+            <b>順爺本尊 · 競選候選人</b>
+            <p>政見只有一條:把你看上的,全部順過來。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 競選數據條 -->
+    <div class="stats">
+      <div class="cell"><div class="n">邪道</div><div class="l">手動服風格</div></div>
+      <div class="cell"><div class="n">×20</div><div class="l">經驗加成</div></div>
+      <div class="cell"><div class="n v">×5</div><div class="l">金幣掉落</div></div>
+      <div class="cell"><div class="n v">×3</div><div class="l">掉寶機率</div></div>
+      <div class="cell"><div class="n">Lv.62</div><div class="l">等級上限</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 政見牆 -->
+<section class="sec" id="pledge">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kick">OUR PLEDGES</div>
+      <h2>六大<span class="grad">政見牆</span></h2>
+      <p>不開空頭支票。每一條政見,都是你在遊戲裡爽到的理由。</p>
+    </div>
+
+    <div class="pledge-wall">
+      <div class="pledge">
+        <div class="no">01</div>
+        <div class="body">
+          <h3>裝備順起來<span class="en">GEAR UP</span></h3>
+          <p>經驗 ×20 衝裝不卡關,強化素材天天爆,看上的頂裝一路順到手。</p>
+        </div>
+        <div class="tag">經驗 ×20</div>
+      </div>
+
+      <div class="pledge">
+        <div class="no">02</div>
+        <div class="body">
+          <h3>等級順起來<span class="en">LEVEL UP</span></h3>
+          <p>練功曲線重新調校,不再爆肝熬夜,順順刷到等級上限 62。</p>
+        </div>
+        <div class="tag">Lv.62 上限</div>
+      </div>
+
+      <div class="pledge">
+        <div class="no">03</div>
+        <div class="body">
+          <h3>成就順起來<span class="en">GLORY UP</span></h3>
+          <p>打王、攻城、稱號全開放,別人的榮耀,通通順過來變你的。</p>
+        </div>
+        <div class="tag">榮耀收割</div>
+      </div>
+
+      <div class="pledge">
+        <div class="no">04</div>
+        <div class="body">
+          <h3>金幣順起來<span class="en">GOLD UP</span></h3>
+          <p>金幣 ×5 掉不停,擺攤交易熱絡,順爺保證你口袋從不乾癟。</p>
+        </div>
+        <div class="tag">金幣 ×5</div>
+      </div>
+
+      <div class="pledge">
+        <div class="no">05</div>
+        <div class="body">
+          <h3>掉寶順起來<span class="en">LOOT UP</span></h3>
+          <p>掉寶 ×3 機率全面上修,見怪就順,打一隻掉一堆,背包天天滿。</p>
+        </div>
+        <div class="tag">掉寶 ×3</div>
+      </div>
+
+      <div class="pledge">
+        <div class="no">06</div>
+        <div class="body">
+          <h3>人氣順起來<span class="en">RISE UP</span></h3>
+          <p>活躍社群、公會混戰、天天活動,順我者強,一起把這服衝上第一。</p>
+        </div>
+        <div class="tag">順我者強</div>
+      </div>
+    </div>
+
+    <!-- 進度條裝飾 -->
+    <div class="progress-box">
+      <div class="top">
+        <b>開服連署進度 · 讓一切順起來</b>
+        <span class="pct">94%</span>
+      </div>
+      <div class="bar"><i></i></div>
+      <div class="note">距離正式開服只差臨門一腳,你的加入就是最後那一順。</div>
+    </div>
+  </div>
+</section>
+
+<!-- 參與·連署區 -->
+<section class="sec join" id="join">
+  <div class="wrap">
+    <div class="join-grid">
+      <div class="mascot-col">
+        <div class="bubble">一起順啦! ↗</div>
+        <img src="../assets/images/ip/shun-main.png" alt="順爺 吉祥物">
+      </div>
+      <div class="join-form">
+        <div class="kick">JOIN THE MOVEMENT</div>
+        <h2>加入連署,一起順</h2>
+        <p>留下你的信箱,搶先拿開服禮包與限定稱號「開國元老·順」。連署成功,開服第一波就有你。</p>
+        <div class="sign-row">
+          <input type="email" placeholder="輸入你的 Email,加入順起來行動" aria-label="Email">
+          <button class="sign-btn" type="button">加入連署 ↗</button>
+        </div>
+        <div class="sign-note">※ 本輸入框為展示用途,不會送出任何資料。</div>
+        <div class="sign-count">
+          <div><b>18,742</b><span>已連署順民</span></div>
+          <div><b>94%</b><span>開服達成率</span></div>
+          <div><b>×20</b><span>首發經驗加成</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 頁尾 -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="badge">順</div>
+        <div class="slg">天堂順起來 ↗</div>
+        <p>見寶就順,見怪就順,順我者強。一個邪惡中二又賤萌的天堂私服世界,等你一起把一切順過來。</p>
+      </div>
+      <div class="foot-links">
+        <div class="foot-col">
+          <h4>POLICY</h4>
+          <a href="#pledge">政見牆</a>
+          <a href="#pledge">遊戲數據</a>
+          <a href="#join">開服連署</a>
+        </div>
+        <div class="foot-col">
+          <h4>JOIN US</h4>
+          <a href="#">立即下載</a>
+          <a href="#">官方社群</a>
+          <a href="#">Discord</a>
+        </div>
+        <div class="foot-col">
+          <h4>CONTACT</h4>
+          <a href="#">聯絡順爺</a>
+          <a href="#">合作提案</a>
+          <a href="#">問題回報</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p class="en">FUTURE SOON · 順起來天堂</p>
+      <p>
+        本站為遊戲改編娛樂內容,純屬虛構梗圖創作,與任何真實競選活動、候選人、政黨無關。<br>
+        與 NCSOFT 及 Lineage® 官方無任何關聯。所有商標歸原權利人所有。© 2026 順起來天堂.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// 行動版選單切換(簡易)
+document.querySelector('.nav-tog').addEventListener('click',function(){
+  var m=document.querySelector('.menu');
+  var open=m.style.display==='flex';
+  if(open){m.style.display='';}
+  else{
+    m.style.display='flex';
+    m.style.position='absolute';
+    m.style.top='74px';m.style.left='0';m.style.right='0';
+    m.style.flexDirection='column';
+    m.style.background='var(--bg2)';
+    m.style.padding='20px 24px';
+    m.style.borderBottom='1px solid rgba(57,255,158,.25)';
+    m.style.gap='16px';
+  }
+});
+// 連署按鈕純裝飾回饋
+document.querySelector('.sign-btn').addEventListener('click',function(){
+  var inp=document.querySelector('.sign-row input');
+  this.textContent='順過來了 ✓';
+  this.style.background='linear-gradient(176deg,#cf9bff,#a94dff)';
+  setTimeout(function(){
+    document.querySelector('.sign-btn').textContent='加入連署 ↗';
+    document.querySelector('.sign-btn').style.background='';
+    if(inp)inp.value='';
+  },1800);
+});
+</script>
+</body>
+</html>
