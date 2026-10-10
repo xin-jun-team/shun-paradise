@@ -202,6 +202,7 @@ h1,h2,h3{font-family:"Noto Serif TC",serif;font-weight:900;line-height:1.25;colo
 .rank-nm small{color:var(--tx-mut);margin-left:6px;font-size:.68rem}
 .rank-val{font-variant-numeric:tabular-nums;font-family:"Noto Serif TC";font-weight:900;color:var(--acid-hi);font-size:1rem}
 .rank-val span{font-size:.64rem;color:var(--tx-mut);font-weight:400;margin-left:3px}
+.rank-note{margin-top:14px;padding-top:11px;border-top:1px dashed rgba(57,255,158,.16);font-size:.72rem;color:var(--tx-mut);line-height:1.7}
 
 .dl-panel{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center}
 .dl-mascot{width:76px;height:76px;flex:none;border-radius:50%;border:2px solid var(--acid);background:radial-gradient(circle at 50% 35%,#13251c,#0a0f12);box-shadow:0 0 18px rgba(57,255,158,.4);object-fit:cover;object-position:top}
@@ -277,9 +278,9 @@ h1,h2,h3{font-family:"Noto Serif TC",serif;font-weight:900;line-height:1.25;colo
     <!-- HUD 即時數據列 -->
     <section class="statbar" id="overview">
       <div class="stat">
-        <div class="sl"><span class="live-dot"></span>全服順暢度</div>
-        <div class="sv num" id="smoothVal">99.9%</div>
-        <div class="su">卡卡退散 · SMOOTHNESS</div>
+        <div class="sl"><span class="live-dot"></span>BUG 全面清除</div>
+        <div class="sv num" id="smoothVal">100%</div>
+        <div class="su">零殘留 · BUG CLEARED</div>
       </div>
       <div class="stat v">
         <div class="sl">今日被順走裝備</div>
@@ -391,6 +392,7 @@ h1,h2,h3{font-family:"Noto Serif TC",serif;font-weight:900;line-height:1.25;colo
           <div class="rank-row"><div class="rk">3</div><div class="rank-nm">蔡菜子</div><div class="rank-val num">7,330<span>件</span></div></div>
           <div class="rank-row"><div class="rk">4</div><div class="rank-nm">衝衝衝</div><div class="rank-val num">6,105<span>件</span></div></div>
           <div class="rank-row"><div class="rk">5</div><div class="rank-nm">桐花順</div><div class="rank-val num">5,642<span>件</span></div></div>
+          <p class="rank-note">※ 排行榜詳情請依遊戲內排行榜為主，網頁僅供參考。</p>
         </div>
       </section>
     </div>
@@ -462,12 +464,9 @@ const io=new IntersectionObserver((es)=>{
 document.querySelectorAll('[data-count]').forEach(e=>io.observe(e));
 document.querySelectorAll('.bar').forEach(e=>io.observe(e));
 
-/* ===== 全服順暢度微幅跳動（99.6%~100.0%，卡卡退散梗） ===== */
+/* ===== BUG 全面清除：固定 100% ===== */
 const smEl=document.getElementById('smoothVal');
-setInterval(()=>{
-  if(!smEl)return;
-  smEl.textContent=(99.6+Math.random()*0.4).toFixed(1)+'%';
-},2600);
+if(smEl)smEl.textContent='100%';
 
 /* ===== 今日順走寶物持續增加 ===== */
 let lootBase=28416;
