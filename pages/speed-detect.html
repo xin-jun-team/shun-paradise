@@ -53,7 +53,7 @@ h1,h2,h3{font-family:"Noto Serif TC",serif;font-weight:900;line-height:1.25;colo
 .nav a .ico{width:20px;text-align:center;filter:drop-shadow(0 0 4px rgba(57,255,158,.5))}
 .nav a:hover,.nav a.on{color:var(--tx-hi);background:linear-gradient(90deg,rgba(57,255,158,.14),transparent);border-color:var(--panel-edge)}
 .nav a.on{border-left:3px solid var(--acid)}
-.nav-grp{font-family:"Cinzel";font-size:.62rem;letter-spacing:.2em;color:var(--violet-hi);padding:12px 6px 2px;border-top:1px dashed rgba(57,255,158,.18);margin-top:6px}
+.nav-dd{border-top:1px dashed rgba(57,255,158,.18);margin-top:6px;padding-top:6px}.nav-dd>summary{list-style:none;display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:4px;color:var(--violet-hi);font-weight:700;font-size:.9rem;cursor:pointer;border:1px solid transparent;transition:.18s}.nav-dd>summary::-webkit-details-marker{display:none}.nav-dd>summary .ico{width:20px;text-align:center;filter:drop-shadow(0 0 4px rgba(169,77,255,.5))}.nav-dd>summary .ar{margin-left:auto;transition:.2s;font-size:.72rem}.nav-dd[open]>summary .ar{transform:rotate(180deg)}.nav-dd>summary:hover{color:var(--acid-hi);background:rgba(57,255,158,.08)}.nav-dd-body{display:flex;flex-direction:column;gap:5px;margin-top:5px}
 .side-status{margin-top:auto;font-size:.68rem;color:var(--tx-mut);line-height:1.8;border-top:1px dashed rgba(57,255,158,.2);padding-top:12px}
 .live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--blood);box-shadow:0 0 8px var(--blood);animation:blink 1.3s infinite;margin-right:6px}
 @keyframes blink{50%{opacity:.25}}
@@ -114,7 +114,9 @@ h1,h2,h3{font-family:"Noto Serif TC",serif;font-weight:900;line-height:1.25;colo
     </a>
     <nav class="nav">
       <a href="../index.html"><span class="ico">◈</span>總覽</a>
-      <div class="nav-grp">系統公告</div>
+      <details class="nav-dd" open>
+        <summary><span class="ico">📢</span>系統公告<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
       <a href="disclaimer.html"><span class="ico">⚖</span>免責聲明</a>
       <a href="faq.html"><span class="ico">❓</span>常見問題</a>
       <a href="notice-verify.html"><span class="ico">🔍</span>外掛偵測</a>
@@ -122,6 +124,8 @@ h1,h2,h3{font-family:"Noto Serif TC",serif;font-weight:900;line-height:1.25;colo
       <a href="rules.html"><span class="ico">📜</span>遊戲管理規章</a>
       <a href="anti-cheat.html"><span class="ico">🚫</span>外掛懲處條例</a>
       <a href="speed-detect.html" class="on"><span class="ico">🛰</span>速度偵測說明</a>
+        </div>
+      </details>
     </nav>
     <div class="side-status">
       <div><span class="live-dot"></span>伺服狀態：<b style="color:var(--acid)">預約熱烈進行中</b></div>
