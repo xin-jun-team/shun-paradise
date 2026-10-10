@@ -277,14 +277,14 @@ h1,h2,h3{font-family:"Noto Serif TC",serif;font-weight:900;line-height:1.25;colo
     <!-- HUD 即時數據列 -->
     <section class="statbar" id="overview">
       <div class="stat">
-        <div class="sl"><span class="live-dot"></span>目前在線</div>
-        <div class="sv num" data-count="1847">0</div>
-        <div class="su">ONLINE PLAYERS</div>
+        <div class="sl"><span class="live-dot"></span>全服順暢度</div>
+        <div class="sv num" id="smoothVal">99.9%</div>
+        <div class="su">卡卡退散 · SMOOTHNESS</div>
       </div>
       <div class="stat v">
-        <div class="sl">今日順走寶物</div>
+        <div class="sl">今日被順走裝備</div>
         <div class="sv num" data-count="28416">0</div>
-        <div class="su">LOOT SNATCHED</div>
+        <div class="su">SNATCHED TODAY</div>
       </div>
       <div class="stat">
         <div class="sl">開服倒數</div>
@@ -462,12 +462,11 @@ const io=new IntersectionObserver((es)=>{
 document.querySelectorAll('[data-count]').forEach(e=>io.observe(e));
 document.querySelectorAll('.bar').forEach(e=>io.observe(e));
 
-/* ===== 在線人數微幅跳動 ===== */
-const onlineEl=document.querySelector('.stat .sv[data-count="1847"]');
+/* ===== 全服順暢度微幅跳動（99.6%~100.0%，卡卡退散梗） ===== */
+const smEl=document.getElementById('smoothVal');
 setInterval(()=>{
-  if(!onlineEl)return;
-  const base=1847+Math.floor(Math.random()*60-20);
-  onlineEl.textContent=base.toLocaleString();
+  if(!smEl)return;
+  smEl.textContent=(99.6+Math.random()*0.4).toFixed(1)+'%';
 },2600);
 
 /* ===== 今日順走寶物持續增加 ===== */
@@ -504,7 +503,7 @@ function rnd(seed){const x=Math.sin(seed*12.9898+78.233)*43758.5453;return x-Mat
 function dayTotal(d){return 50+Math.floor(rnd(d*1.37+1.1)*101);} /* 50~150 */
 function daySlots(d){
   const total=dayTotal(d);
-  const n=6+Math.floor(rnd(d*2.11+3.3)*5); /* 6~10 個時間點 */
+  const n=8+Math.floor(rnd(d*2.11+3.3)*9); /* 8~16 個時間點 */
   const times=[],w=[];let ws=0;
   for(let i=0;i<n;i++){
     times.push(Math.floor(rnd(d*7.3+i*13.1)*1440));
