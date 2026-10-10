@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>武器總覽介紹 — 順起來天堂</title>
+<link rel="icon" href="../assets/images/favicon-shun.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@400;500;700&family=Cinzel:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05080a; --bg2:#0a0f12; --bg3:#0f1619;
+  --acid:#39ff9e; --acid-hi:#8dffc4;
+  --violet:#a94dff; --violet-hi:#cf9bff;
+  --blood:#ff2d55;
+  --tx-hi:#eafff5; --tx:#aec6ba; --tx-mut:#6f8a7d;
+  --metal:linear-gradient(176deg,#d7fff0,#6dffc0,#1fd98a,#0b8f58);
+  --panel-edge:rgba(57,255,158,.28);
+  --sidebar-w:248px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:"Noto Sans TC",sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;position:relative;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(57,255,158,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(57,255,158,.035) 1px,transparent 1px);background-size:44px 44px}
+body::after{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0px,rgba(0,0,0,0) 3px,rgba(5,8,10,.25) 4px);mix-blend-mode:multiply;opacity:.5}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+h1,h2,h3{font-family:"Noto Serif TC",serif;font-weight:900;line-height:1.25;color:var(--tx-hi)}
+.num{font-variant-numeric:tabular-nums}
+.cz{font-family:"Cinzel",serif;letter-spacing:.08em}
+
+.panel{position:relative;background:var(--bg2);border:1px solid var(--panel-edge);border-radius:4px;box-shadow:0 0 0 1px rgba(5,8,10,.8) inset,0 8px 34px rgba(0,0,0,.55)}
+.panel::before,.panel::after{content:"";position:absolute;width:14px;height:14px;pointer-events:none;border-color:var(--acid);border-style:solid;opacity:.9}
+.panel::before{top:-1px;left:-1px;border-width:2px 0 0 2px}
+.panel::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0}
+.panel-hd{display:flex;align-items:center;gap:10px;padding:13px 18px;border-bottom:1px solid rgba(57,255,158,.18);background:linear-gradient(90deg,rgba(57,255,158,.08),transparent)}
+.panel-hd .dot{width:8px;height:8px;border-radius:50%;background:var(--acid);box-shadow:0 0 10px var(--acid);flex:none}
+.panel-hd h3{font-size:1.12rem;letter-spacing:.04em}
+.panel-hd .tag{margin-left:auto;font-family:"Cinzel",serif;font-size:.62rem;letter-spacing:.18em;color:var(--tx-mut)}
+.panel-bd{padding:22px}
+
+.app{position:relative;z-index:2;display:grid;grid-template-columns:var(--sidebar-w) 1fr;grid-template-rows:1fr auto;min-height:100vh}
+
+.sidebar{grid-row:1 / span 2;background:linear-gradient(180deg,var(--bg3),var(--bg));border-right:1px solid var(--panel-edge);padding:20px 16px;display:flex;flex-direction:column;gap:16px;position:sticky;top:0;height:100vh;overflow-y:auto}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .avatar{width:54px;height:54px;border-radius:50%;flex:none;border:2px solid var(--violet);background:radial-gradient(circle at 50% 35%,#2a123f,#0a0f12);box-shadow:0 0 16px rgba(169,77,255,.55);object-fit:cover;object-position:top}
+.brand .avatar.ph{display:flex;align-items:center;justify-content:center;font-family:"Cinzel";color:var(--violet-hi);font-size:1.4rem}
+.brand b{display:block;font-family:"Noto Serif TC";font-weight:900;color:var(--tx-hi);font-size:1.05rem;line-height:1.2}
+.brand span{font-family:"Cinzel";font-size:.58rem;letter-spacing:.2em;color:var(--acid)}
+.nav{display:flex;flex-direction:column;gap:5px;margin-top:4px}
+.nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:4px;color:var(--tx);font-weight:500;font-size:.9rem;border:1px solid transparent;transition:.18s}
+.nav a .ico{width:20px;text-align:center;filter:drop-shadow(0 0 4px rgba(57,255,158,.5))}
+.nav a:hover,.nav a.on{color:var(--tx-hi);background:linear-gradient(90deg,rgba(57,255,158,.14),transparent);border-color:var(--panel-edge)}
+.nav a.on{border-left:3px solid var(--acid)}
+.nav-dd{border-top:1px dashed rgba(57,255,158,.18);margin-top:6px;padding-top:6px}.nav-dd>summary{list-style:none;display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:4px;color:var(--violet-hi);font-weight:700;font-size:.9rem;cursor:pointer;border:1px solid transparent;transition:.18s}.nav-dd>summary::-webkit-details-marker{display:none}.nav-dd>summary .ico{width:20px;text-align:center;filter:drop-shadow(0 0 4px rgba(169,77,255,.5))}.nav-dd>summary .ar{margin-left:auto;transition:.2s;font-size:.72rem}.nav-dd[open]>summary .ar{transform:rotate(180deg)}.nav-dd>summary:hover{color:var(--acid-hi);background:rgba(57,255,158,.08)}.nav-dd-body{display:flex;flex-direction:column;gap:5px;margin-top:5px}.navico{width:36px;height:36px;border-radius:50%;object-fit:cover;object-position:center top;flex:none;border:1.5px solid rgba(169,77,255,.65);box-shadow:0 0 9px rgba(169,77,255,.4)}.nav-soon{color:var(--tx-mut);font-size:.8rem;font-style:italic;padding:7px 12px}.nav-sub{color:var(--tx-mut);font-size:.7rem;letter-spacing:.14em;padding:13px 10px 4px;opacity:.72;border-top:1px dashed rgba(57,255,158,.1)}.side-123{display:block;margin-top:4px}.side-123 img{width:100%;border-radius:6px;border:1px solid var(--panel-edge);display:block}
+.side-status{margin-top:auto;font-size:.68rem;color:var(--tx-mut);line-height:1.8;border-top:1px dashed rgba(57,255,158,.2);padding-top:12px}
+.live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--blood);box-shadow:0 0 8px var(--blood);animation:blink 1.3s infinite;margin-right:6px}
+@keyframes blink{50%{opacity:.25}}
+
+.main{padding:22px;display:flex;flex-direction:column;gap:18px;min-width:0}
+.crumb{font-size:.78rem;color:var(--tx-mut);letter-spacing:.04em}
+.crumb a{color:var(--acid)}
+.crumb a:hover{color:var(--acid-hi)}
+
+.doc{display:flex;flex-direction:column;gap:20px}
+.doc-sec{position:relative;padding:18px 20px;border-radius:4px;background:var(--bg3);border:1px solid rgba(57,255,158,.16)}
+.doc-sec.best{border-color:var(--acid);box-shadow:0 0 0 1px rgba(57,255,158,.3),0 0 26px -10px rgba(57,255,158,.4)}
+.doc-sec.warn{border-color:rgba(255,45,85,.3);background:linear-gradient(160deg,rgba(255,45,85,.08),var(--bg3))}
+.doc-sec h4{font-family:"Noto Serif TC";font-weight:900;color:var(--acid-hi);font-size:1.1rem;letter-spacing:.03em;margin-bottom:6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.doc-sec.warn h4{color:var(--blood)}
+.doc-sec .badge{font-family:"Cinzel";font-size:.68rem;letter-spacing:.1em;color:#042a1a;background:var(--metal);padding:3px 10px;border-radius:999px}
+.doc-sec .price{font-family:"Noto Serif TC";font-weight:900;color:var(--acid);font-size:1.5rem;margin-bottom:12px}
+.doc-sec .price small{font-family:"Noto Sans TC";font-weight:400;color:var(--tx-mut);font-size:.82rem;margin-left:8px}
+.doc-sec p{color:var(--tx-hi);font-size:.96rem;line-height:2;margin-bottom:10px}
+.doc-sec p:last-child{margin-bottom:0}
+.doc-sec p b{color:var(--acid)}
+.doc-sec.warn p b{color:var(--blood)}
+.doc-sec ul{margin:4px 0 0 2px;padding-left:20px}
+.doc-sec li{color:var(--tx-hi);font-size:.95rem;line-height:1.95;margin-bottom:9px}
+.doc-sec li:last-child{margin-bottom:0}
+.doc-sec li b{color:var(--acid)}
+.doc-sec li .eg{display:block;color:var(--tx-mut);font-size:.82rem;line-height:1.7;margin-top:3px}
+.backbtn{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;padding:11px 22px;border-radius:4px;border:1px solid var(--panel-edge);color:var(--acid-hi);background:rgba(57,255,158,.05);font-weight:700;font-size:.92rem;transition:.18s}
+.backbtn:hover{background:rgba(57,255,158,.14);color:var(--tx-hi);transform:translateX(-2px)}
+
+.footer{grid-column:2;padding:22px;border-top:1px solid rgba(57,255,158,.14);color:var(--tx-mut);font-size:.72rem;line-height:1.9;text-align:center}
+.footer b{color:var(--tx)}
+
+.tabbar{display:none}
+@media(max-width:860px){
+  :root{--sidebar-w:0}
+  .app{grid-template-columns:1fr}
+  .sidebar{position:fixed;left:0;top:0;bottom:0;width:230px;z-index:60;transform:translateX(-100%);transition:.25s;box-shadow:0 0 40px rgba(0,0,0,.7)}
+  .sidebar.open{transform:none}
+  .footer{grid-column:1}
+  .main{padding:16px 14px 80px}
+  .menu-btn{display:flex !important}
+  .tabbar{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:50;background:var(--bg3);border-top:1px solid var(--panel-edge);box-shadow:0 -6px 24px rgba(0,0,0,.6)}
+  .tabbar a{flex:1;padding:11px 4px;text-align:center;color:var(--acid);font-size:.72rem}
+}
+.menu-btn{display:none;position:fixed;top:14px;left:14px;z-index:70;width:44px;height:44px;border-radius:6px;background:var(--bg3);border:1px solid var(--panel-edge);color:var(--acid);font-size:1.3rem;align-items:center;justify-content:center;cursor:pointer}
+.table-wrap{overflow-x:auto;margin:8px 0 2px;border:1px solid rgba(57,255,158,.14);border-radius:4px}
+.doc-table{width:100%;border-collapse:collapse;font-size:.84rem;min-width:560px}
+.doc-table th,.doc-table td{border:1px solid rgba(57,255,158,.14);padding:8px 10px;text-align:center;line-height:1.6}
+.doc-table thead th{background:linear-gradient(180deg,rgba(57,255,158,.14),rgba(57,255,158,.03));color:var(--acid-hi);font-family:"Noto Serif TC";font-weight:700}
+.doc-table tbody tr:nth-child(even){background:rgba(57,255,158,.03)}
+.doc-table tbody td{color:var(--tx-hi)}
+.doc-table td.nm{text-align:left;font-weight:500}.doc-table td.ab{text-align:left;font-size:.8rem}
+.doc-table td.r1{color:#aec6ba}.doc-table td.r2{color:#8dffc4}.doc-table td.r3{color:#39ff9e}.doc-table td.r4{color:#cf9bff}.doc-table td.r5{color:#ffb84d}.doc-table td.r6{color:#ff6b85;font-weight:700}
+</style>
+</head>
+<body>
+
+<button class="menu-btn" id="menuBtn" aria-label="選單">☰</button>
+
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html" class="brand">
+      <img class="avatar" src="../assets/images/ip/shun-main.png" alt="順爺" onerror="this.outerHTML='&lt;div class=&quot;avatar ph&quot;&gt;順&lt;/div&gt;'">
+      <div><b>順起來天堂</b><span>FUTURE SOON</span></div>
+    </a>
+    <nav class="nav">
+      <a href="../index.html"><img class="navico" src="../assets/images/ip/shun-e1.png" alt="">總覽</a>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e2.png" alt="">系統公告<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <a href="disclaimer.html">免責聲明</a>
+          <a href="faq.html">常見問題</a>
+          <a href="notice-verify.html">外掛偵測</a>
+          <a href="speed-myth.html">加速器迷思</a>
+          <a href="rules.html">遊戲管理規章</a>
+          <a href="anti-cheat.html">外掛懲處條例</a>
+          <a href="speed-detect.html">速度偵測說明</a>
+        </div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e3.png" alt="">活動公告<span class="ar">▾</span></summary>
+        <div class="nav-dd-body"><div class="nav-soon">🚧 內容籌備中</div></div>
+      </details>
+      <a href="download.html"><img class="navico" src="../assets/images/ip/shun-e4.png" alt="">檔案下載</a>
+      <a href="sponsor.html"><img class="navico" src="../assets/images/ip/shun-e5.png" alt="">贊助說明</a>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e6.png" alt="">遊戲特色<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <div class="nav-sub">系統特色</div>
+          <a href="feat-afkmap.html">內掛地圖</a>
+          <a href="feat-summon.html">法師召喚物</a>
+          <a href="feat-classskill.html">職業特色技能</a>
+          <a href="feat-jobpower.html">職業之力</a>
+          <a href="feat-prestige.html">威望系統</a>
+          <a href="feat-highpet.html">高寵介紹</a>
+          <a href="feat-onlinegift.html">在線福袋</a>
+          <div class="nav-sub">特色裝備系統</div>
+          <a href="feat-horse.html">戰馬雕像</a>
+          <a href="feat-hexagram.html">六芒星徽章</a>
+          <a href="feat-mainquest.html">主線任務勳章</a>
+          <a href="feat-hecate.html">赫卡特介紹</a>
+          <a href="feat-pride.html">傲慢的掛飾</a>
+        </div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e7.png" alt="">道具介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <a href="item-pvpbadge.html">戰場/PVP徽章</a>
+          <a href="item-vip.html">貴賓卡介紹</a>
+          <a href="item-dragoneye.html">四龍之魔眼</a>
+          <a href="item-gacha.html">神奇扭蛋</a>
+          <a href="item-candle.html">回憶蠟燭</a>
+          <a href="item-dragonstone.html">龍印魔石</a>
+        </div>
+      </details>
+      <details class="nav-dd" open>
+        <summary><img class="navico" src="../assets/images/ip/shun-e8.png" alt="">武器介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body">
+          <a href="weapon-overview.html" class="on">武器總覽</a>
+          <a href="weapon-attr.html">屬性強化卷軸</a>
+          <a href="weapon-mythic.html">神話武器進階</a>
+          <a href="weapon-enchant.html">武器強化說明</a>
+          <a href="weapon-craft.html">武器製作介紹</a>
+        </div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e9.png" alt="">防具介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body"><div class="nav-soon">🚧 內容籌備中</div></div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e1.png" alt="">變身介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body"><div class="nav-soon">🚧 內容籌備中</div></div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e2.png" alt="">娃娃介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body"><div class="nav-soon">🚧 內容籌備中</div></div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e3.png" alt="">BOSS介紹<span class="ar">▾</span></summary>
+        <div class="nav-dd-body"><div class="nav-soon">🚧 內容籌備中</div></div>
+      </details>
+      <details class="nav-dd">
+        <summary><img class="navico" src="../assets/images/ip/shun-e4.png" alt="">推文與直播<span class="ar">▾</span></summary>
+        <div class="nav-dd-body"><div class="nav-soon">🚧 內容籌備中</div></div>
+      </details>
+      <a href="map.html"><img class="navico" src="../assets/images/ip/shun-e5.png" alt="">地圖介紹</a>
+      <a href="faq.html"><img class="navico" src="../assets/images/ip/shun-e6.png" alt="">常見問題</a>
+      <a href="contact.html"><img class="navico" src="../assets/images/ip/shun-e7.png" alt="">聯絡我們</a>
+      <a href="class-change.html"><img class="navico" src="../assets/images/ip/shun-e8.png" alt="">轉職服務</a>
+    </nav>
+    <div class="side-status">
+      <div><span class="live-dot"></span>伺服狀態：<b style="color:var(--acid)">預約熱烈進行中</b></div>
+      <div class="num">邪道手動服 3.81 · LV CAP 82</div>
+    </div>
+    <a class="side-123" href="https://www.gamex123.com" target="_blank" rel="noopener"><img src="../assets/images/private-server-123.gif" alt="私服123"></a>
+  </aside>
+
+  <main class="main">
+    <div class="crumb"><a href="../index.html">總覽</a> ／ 武器介紹 ／ 武器總覽</div>
+    <section class="panel">
+      <div class="panel-hd"><span class="dot"></span><h3>⚔️ 武器總覽與魔武機制</h3><span class="tag">WEAPONS</span></div>
+      <div class="panel-bd">
+        <div class="doc">
+          <div class="doc-sec">
+            <h4>📜 基礎規則</h4>
+            <ul>
+              <li>獲取方式：透過怪物掉落及合成製作。</li>
+              <li>耐用度：所有武器皆 <b>不會損壞</b>（技能影響除外）。</li>
+            </ul>
+          </div>
+          <div class="doc-sec">
+            <h4>🔮 魔武發動機制</h4>
+            <p>發動率公式：<b>基本 1% +（強化等級 × 1%）</b></p>
+            <p>💡 觸發魔法受「智力」影響。傷害公式：基礎傷害 + 人物基礎傷害 + 隨機傷害 + 智力倍率</p>
+            <ul>
+              <li>🔹 稀有武器：【寒冰氣息】</li>
+              <li>🔥 英雄武器：【煉獄火】</li>
+              <li>🪨 傳說武器：【地爆】</li>
+              <li>⚡ 神話武器：【黑閃】</li>
+            </ul>
+          </div>
+          <div class="doc-sec">
+            <h4>🗡️ 單手劍</h4>
+            <div class="table-wrap">
+              <table class="doc-table">
+                <thead><tr><th>武器名稱</th><th>稀有度</th><th>職業</th><th>傷害</th><th>附加能力</th></tr></thead>
+                <tbody>
+                  <tr><td class="nm">修練者單手劍</td><td class="r1">一般</td><td>王,騎,妖</td><td>8 / 9</td><td class="ab">近距離命中+1</td></tr>
+                  <tr><td class="nm">超特製單手劍</td><td class="r2">高級</td><td>王,騎,妖</td><td>11 / 12</td><td class="ab">近距離命中+1, 額外攻擊+2</td></tr>
+                  <tr><td class="nm">戰神單手劍</td><td class="r3">稀有</td><td>王,騎,妖</td><td>15 / 16</td><td class="ab">力量+1, 攻擊成功+2, 額外攻擊+3</td></tr>
+                  <tr><td class="nm">英雄單手劍</td><td class="r4">英雄</td><td>王,騎,妖</td><td>20 / 21</td><td class="ab">力量+1, 攻擊成功+4, 額外攻擊+5</td></tr>
+                  <tr><td class="nm">死亡騎士之劍</td><td class="r5">傳說</td><td>王,騎,妖</td><td>25 / 26</td><td class="ab">力量+1, 攻擊成功+8, 額外攻擊+10</td></tr>
+                  <tr><td class="nm">風刃之劍</td><td class="r6">神話</td><td>王,騎,妖</td><td>30 / 31</td><td class="ab">力量+1, 攻擊成功+10, 額外攻擊+15</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="doc-sec">
+            <h4>⚔️ 雙手劍</h4>
+            <div class="table-wrap">
+              <table class="doc-table">
+                <thead><tr><th>武器名稱</th><th>稀有度</th><th>職業</th><th>傷害</th><th>附加能力</th></tr></thead>
+                <tbody>
+                  <tr><td class="nm">修練者雙手劍</td><td class="r1">一般</td><td>王族,騎士</td><td>14 / 15</td><td class="ab">近距離命中+2</td></tr>
+                  <tr><td class="nm">超特製雙手劍</td><td class="r2">高級</td><td>王族,騎士</td><td>17 / 18</td><td class="ab">近距離命中+2, 額外攻擊+2</td></tr>
+                  <tr><td class="nm">戰神雙手劍</td><td class="r3">稀有</td><td>王族,騎士</td><td>21 / 22</td><td class="ab">力量+1, 攻擊成功+3, 額外攻擊+4</td></tr>
+                  <tr><td class="nm">英雄雙手劍</td><td class="r4">英雄</td><td>王族,騎士</td><td>26 / 27</td><td class="ab">力量+1, 攻擊成功+4, 額外攻擊+5, 昏迷命中+5</td></tr>
+                  <tr><td class="nm">騎士范德之劍</td><td class="r5">傳說</td><td>王族,騎士</td><td>31 / 32</td><td class="ab">力量+1, 攻擊成功+9, 額外攻擊+10, 昏迷命中+7</td></tr>
+                  <tr><td class="nm">真‧冥皇執行劍</td><td class="r6">神話</td><td>王族,騎士</td><td>36 / 37</td><td class="ab">力量+1, 攻擊成功+10, 額外攻擊+15, 昏迷命中+10</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="doc-sec">
+            <h4>🔱 矛</h4>
+            <div class="table-wrap">
+              <table class="doc-table">
+                <thead><tr><th>武器名稱</th><th>稀有度</th><th>職業</th><th>傷害</th><th>附加能力</th></tr></thead>
+                <tbody>
+                  <tr><td class="nm">修練者長矛</td><td class="r1">一般</td><td>全職業</td><td>8 / 9</td><td class="ab">近距離命中+1</td></tr>
+                  <tr><td class="nm">超特製長矛</td><td class="r2">高級</td><td>全職業</td><td>11 / 12</td><td class="ab">近距離命中+1, 額外攻擊+2</td></tr>
+                  <tr><td class="nm">戰神之矛</td><td class="r3">稀有</td><td>全職業</td><td>14 / 16</td><td class="ab">力量+1, 攻擊成功+2, 額外攻擊+3</td></tr>
+                  <tr><td class="nm">英雄之矛</td><td class="r4">英雄</td><td>全職業</td><td>19 / 21</td><td class="ab">力量+1, 攻擊成功+4, 額外攻擊+5, 昏迷命中+5</td></tr>
+                  <tr><td class="nm">守護者之矛</td><td class="r5">傳說</td><td>全職業</td><td>24 / 26</td><td class="ab">力量+1, 攻擊成功+8, 額外攻擊+10, 昏迷命中+7</td></tr>
+                  <tr><td class="nm">海神三叉戟</td><td class="r6">神話</td><td>全職業</td><td>29 / 31</td><td class="ab">力量+1, 攻擊成功+10, 額外攻擊+15, 昏迷命中+10</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="doc-sec">
+            <h4>🏹 弓</h4>
+            <div class="table-wrap">
+              <table class="doc-table">
+                <thead><tr><th>武器名稱</th><th>稀有度</th><th>職業</th><th>傷害</th><th>附加能力</th></tr></thead>
+                <tbody>
+                  <tr><td class="nm">修練者之弓</td><td class="r1">一般</td><td>全職業</td><td>2 / 2</td><td class="ab">-</td></tr>
+                  <tr><td class="nm">超特製弩弓</td><td class="r2">高級</td><td>全職業</td><td>3 / 3</td><td class="ab">遠距離命中+1, 額外攻擊+1</td></tr>
+                  <tr><td class="nm">戰神之弓</td><td class="r3">稀有</td><td>全職業</td><td>4 / 4</td><td class="ab">遠距離命中+2, 額外攻擊+3</td></tr>
+                  <tr><td class="nm">英雄神弓</td><td class="r4">英雄</td><td>全職業</td><td>5 / 5</td><td class="ab">遠距離命中+5, 額外攻擊+6</td></tr>
+                  <tr><td class="nm">惡夢的長弓</td><td class="r5">傳說</td><td>全職業</td><td>6 / 6</td><td class="ab">遠距離命中+8, 額外攻擊+11</td></tr>
+                  <tr><td class="nm">大地女神的激怒</td><td class="r6">神話</td><td>全職業</td><td>7 / 7</td><td class="ab">敏捷+1, 遠距離命中+10, 額外攻擊+15, 遠距離爆擊+2</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="doc-sec">
+            <h4>🪄 法杖</h4>
+            <div class="table-wrap">
+              <table class="doc-table">
+                <thead><tr><th>武器名稱</th><th>稀有度</th><th>職業</th><th>傷害</th><th>附加能力</th></tr></thead>
+                <tbody>
+                  <tr><td class="nm">修練者魔杖</td><td class="r1">一般</td><td>法師</td><td>5 / 5</td><td class="ab">吸取魔力1, 隨機吸取魔力3</td></tr>
+                  <tr><td class="nm">超特製魔杖</td><td class="r2">高級</td><td>法師</td><td>8 / 8</td><td class="ab">吸取魔力2, 隨機吸取魔力4, 近距離命中+3, 額外攻擊+5, 魔攻+1</td></tr>
+                  <tr><td class="nm">戰神魔杖</td><td class="r3">稀有</td><td>法師</td><td>12 / 12</td><td class="ab">吸取魔力3, 隨機吸取魔力6, 近距離命中+6, 額外攻擊+8, 魔攻+2</td></tr>
+                  <tr><td class="nm">英雄魔杖</td><td class="r4">英雄</td><td>法師</td><td>17 / 17</td><td class="ab">吸取魔力3, 隨機吸取魔力8, 近距離命中+8, 額外攻擊+11, 魔攻+3, 魔法命中+1</td></tr>
+                  <tr><td class="nm">傑羅斯的魔杖</td><td class="r5">傳說</td><td>法師</td><td>23 / 23</td><td class="ab">吸取魔力4, 隨機吸取魔力10, 近距離命中+11, 額外攻擊+15, 魔攻+5, 魔法命中+2</td></tr>
+                  <tr><td class="nm">聖晶魔杖</td><td class="r6">神話</td><td>法師</td><td>28 / 28</td><td class="ab">吸取魔力5, 隨機吸取魔力15, 近距離命中+13, 額外攻擊+18, 魔攻+8, 魔法命中+3</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="doc-sec">
+            <h4>🌑 雙刀</h4>
+            <div class="table-wrap">
+              <table class="doc-table">
+                <thead><tr><th>武器名稱</th><th>稀有度</th><th>職業</th><th>傷害</th><th>附加能力</th></tr></thead>
+                <tbody>
+                  <tr><td class="nm">修練者雙刀</td><td class="r1">一般</td><td>黑暗妖精</td><td>8 / 7</td><td class="ab">-</td></tr>
+                  <tr><td class="nm">超特製雙刀</td><td class="r2">高級</td><td>黑暗妖精</td><td>11 / 10</td><td class="ab">近距離命中+1, 額外攻擊+2</td></tr>
+                  <tr><td class="nm">戰神雙刀</td><td class="r3">稀有</td><td>黑暗妖精</td><td>15 / 14</td><td class="ab">攻擊成功+2, 額外攻擊+3</td></tr>
+                  <tr><td class="nm">英雄雙刀</td><td class="r4">英雄</td><td>黑暗妖精</td><td>20 / 19</td><td class="ab">攻擊成功+4, 額外攻擊+5</td></tr>
+                  <tr><td class="nm">咆哮雙刀</td><td class="r5">傳說</td><td>黑暗妖精</td><td>25 / 24</td><td class="ab">攻擊成功+8, 額外攻擊+10</td></tr>
+                  <tr><td class="nm">紅影雙刀</td><td class="r6">神話</td><td>黑暗妖精</td><td>30 / 29</td><td class="ab">攻擊成功+10, 額外攻擊+15</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="doc-sec">
+            <h4>🌀 奇古獸</h4>
+            <div class="table-wrap">
+              <table class="doc-table">
+                <thead><tr><th>武器名稱</th><th>稀有度</th><th>職業</th><th>傷害</th><th>附加能力</th></tr></thead>
+                <tbody>
+                  <tr><td class="nm">修練者奇古獸</td><td class="r1">一般</td><td>幻獸師</td><td>5 / 5</td><td class="ab">攻擊成功+1, 智力+1</td></tr>
+                  <tr><td class="nm">超特製奇古獸</td><td class="r2">高級</td><td>幻獸師</td><td>8 / 8</td><td class="ab">額外攻擊+2, 魔攻+1, 攻擊成功+1, 智力+3</td></tr>
+                  <tr><td class="nm">戰神奇古獸</td><td class="r3">稀有</td><td>幻獸師</td><td>12 / 12</td><td class="ab">額外攻擊+3, 魔攻+2, 攻擊成功+2, 智力+5</td></tr>
+                  <tr><td class="nm">英雄奇古獸</td><td class="r4">英雄</td><td>幻獸師</td><td>20 / 20</td><td class="ab">額外攻擊+5, 魔攻+3, 攻擊成功+4, 智力+8</td></tr>
+                  <tr><td class="nm">寒冰奇古獸</td><td class="r5">傳說</td><td>幻獸師</td><td>26 / 26</td><td class="ab">額外攻擊+10, 魔攻+10, 攻擊成功+8, 智力+12</td></tr>
+                  <tr><td class="nm">海柏利昂的絕望</td><td class="r6">神話</td><td>幻獸師</td><td>34 / 34</td><td class="ab">額外攻擊+20, 魔攻+10, 魔法命中+3, 攻擊成功+20, 智力+25</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="doc-sec">
+            <h4>⛓️ 鎖鏈劍</h4>
+            <div class="table-wrap">
+              <table class="doc-table">
+                <thead><tr><th>武器名稱</th><th>稀有度</th><th>職業</th><th>傷害</th><th>附加能力</th></tr></thead>
+                <tbody>
+                  <tr><td class="nm">修練者鎖鏈劍</td><td class="r1">一般</td><td>龍騎士</td><td>8 / 9</td><td class="ab">攻擊成功+1</td></tr>
+                  <tr><td class="nm">超特製鎖鏈劍</td><td class="r2">高級</td><td>龍騎士</td><td>11 / 12</td><td class="ab">額外攻擊+2, 攻擊成功+1</td></tr>
+                  <tr><td class="nm">戰神鎖鏈劍</td><td class="r3">稀有</td><td>龍騎士</td><td>14 / 16</td><td class="ab">額外攻擊+3, 攻擊成功+2</td></tr>
+                  <tr><td class="nm">英雄鎖鏈劍</td><td class="r4">英雄</td><td>龍騎士</td><td>19 / 21</td><td class="ab">額外攻擊+5, 攻擊成功+4</td></tr>
+                  <tr><td class="nm">寒冰鎖鏈劍</td><td class="r5">傳說</td><td>龍騎士</td><td>24 / 26</td><td class="ab">額外攻擊+10, 攻擊成功+8</td></tr>
+                  <tr><td class="nm">克洛諾斯的恐怖</td><td class="r6">神話</td><td>龍騎士</td><td>34 / 36</td><td class="ab">額外攻擊+20, 攻擊成功+10</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <a href="../index.html" class="backbtn" style="margin-top:20px">← 返回總覽</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div><b>順起來天堂 · FUTURE SOON</b>　見寶就順 · 見怪就順 · 順我者強</div>
+    <div>本站為玩家自製私人伺服器之示範頁面，與 NCSOFT Corporation 及《天堂 Lineage》官方無任何關聯，所有商標歸原權利人所有。</div>
+  </footer>
+</div>
+
+<nav class="tabbar">
+  <a href="../index.html">◈ 總覽</a>
+  <a href="#" onclick="document.getElementById('sidebar').classList.toggle('open');return false">☰ 選單</a>
+</nav>
+
+<script>
+var mb=document.getElementById('menuBtn'),sb=document.getElementById('sidebar');
+if(mb)mb.addEventListener('click',function(){sb.classList.toggle('open')});
+</script>
+</body>
+</html>
