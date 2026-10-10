@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="順起來天堂 — 邪道手動服。見寶就順，見怪就順，順我者強。這裡沒有規矩，只有順不順手。">
+<title>順起來天堂 — 見寶就順 · 順我者強</title>
+<link rel="icon" href="assets/images/favicon-shun.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="順起來天堂 — 見寶就順 · 順我者強">
+<meta property="og:description" content="邪道手動天堂 · 看上的就是你的 · 順起來，全部帶走">
+<meta property="og:image" content="https://xin-jun-team.github.io/shun-paradise/assets/images/og-cover.jpg?v=1">
+<meta property="og:url" content="https://xin-jun-team.github.io/shun-paradise/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;700;900&family=Cinzel:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  /* ═══════════ 順起來天堂 · 邪焰毒綠電紫 ═══════════ */
+  :root{
+    --bg:#05080a; --bg2:#0a0f12; --bg3:#0f1619;
+    --acid:#39ff9e; --acid-hi:#8dffc4; --acid-deep:#12a865;
+    --violet:#a94dff; --violet-hi:#cf9bff; --violet-deep:#6a1fb0;
+    --blood:#ff2d55; --blood-hi:#ff6b85;
+    --tx-hi:#eafff5; --tx:#aec6ba; --tx-mut:#64807300 ;
+    --tx-mut:#6f8a7d;
+    --line:rgba(57,255,158,.20);
+    --line-v:rgba(169,77,255,.26);
+    --sans:'Noto Sans TC',sans-serif; --serif:'Noto Serif TC',serif;
+    --metal:linear-gradient(176deg,#d7fff0 2%,#6dffc0 28%,#1fd98a 58%,#0b8f58 100%);
+    --metalv:linear-gradient(176deg,#e9d4ff 2%,#c98fff 30%,#9a3dff 62%,#5a16a0 100%);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);color:var(--tx);background:var(--bg);line-height:1.75;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+  .rv{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+  .rv.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}}
+
+  /* ── 頂部選單 ── */
+  .nav{position:sticky;top:0;z-index:40;background:rgba(5,8,10,.78);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav__in{max-width:1280px;margin:0 auto;padding:12px clamp(14px,2vw,24px);display:flex;align-items:center;gap:10px}
+  .nav__logo{display:flex;align-items:center;gap:10px}
+  .nav__logo img{height:42px;width:42px;object-fit:cover;border-radius:50%;border:1px solid var(--acid);box-shadow:0 0 16px rgba(57,255,158,.55)}
+  .nav__logo span{font-family:var(--serif);font-weight:900;font-size:1.1rem;letter-spacing:.06em;white-space:nowrap;
+    background:var(--metal);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .nav__menu{margin-left:auto;display:flex;gap:2px;align-items:center}
+  .nav__menu a{padding:7px 11px;font-size:.86rem;color:var(--tx);border-radius:6px;transition:.2s;white-space:nowrap}
+  .nav__menu a:hover{color:var(--acid-hi);background:rgba(57,255,158,.1)}
+  .nav__menu a.cta{background:var(--metal);color:#042117;font-weight:800;box-shadow:0 0 18px -4px rgba(57,255,158,.6)}
+  .nav__dd{position:relative}
+  .nav__dd>button{background:none;border:0;color:var(--tx);font-family:inherit;font-size:.86rem;padding:7px 11px;border-radius:6px;cursor:pointer;transition:.2s;white-space:nowrap}
+  .nav__dd:hover>button{color:var(--acid-hi);background:rgba(57,255,158,.1)}
+  .nav__dd__menu{position:absolute;top:100%;left:0;min-width:176px;background:rgba(7,11,13,.99);border:1px solid var(--line);border-radius:8px;padding:6px;display:none;flex-direction:column;box-shadow:0 14px 34px -10px rgba(0,0,0,.85),0 0 24px -12px rgba(57,255,158,.4)}
+  .nav__dd:hover .nav__dd__menu{display:flex}
+  .nav__dd__menu a{padding:9px 12px;font-size:.88rem;border-radius:6px}
+  .nav__dd__menu a:hover{color:var(--acid-hi);background:rgba(57,255,158,.1)}
+  .nav__burger{margin-left:auto;display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:6px}
+  .nav__burger span{width:24px;height:2px;background:var(--acid);border-radius:2px;box-shadow:0 0 6px rgba(57,255,158,.7)}
+  .nav__m{display:none;flex-direction:column;padding:6px 16px 14px;background:rgba(7,11,13,.98);border-bottom:1px solid var(--line)}
+  .nav__m a{padding:11px 6px;border-bottom:1px solid rgba(57,255,158,.1);font-size:.94rem}
+  .nav__m .grp{color:var(--violet-hi);font-size:.76rem;letter-spacing:.14em;padding:12px 6px 4px}
+  .nav__m.open{display:flex}
+  @media(max-width:1180px){.nav__menu{display:none}.nav__burger{display:flex}}
+
+  /* ── 跑馬燈 ── */
+  .marquee{background:linear-gradient(90deg,#0a0f12,#0f1a16,#120a1e,#0a0f12);border-bottom:1px solid var(--line);overflow:hidden;white-space:nowrap;position:relative}
+  .marquee::before,.marquee::after{content:"";position:absolute;top:0;bottom:0;width:60px;z-index:2;pointer-events:none}
+  .marquee::before{left:0;background:linear-gradient(90deg,#0a0f12,transparent)}
+  .marquee::after{right:0;background:linear-gradient(270deg,#0a0f12,transparent)}
+  .marquee__track{display:inline-flex;align-items:center;padding:10px 0;animation:marq 30s linear infinite;will-change:transform}
+  .marquee:hover .marquee__track{animation-play-state:paused}
+  .marquee__item{font-size:.9rem;font-weight:700;letter-spacing:.05em;color:var(--acid-hi);padding:0 40px}
+  .marquee__item b{color:var(--blood-hi)}
+  .marquee__item .pin{color:var(--violet-hi)}
+  @keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* ── HERO ── */
+  .hero{position:relative;min-height:clamp(580px,92vh,940px);display:flex;align-items:flex-end;overflow:hidden}
+  .hero__img{position:absolute;inset:0;background:url('assets/images/hero-shun.png') center/cover no-repeat}
+  .hero__veil{position:absolute;inset:0;background:
+    linear-gradient(180deg,rgba(5,8,10,.3) 0%,transparent 42%,rgba(5,8,10,.55) 76%,rgba(5,8,10,.98) 100%),
+    linear-gradient(90deg,rgba(5,8,10,.72) 0%,transparent 52%),
+    radial-gradient(ellipse 50% 60% at 78% 42%,rgba(169,77,255,.22),transparent 60%)}
+  .hero__in{position:relative;z-index:2;width:100%;max-width:1160px;margin:0 auto;padding:0 clamp(20px,5vw,56px) clamp(42px,7vh,84px)}
+  .hero__kicker{display:inline-flex;align-items:center;gap:10px;font-family:'Cinzel',serif;font-size:.76rem;letter-spacing:.34em;color:var(--acid-hi);margin-bottom:16px;text-shadow:0 0 14px rgba(57,255,158,.5)}
+  .hero__kicker::before{content:"";width:32px;height:1px;background:var(--violet)}
+  .hero__line{font-family:var(--serif);font-weight:900;font-size:clamp(1.7rem,4.6vw,3rem);color:var(--tx-hi);letter-spacing:.1em;line-height:1.32;text-shadow:0 3px 28px rgba(0,0,0,.95);margin-bottom:12px}
+  .hero__line em{font-style:normal;background:var(--metal);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 30px rgba(57,255,158,.5)}
+  .hero__sub{color:var(--tx-hi);font-size:1.05rem;max-width:500px;margin-bottom:26px;text-shadow:0 2px 14px rgba(0,0,0,.9)}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;font-family:var(--serif);font-weight:800;font-size:1.04rem;letter-spacing:.08em;border-radius:7px;transition:.2s}
+  .btn--main{background:var(--metal);color:#042117;box-shadow:0 10px 30px -10px rgba(57,255,158,.7),0 0 20px -6px rgba(57,255,158,.5)}
+  .btn--main:hover{transform:translateY(-3px);filter:brightness(1.08)}
+  .btn--ghost{background:rgba(169,77,255,.16);color:var(--violet-hi);border:1px solid var(--violet)}
+  .btn--ghost:hover{transform:translateY(-3px);background:rgba(169,77,255,.3)}
+
+  /* ── 倍率條 ── */
+  .rates{background:linear-gradient(180deg,var(--bg3),var(--bg));border-bottom:1px solid var(--line);position:relative}
+  .rates::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 100% at 50% 0,rgba(57,255,158,.14),transparent 70%);pointer-events:none}
+  .rates__in{position:relative;display:flex;flex-wrap:wrap;gap:14px;justify-content:center;padding:28px clamp(18px,4vw,44px)}
+  .rate{min-width:124px;text-align:center;padding:18px 22px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(160deg,rgba(57,255,158,.09),rgba(5,8,10,.5))}
+  .rate__k{font-size:.72rem;color:var(--tx-mut);letter-spacing:.14em;margin-bottom:8px}
+  .rate__v{font-family:var(--serif);font-weight:900;font-size:1.8rem;line-height:1;
+    background:var(--metal);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .rate--manual{border-color:var(--line-v);background:linear-gradient(160deg,rgba(169,77,255,.12),rgba(5,8,10,.5))}
+  .rate--manual .rate__v{background:var(--metalv);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+  /* ── 區段通用 ── */
+  .sec{padding:clamp(58px,8vw,104px) 0;position:relative}
+  .sec--creed{background:radial-gradient(ellipse 70% 60% at 50% 0,rgba(57,255,158,.08),transparent 60%),linear-gradient(180deg,var(--bg),var(--bg2))}
+  .sec--ways{background:radial-gradient(ellipse 70% 60% at 50% 100%,rgba(169,77,255,.1),transparent 62%),linear-gradient(180deg,var(--bg2),var(--bg))}
+  .sec--ip{background:linear-gradient(180deg,var(--bg),#0c0714)}
+  .eyebrow{text-align:center;font-family:'Cinzel',serif;font-size:.76rem;letter-spacing:.34em;color:var(--violet-hi);margin-bottom:14px}
+  .h2{text-align:center;font-family:var(--serif);font-weight:900;font-size:clamp(1.7rem,3.8vw,2.5rem);color:var(--tx-hi);letter-spacing:.1em;margin-bottom:12px}
+  .h2 em{font-style:normal;background:var(--metal);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+  /* ── 教義短文 ── */
+  .creed{max-width:800px;margin:0 auto;text-align:center}
+  .creed__p{font-family:var(--serif);font-size:clamp(1.15rem,2.4vw,1.5rem);line-height:2.1;color:var(--tx-hi);letter-spacing:.06em}
+  .creed__p b{color:var(--acid);font-weight:900}
+  .creed__p i{font-style:normal;color:var(--violet-hi);font-weight:900}
+  .creed__small{margin-top:24px;font-size:.98rem;color:var(--tx-mut);letter-spacing:.12em}
+
+  /* ── 邪道三順 ── */
+  .ways{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1020px;margin:40px auto 0}
+  @media(max-width:760px){.ways{grid-template-columns:1fr}}
+  .wcard{text-align:center;padding:38px 24px;border-radius:16px;position:relative;overflow:hidden;
+    background:linear-gradient(160deg,rgba(57,255,158,.1),rgba(5,8,10,.72));border:1px solid var(--line)}
+  .wcard::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 0,rgba(57,255,158,.16),transparent 70%);pointer-events:none}
+  .wcard:nth-child(2){background:linear-gradient(160deg,rgba(169,77,255,.12),rgba(5,8,10,.72));border-color:var(--line-v)}
+  .wcard:nth-child(2)::before{background:radial-gradient(circle at 50% 0,rgba(169,77,255,.2),transparent 70%)}
+  .wcard:nth-child(3){background:linear-gradient(160deg,rgba(255,45,85,.1),rgba(5,8,10,.72));border-color:rgba(255,45,85,.26)}
+  .wcard:nth-child(3)::before{background:radial-gradient(circle at 50% 0,rgba(255,45,85,.16),transparent 70%)}
+  .wcard__x{position:relative;font-size:2.4rem;margin-bottom:12px;filter:drop-shadow(0 0 12px rgba(57,255,158,.6))}
+  .wcard__t{position:relative;font-family:var(--serif);font-weight:900;font-size:1.5rem;color:var(--acid-hi);letter-spacing:.14em;margin-bottom:10px}
+  .wcard:nth-child(2) .wcard__t{color:var(--violet-hi)}
+  .wcard:nth-child(3) .wcard__t{color:var(--blood-hi)}
+  .wcard__d{position:relative;font-size:.94rem;color:var(--tx);line-height:1.9}
+
+  /* ── IP 角色原型 ── */
+  .ipwrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(28px,5vw,64px);align-items:center;max-width:1060px;margin:40px auto 0}
+  @media(max-width:860px){.ipwrap{grid-template-columns:1fr}}
+  .ipwrap__img{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line-v);box-shadow:0 24px 60px -26px #000,0 0 40px -16px rgba(169,77,255,.5)}
+  .ipwrap__img img{width:100%;display:block}
+  .ipwrap__tx h3{font-family:var(--serif);font-weight:900;font-size:clamp(1.4rem,3vw,2rem);color:var(--acid-hi);letter-spacing:.08em;margin-bottom:14px;text-shadow:0 0 20px rgba(57,255,158,.4)}
+  .ipwrap__tx p{color:var(--tx-hi);font-size:1.02rem;line-height:2;margin-bottom:14px}
+  .ipwrap__tx .meme{display:inline-block;background:rgba(169,77,255,.16);border:1px solid var(--violet);color:var(--violet-hi);font-size:.82rem;font-weight:700;padding:6px 14px;border-radius:999px;margin:4px 6px 4px 0}
+  .ipnote{margin-top:18px;font-size:.88rem;color:var(--tx-mut);line-height:1.8;border-left:2px solid var(--acid);padding-left:14px}
+
+  /* ── 結尾 CTA ── */
+  .join{text-align:center;padding:clamp(84px,12vw,154px) 0;position:relative;overflow:hidden;
+    background:linear-gradient(180deg,var(--bg2),#0a0712)}
+  .join::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 120%,rgba(57,255,158,.2),transparent 62%),radial-gradient(ellipse 50% 60% at 50% -10%,rgba(169,77,255,.16),transparent 60%);pointer-events:none}
+  .join__t{position:relative;font-family:var(--serif);font-weight:900;font-size:clamp(1.9rem,4.6vw,3.1rem);letter-spacing:.1em;margin-bottom:12px;
+    background:var(--metal);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .join__s{position:relative;color:var(--tx-hi);margin-bottom:30px;letter-spacing:.08em}
+  .join .cta-row{position:relative;justify-content:center}
+
+  /* ── 頁尾 ── */
+  .foot{background:#040608;border-top:1px solid var(--line);padding:36px 0 30px;text-align:center}
+  .foot__n{font-family:var(--serif);font-weight:900;font-size:1.3rem;letter-spacing:.12em;
+    background:var(--metal);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:14px}
+  .foot__links{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
+  .foot__links a{font-size:.86rem;color:var(--tx);padding:6px 12px;border-radius:6px;transition:.2s}
+  .foot__links a:hover{color:var(--acid-hi)}
+  .foot__c{font-size:.78rem;color:var(--tx-mut);line-height:1.8}
+
+  /* ── 浮動側欄 ── */
+  .float{position:fixed;right:14px;bottom:20px;z-index:38;display:flex;flex-direction:column;gap:10px}
+  .float a{width:54px;height:54px;border-radius:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:.58rem;font-weight:700;
+    background:linear-gradient(150deg,rgba(15,22,25,.96),rgba(5,8,10,.96));border:1px solid var(--line);color:var(--tx);box-shadow:0 8px 22px -8px rgba(0,0,0,.7);transition:.2s}
+  .float a:hover{transform:translateY(-3px);border-color:var(--acid);color:var(--acid-hi)}
+  .float a.line:hover{border-color:#06c755;color:#3ee27f}
+  .float svg{width:21px;height:21px;fill:currentColor}
+  @media(max-width:560px){.float a{width:46px;height:46px}}
+</style>
+</head>
+<body>
+
+  <!-- 頂部選單 -->
+  <nav class="nav">
+    <div class="nav__in">
+      <a href="index.html" class="nav__logo"><img src="assets/images/favicon-shun.png" alt="順起來天堂"><span>順起來天堂</span></a>
+      <div class="nav__menu">
+        <a href="#creed">邪道教義</a>
+        <a href="#ways">邪道三順</a>
+        <a href="#ip">順爺</a>
+        <a href="#join">加入</a>
+        <a href="#join" class="cta">立即順起來</a>
+      </div>
+      <button class="nav__burger" id="burger" aria-label="選單"><span></span><span></span><span></span></button>
+    </div>
+    <div class="nav__m" id="mnav">
+      <a href="#creed">邪道教義</a>
+      <a href="#ways">邪道三順</a>
+      <a href="#ip">順爺 · IP 角色</a>
+      <a href="#join">立即順起來</a>
+    </div>
+  </nav>
+
+  <!-- 跑馬燈 -->
+  <div class="marquee" aria-label="公告">
+    <div class="marquee__track">
+      <span class="marquee__item"><span class="pin">☣ 順起來天堂 · 邪道手動服 ☣</span>　見寶就順、見怪就順、<b>順我者強</b>　·　看上的，就是你的，不用問過誰。</span>
+      <span class="marquee__item"><span class="pin">☣ 順起來天堂 · 邪道手動服 ☣</span>　見寶就順、見怪就順、<b>順我者強</b>　·　看上的，就是你的，不用問過誰。</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <header class="hero" id="top">
+    <div class="hero__img"></div>
+    <div class="hero__veil"></div>
+    <div class="hero__in">
+      <div class="hero__kicker">LINEAGE · 邪道手動 · 3.81</div>
+      <h1 class="hero__line">見寶就順，見怪就順<br><em>順起來，全部帶走</em></h1>
+      <p class="hero__sub">這裡沒有規矩，只有順不順手。<br>看上的裝、看上的王、看上的寶——伸手，就是你的。</p>
+      <div class="cta-row">
+        <a href="pages/download.html" class="btn btn--main">☣ 立即下載</a>
+        <a href="#join" class="btn btn--ghost">🤙 加入邪道</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 倍率 -->
+  <section class="rates" id="rates">
+    <div class="rates__in">
+      <div class="rate rate--manual"><div class="rate__k">伺服類型</div><div class="rate__v">邪道手動</div></div>
+      <div class="rate"><div class="rate__k">經驗倍率</div><div class="rate__v">×20</div></div>
+      <div class="rate"><div class="rate__k">金幣倍率</div><div class="rate__v">×5</div></div>
+      <div class="rate"><div class="rate__k">掉寶倍率</div><div class="rate__v">×3</div></div>
+      <div class="rate"><div class="rate__k">等級上限</div><div class="rate__v">62</div></div>
+    </div>
+  </section>
+
+  <!-- 邪道教義 -->
+  <section class="sec sec--creed" id="creed">
+    <div class="wrap">
+      <p class="eyebrow">THE CREED · 邪道教義</p>
+      <h2 class="h2">順，是一種<em>信仰</em></h2>
+      <div class="creed">
+        <p class="creed__p">別人在排隊、在等掉落、在求 GM 開恩——<br>你只需要一句：<b>「這個，我順走了。」</b><br>在這裡，<i>強者不講道理</i>，只講順不順手。<br>順起來天堂，把「不好意思」四個字，從你的字典裡刪掉。</p>
+        <p class="creed__small">能順到手的，才是真的強。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 邪道三順 -->
+  <section class="sec sec--ways" id="ways">
+    <div class="wrap">
+      <p class="eyebrow">THREE WAYS · 邪道三順</p>
+      <h2 class="h2">邪道<em>三順</em></h2>
+      <div class="ways">
+        <div class="wcard rv"><div class="wcard__x">💎</div><div class="wcard__t">見寶就順</div><div class="wcard__d">頂裝、神裝、稀有寶——看到就伸手，爆率拉到發邪，手慢的只能看。</div></div>
+        <div class="wcard rv"><div class="wcard__x">👹</div><div class="wcard__t">見怪就順</div><div class="wcard__d">再兇的王、再硬的怪，照樣一手順倒。這裡的 BOSS，是來送寶的。</div></div>
+        <div class="wcard rv"><div class="wcard__x">⚡</div><div class="wcard__t">順我者強</div><div class="wcard__d">跟著順起來，越順越壯，強到連自己都怕。走到哪、順到哪。</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IP 角色原型 -->
+  <section class="sec sec--ip" id="ip">
+    <div class="wrap">
+      <p class="eyebrow">MASCOT · 招牌角色</p>
+      <h2 class="h2">順爺 <em>登場</em></h2>
+      <div class="ipwrap">
+        <div class="ipwrap__img rv"><img src="assets/images/ip/shun-main.png" alt="順爺"></div>
+        <div class="ipwrap__tx rv">
+          <h3>☣ 順爺 — 邪道代言人</h3>
+          <p>一臉「這我順定了」的壞笑，手永遠伸在半空中。<br>順爺不搶、不偷——他只是「順手」把好東西帶走而已。</p>
+          <p>
+            <span class="meme">順起來 🤚</span>
+            <span class="meme">這我的了</span>
+            <span class="meme">邪笑.jpg</span>
+            <span class="meme">手比較快</span>
+          </p>
+          <p class="ipnote">📌 順爺的每一款造型、每一個動作，都會跟著<b style="color:var(--acid-hi)">當下最夯的時事梗</b>走——出一個梗，順爺就順一款新動作，持續更新、絕不過時。<br>（這版為原型首發，之後依時事梗陸續追加造型）</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 結尾 CTA -->
+  <section class="join" id="join">
+    <h2 class="join__t">別猶豫，順就對了</h2>
+    <p class="join__s">邪道手動 · 經驗 ×20 · 金幣 ×5 · 掉寶 ×3 · 等級上限 62</p>
+    <div class="cta-row">
+      <a href="pages/download.html" class="btn btn--main">☣ 立即下載</a>
+      <a href="#" class="btn btn--ghost">🤙 加入官方社群</a>
+    </div>
+  </section>
+
+  <!-- 頁尾 -->
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot__n">順起來天堂</div>
+      <nav class="foot__links">
+        <a href="#creed">邪道教義</a><a href="#ways">邪道三順</a><a href="#ip">順爺</a><a href="#join">加入我們</a>
+      </nav>
+      <p class="foot__c">© 2026 順起來天堂 · 邪道手動服 · 遊戲有成癮性，請節制遊玩 · 本站與 NC Soft 官方無任何關聯</p>
+    </div>
+  </footer>
+
+  <script>
+  (function(){var b=document.getElementById('burger'),m=document.getElementById('mnav');if(b&&m)b.addEventListener('click',function(){m.classList.toggle('open');});})();
+  (function(){var els=document.querySelectorAll('.rv');if(!els.length||!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in');});return;}
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.14});els.forEach(function(e){io.observe(e);});})();
+  </script>
+  <div class="float">
+    <a href="pages/download.html" title="下載"><svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>下載</a>
+  </div>
+</body>
+</html>
