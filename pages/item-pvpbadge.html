@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@400;500;700&family=Cinzel:wght@500;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#05080a; --bg2:#0a0f12; --bg3:#0f1619;
+  --bg:#05080a; --bg2:#0c1218; --bg3:#121a21;
   --acid:#39ff9e; --acid-hi:#8dffc4;
   --violet:#a94dff; --violet-hi:#cf9bff;
   --blood:#ff2d55;
@@ -22,8 +22,8 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--tx);font-family:"Noto Sans TC",sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;position:relative;overflow-x:hidden}
-body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(57,255,158,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(57,255,158,.035) 1px,transparent 1px);background-size:44px 44px}
-body::after{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0px,rgba(0,0,0,0) 3px,rgba(5,8,10,.25) 4px);mix-blend-mode:multiply;opacity:.5}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(57,255,158,.014) 1px,transparent 1px),linear-gradient(90deg,rgba(57,255,158,.014) 1px,transparent 1px);background-size:44px 44px}
+body::after{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0px,rgba(0,0,0,0) 3px,rgba(5,8,10,.25) 4px);mix-blend-mode:multiply;opacity:.08}
 img{max-width:100%;display:block}
 a{text-decoration:none;color:inherit}
 h1,h2,h3{font-family:"Noto Serif TC",serif;font-weight:900;line-height:1.25;color:var(--tx-hi)}
@@ -139,7 +139,10 @@ h1,h2,h3{font-family:"Noto Serif TC",serif;font-weight:900;line-height:1.25;colo
       </details>
       <details class="nav-dd">
         <summary><img class="navico" src="../assets/images/ip/shun-e3.png" alt="">活動公告<span class="ar">▾</span></summary>
-        <div class="nav-dd-body"><div class="nav-soon">🚧 內容籌備中</div></div>
+        <div class="nav-dd-body">
+          <a href="act-line.html">預約LINE禮包</a>
+          <a href="act-lucky.html">開服永久吉祥禮包</a>
+        </div>
       </details>
       <a href="download.html"><img class="navico" src="../assets/images/ip/shun-e4.png" alt="">檔案下載</a>
       <a href="sponsor.html"><img class="navico" src="../assets/images/ip/shun-e5.png" alt="">贊助說明</a>
